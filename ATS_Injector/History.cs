@@ -9,7 +9,7 @@ namespace ATS_Injector
     public class History
     {
         private BindingList<LogEntry> _logEntries;
-        private readonly string _filePath = Path.Combine(PopOutApp.GetATSFolder(), $"log_data.json"); 
+        private readonly string _filePath = Path.Combine(PopOutApp.GetATSFolder(), "log_data.json"); 
 
         internal static void InitGrid(DataGridView dataGridView1)
         {

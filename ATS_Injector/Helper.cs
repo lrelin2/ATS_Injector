@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Policy;
-using System.Text;
+﻿using System.Text;
 using System.Web;
 
 namespace ATS_Injector
@@ -118,6 +115,27 @@ namespace ATS_Injector
             }
 
             return retrungingBool;
+        }
+
+        internal static void _debug_RichTextArea(RichTextBox textArea)
+        {
+            //create one liner help that will save the data to a flat file
+            //then load it back up and such...
+            string _filePath = Path.Combine(PopOutApp.GetATSFolder(), "debugPrevRichText.txt");
+
+            if (textArea.Text.Length <= 5)
+            {
+                //empty text area, load previous stuff
+                if (File.Exists(_filePath))
+                {
+                    textArea.Text = File.ReadAllText(_filePath, Encoding.UTF8);
+                }
+            }
+            else
+            {
+                File.WriteAllText(_filePath, textArea.Text, Encoding.UTF8);
+            }
+
         }
     }
 }

@@ -30,19 +30,26 @@ partial class Form1
     {
         tabControl1 = new TabControl();
         tabPage1 = new TabPage();
+        label6 = new Label();
+        tabControl2 = new TabControl();
+        tabPage4 = new TabPage();
+        ManualJDPaste_txt = new RichTextBox();
+        tabPage5 = new TabPage();
+        textBox5 = new TextBox();
+        label5 = new Label();
+        textBox2 = new TextBox();
+        progressBar1 = new ProgressBar();
+        label2 = new Label();
+        richTextBox1 = new RichTextBox();
         CreatePDF_btn = new Button();
         FeedbackArea_txt = new RichTextBox();
-        progressBar1 = new ProgressBar();
         textBox4 = new TextBox();
         label4 = new Label();
         textBox3 = new TextBox();
         label3 = new Label();
-        ProcessJD_btn = new Button();
-        JobUrl_txt = new TextBox();
-        label2 = new Label();
+        tabPage2 = new TabPage();
         textBox1 = new TextBox();
         label1 = new Label();
-        tabPage2 = new TabPage();
         groupBox1 = new GroupBox();
         button5 = new Button();
         AddClaudeToken_btn = new Button();
@@ -57,6 +64,9 @@ partial class Form1
         dataGridView1 = new DataGridView();
         tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
+        tabControl2.SuspendLayout();
+        tabPage4.SuspendLayout();
+        tabPage5.SuspendLayout();
         tabPage2.SuspendLayout();
         groupBox1.SuspendLayout();
         tabPage3.SuspendLayout();
@@ -72,68 +82,160 @@ partial class Form1
         tabControl1.Location = new Point(0, 0);
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
-        tabControl1.Size = new Size(800, 450);
+        tabControl1.Size = new Size(800, 610);
         tabControl1.TabIndex = 0;
         // 
         // tabPage1
         // 
+        tabPage1.Controls.Add(label6);
+        tabPage1.Controls.Add(tabControl2);
+        tabPage1.Controls.Add(progressBar1);
+        tabPage1.Controls.Add(label2);
+        tabPage1.Controls.Add(richTextBox1);
         tabPage1.Controls.Add(CreatePDF_btn);
         tabPage1.Controls.Add(FeedbackArea_txt);
-        tabPage1.Controls.Add(progressBar1);
         tabPage1.Controls.Add(textBox4);
         tabPage1.Controls.Add(label4);
         tabPage1.Controls.Add(textBox3);
         tabPage1.Controls.Add(label3);
-        tabPage1.Controls.Add(ProcessJD_btn);
-        tabPage1.Controls.Add(JobUrl_txt);
-        tabPage1.Controls.Add(label2);
-        tabPage1.Controls.Add(textBox1);
-        tabPage1.Controls.Add(label1);
         tabPage1.Location = new Point(4, 24);
         tabPage1.Name = "tabPage1";
         tabPage1.Padding = new Padding(3);
-        tabPage1.Size = new Size(792, 422);
+        tabPage1.Size = new Size(792, 582);
         tabPage1.TabIndex = 0;
         tabPage1.Text = "ATS Injector Main";
         tabPage1.UseVisualStyleBackColor = true;
         // 
+        // label6
+        // 
+        label6.AutoSize = true;
+        label6.Location = new Point(24, 299);
+        label6.Name = "label6";
+        label6.Size = new Size(96, 15);
+        label6.TabIndex = 16;
+        label6.Text = "Material to Inject";
+        // 
+        // tabControl2
+        // 
+        tabControl2.Controls.Add(tabPage4);
+        tabControl2.Controls.Add(tabPage5);
+        tabControl2.Location = new Point(13, 95);
+        tabControl2.Name = "tabControl2";
+        tabControl2.SelectedIndex = 0;
+        tabControl2.Size = new Size(715, 198);
+        tabControl2.TabIndex = 15;
+        // 
+        // tabPage4
+        // 
+        tabPage4.Controls.Add(ManualJDPaste_txt);
+        tabPage4.Location = new Point(4, 24);
+        tabPage4.Name = "tabPage4";
+        tabPage4.Padding = new Padding(3);
+        tabPage4.Size = new Size(707, 170);
+        tabPage4.TabIndex = 0;
+        tabPage4.Text = "Paste JD Here";
+        tabPage4.UseVisualStyleBackColor = true;
+        // 
+        // ManualJDPaste_txt
+        // 
+        ManualJDPaste_txt.Dock = DockStyle.Fill;
+        ManualJDPaste_txt.Location = new Point(3, 3);
+        ManualJDPaste_txt.Name = "ManualJDPaste_txt";
+        ManualJDPaste_txt.Size = new Size(701, 164);
+        ManualJDPaste_txt.TabIndex = 0;
+        ManualJDPaste_txt.Text = "";
+        // 
+        // tabPage5
+        // 
+        tabPage5.Controls.Add(textBox5);
+        tabPage5.Controls.Add(label5);
+        tabPage5.Controls.Add(textBox2);
+        tabPage5.Location = new Point(4, 24);
+        tabPage5.Name = "tabPage5";
+        tabPage5.Padding = new Padding(3);
+        tabPage5.Size = new Size(707, 170);
+        tabPage5.TabIndex = 1;
+        tabPage5.Text = "(Experimental ) JD URL";
+        tabPage5.UseVisualStyleBackColor = true;
+        // 
+        // textBox5
+        // 
+        textBox5.Location = new Point(6, 35);
+        textBox5.Multiline = true;
+        textBox5.Name = "textBox5";
+        textBox5.Size = new Size(677, 129);
+        textBox5.TabIndex = 2;
+        textBox5.Text = "Parsed JD will go here";
+        // 
+        // label5
+        // 
+        label5.AutoSize = true;
+        label5.Location = new Point(7, 13);
+        label5.Name = "label5";
+        label5.Size = new Size(46, 15);
+        label5.TabIndex = 1;
+        label5.Text = "JD URL:";
+        // 
+        // textBox2
+        // 
+        textBox2.Location = new Point(51, 10);
+        textBox2.Name = "textBox2";
+        textBox2.Size = new Size(634, 23);
+        textBox2.TabIndex = 0;
+        // 
+        // progressBar1
+        // 
+        progressBar1.Location = new Point(18, 540);
+        progressBar1.Name = "progressBar1";
+        progressBar1.Size = new Size(710, 23);
+        progressBar1.TabIndex = 14;
+        // 
+        // label2
+        // 
+        label2.AutoSize = true;
+        label2.Location = new Point(18, 9);
+        label2.Name = "label2";
+        label2.Size = new Size(60, 15);
+        label2.TabIndex = 13;
+        label2.Text = "Feedback:";
+        // 
+        // richTextBox1
+        // 
+        richTextBox1.Location = new Point(13, 24);
+        richTextBox1.Name = "richTextBox1";
+        richTextBox1.Size = new Size(715, 65);
+        richTextBox1.TabIndex = 12;
+        richTextBox1.Text = "";
+        // 
         // CreatePDF_btn
         // 
         CreatePDF_btn.Enabled = false;
-        CreatePDF_btn.Location = new Point(3, 123);
+        CreatePDF_btn.Location = new Point(18, 480);
         CreatePDF_btn.Name = "CreatePDF_btn";
         CreatePDF_btn.Size = new Size(123, 24);
         CreatePDF_btn.TabIndex = 11;
         CreatePDF_btn.Text = "Create Custom PDF";
         CreatePDF_btn.UseVisualStyleBackColor = true;
-        CreatePDF_btn.Click += CreatePDF_btn_Click;
         // 
         // FeedbackArea_txt
         // 
-        FeedbackArea_txt.Location = new Point(7, 234);
+        FeedbackArea_txt.Location = new Point(17, 317);
         FeedbackArea_txt.Name = "FeedbackArea_txt";
         FeedbackArea_txt.Size = new Size(710, 157);
         FeedbackArea_txt.TabIndex = 10;
         FeedbackArea_txt.Text = "";
         // 
-        // progressBar1
-        // 
-        progressBar1.Location = new Point(132, 93);
-        progressBar1.Name = "progressBar1";
-        progressBar1.Size = new Size(585, 54);
-        progressBar1.TabIndex = 9;
-        // 
         // textBox4
         // 
-        textBox4.Location = new Point(130, 197);
+        textBox4.Location = new Point(216, 482);
         textBox4.Name = "textBox4";
-        textBox4.Size = new Size(586, 23);
+        textBox4.Size = new Size(512, 23);
         textBox4.TabIndex = 8;
         // 
         // label4
         // 
         label4.AutoSize = true;
-        label4.Location = new Point(8, 200);
+        label4.Location = new Point(147, 485);
         label4.Name = "label4";
         label4.Size = new Size(63, 15);
         label4.TabIndex = 7;
@@ -141,75 +243,50 @@ partial class Form1
         // 
         // textBox3
         // 
-        textBox3.Location = new Point(130, 168);
+        textBox3.Location = new Point(108, 511);
         textBox3.Name = "textBox3";
-        textBox3.Size = new Size(586, 23);
+        textBox3.Size = new Size(620, 23);
         textBox3.TabIndex = 6;
         textBox3.Text = "C:\\Users\\leore\\Downloads\\Custom ATS output";
         // 
         // label3
         // 
         label3.AutoSize = true;
-        label3.Location = new Point(8, 171);
+        label3.Location = new Point(18, 514);
         label3.Name = "label3";
         label3.Size = new Size(84, 15);
         label3.TabIndex = 5;
         label3.Text = "Output Folder:";
         // 
-        // ProcessJD_btn
+        // tabPage2
         // 
-        ProcessJD_btn.Location = new Point(3, 93);
-        ProcessJD_btn.Name = "ProcessJD_btn";
-        ProcessJD_btn.Size = new Size(123, 24);
-        ProcessJD_btn.TabIndex = 4;
-        ProcessJD_btn.Text = "Process JD";
-        ProcessJD_btn.UseVisualStyleBackColor = true;
-        ProcessJD_btn.Click += ProcessJD_btn_Click;
-        // 
-        // JobUrl_txt
-        // 
-        JobUrl_txt.Location = new Point(130, 52);
-        JobUrl_txt.Name = "JobUrl_txt";
-        JobUrl_txt.Size = new Size(586, 23);
-        JobUrl_txt.TabIndex = 3;
-        JobUrl_txt.Text = "https://www.linkedin.com/jobs/collections/recommended/?currentJobId=4359058081";
-        // 
-        // label2
-        // 
-        label2.AutoSize = true;
-        label2.Location = new Point(8, 55);
-        label2.Name = "label2";
-        label2.Size = new Size(52, 15);
-        label2.TabIndex = 2;
-        label2.Text = "Job URL:";
+        tabPage2.Controls.Add(textBox1);
+        tabPage2.Controls.Add(label1);
+        tabPage2.Controls.Add(groupBox1);
+        tabPage2.Location = new Point(4, 24);
+        tabPage2.Name = "tabPage2";
+        tabPage2.Padding = new Padding(3);
+        tabPage2.Size = new Size(792, 582);
+        tabPage2.TabIndex = 1;
+        tabPage2.Text = "Settings";
+        tabPage2.UseVisualStyleBackColor = true;
         // 
         // textBox1
         // 
-        textBox1.Location = new Point(130, 11);
+        textBox1.Location = new Point(130, 14);
         textBox1.Name = "textBox1";
         textBox1.Size = new Size(586, 23);
-        textBox1.TabIndex = 1;
+        textBox1.TabIndex = 3;
         textBox1.Text = "C:\\Users\\leore\\Downloads\\Leo Relin Resume 2026.pdf";
         // 
         // label1
         // 
         label1.AutoSize = true;
-        label1.Location = new Point(8, 14);
+        label1.Location = new Point(8, 17);
         label1.Name = "label1";
         label1.Size = new Size(106, 15);
-        label1.TabIndex = 0;
+        label1.TabIndex = 2;
         label1.Text = "Your Resume Path:";
-        // 
-        // tabPage2
-        // 
-        tabPage2.Controls.Add(groupBox1);
-        tabPage2.Location = new Point(4, 24);
-        tabPage2.Name = "tabPage2";
-        tabPage2.Padding = new Padding(3);
-        tabPage2.Size = new Size(792, 422);
-        tabPage2.TabIndex = 1;
-        tabPage2.Text = "Settings";
-        tabPage2.UseVisualStyleBackColor = true;
         // 
         // groupBox1
         // 
@@ -222,7 +299,7 @@ partial class Form1
         groupBox1.Controls.Add(button2);
         groupBox1.Controls.Add(AddChatGPTToken_btn);
         groupBox1.Controls.Add(ChatGPT_rdbtn);
-        groupBox1.Location = new Point(18, 23);
+        groupBox1.Location = new Point(8, 56);
         groupBox1.Name = "groupBox1";
         groupBox1.Size = new Size(444, 142);
         groupBox1.TabIndex = 0;
@@ -323,7 +400,7 @@ partial class Form1
         tabPage3.Controls.Add(dataGridView1);
         tabPage3.Location = new Point(4, 24);
         tabPage3.Name = "tabPage3";
-        tabPage3.Size = new Size(792, 422);
+        tabPage3.Size = new Size(792, 582);
         tabPage3.TabIndex = 2;
         tabPage3.Text = "History";
         tabPage3.UseVisualStyleBackColor = true;
@@ -334,21 +411,27 @@ partial class Form1
         dataGridView1.Dock = DockStyle.Fill;
         dataGridView1.Location = new Point(0, 0);
         dataGridView1.Name = "dataGridView1";
-        dataGridView1.Size = new Size(792, 422);
+        dataGridView1.Size = new Size(792, 582);
         dataGridView1.TabIndex = 0;
         // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(800, 450);
+        ClientSize = new Size(800, 610);
         Controls.Add(tabControl1);
         Name = "Form1";
         Text = "Form1";
+        FormClosing += Form1_FormClosing;
         tabControl1.ResumeLayout(false);
         tabPage1.ResumeLayout(false);
         tabPage1.PerformLayout();
+        tabControl2.ResumeLayout(false);
+        tabPage4.ResumeLayout(false);
+        tabPage5.ResumeLayout(false);
+        tabPage5.PerformLayout();
         tabPage2.ResumeLayout(false);
+        tabPage2.PerformLayout();
         groupBox1.ResumeLayout(false);
         groupBox1.PerformLayout();
         tabPage3.ResumeLayout(false);
@@ -361,15 +444,10 @@ partial class Form1
     private TabControl tabControl1;
     private TabPage tabPage1;
     private TabPage tabPage2;
-    private Label label1;
     private TextBox textBox4;
     private Label label4;
     private TextBox textBox3;
     private Label label3;
-    private Button ProcessJD_btn;
-    private TextBox JobUrl_txt;
-    private Label label2;
-    private TextBox textBox1;
     private GroupBox groupBox1;
     private Button button5;
     private Button AddClaudeToken_btn;
@@ -380,9 +458,21 @@ partial class Form1
     private Button button2;
     private Button AddChatGPTToken_btn;
     private RadioButton ChatGPT_rdbtn;
-    private ProgressBar progressBar1;
     private RichTextBox FeedbackArea_txt;
     private Button CreatePDF_btn;
     private TabPage tabPage3;
     private DataGridView dataGridView1;
+    private TextBox textBox1;
+    private Label label1;
+    private Label label2;
+    private RichTextBox richTextBox1;
+    private TabControl tabControl2;
+    private TabPage tabPage4;
+    private TabPage tabPage5;
+    private ProgressBar progressBar1;
+    private Label label6;
+    private TextBox textBox5;
+    private Label label5;
+    private TextBox textBox2;
+    private RichTextBox ManualJDPaste_txt;
 }
