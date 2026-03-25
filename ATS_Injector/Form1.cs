@@ -384,6 +384,16 @@ public partial class Form1 : Form
         //Do dumb user checking to make sure they are NOT overwritting existsing input PDF
         //If all is well, go ahead and save settings
         string bulletPoints = ATS_Injection_txt.Text;
+        string infile = SettingsResumePath_txt.Text;
+        string outFile = Path.Combine(OutputFolderPath_txt.Text.Trim(), OutputFileName_txt.Text.Trim());
+        if (Directory.Exists(OutputFolderPath_txt.Text.Trim()) == false)
+            Directory.CreateDirectory(OutputFolderPath_txt.Text.Trim());
+        string[] injectData = new string[] { bulletPoints };
+        if(outFile.ToLower().EndsWith(".pdf") == false)
+        {
+            outFile += ".PDF";
+        }
+        PDFInjector.InjectHiddenText(infile, outFile, injectData);
     }
 
 
