@@ -15,23 +15,87 @@ public partial class Form1 : Form
         //Initiail step, you MUST initialize the helperfeeback thing
         Helper.FeedBackHelper.InitalizeFeedBackHelper(FeedbackArea_txt, ManualJDPaste_txt, ATS_Injection_txt);
 
+
+
+    }
+
+    private void Form1_Shown(object sender, EventArgs e)
+    {
+
+        //Initalise the settings file if need be
+        PersistanceSettings PerSettings = new PersistanceSettings(out string ErrorMsg);
+        if (string.IsNullOrEmpty(ErrorMsg) == false)
+        {
+            string msg = $"Error creating Settings file. This tool will not work? Error Stack:[{ErrorMsg}]";
+            Helper.FeedBackHelper.SetFeedback(msg);
+            Helper.FeedBackHelper.SetdManualJDPaste(msg);
+            Helper.FeedBackHelper.SetATS_Injection(msg);
+            //fore a return, do nothing else
+            return;
+        }
+        UserSettings userSettings = PerSettings.GetSettings();
+        LoadInUserSettings(userSettings);
+
         //Check if user has entered valid path for thier resume
+        CheckUserSettings();
 
         //Check if Token has been entered at least once
+
+
+        //Temp debug -- adding the Rich text format Job descriptoin
+        Helper._debug_RichTextArea(ManualJDPaste_txt);
+        //have this only because of the debug, and debug only.
+        Update_ProcessCreateAction_btn();
+        //Add code that will check if
+        //ManualJDPaste_txt
+        //has text or not
+    }
+
+    private void CheckUserSettings()
+    {
+        //Check 1, see that they have entered a resume that exists, and is non zero in size
+        string resPath = SettingsResumePath_txt.Text;
+        string msg = string.Empty;
+        if (File.Exists(resPath) == false)
+            msg = $"Your source Resume, [{resPath}], does not exist? Update in the Settings tab, close program, and relaunch the program";
+        else if (new FileInfo(resPath).Length > 0 == false)
+        {
+            msg = $"File :[{resPath}] does not have any contents";
+        }
+        else if (resPath.ToLower().Trim().EndsWith(".pdf") == false)
+        {
+            msg = $"File :[{resPath}] is not type PDF!";
+        }
+
+        //add more QC here later
+
         bool atLeastOneToken = CheckAPI_Tokens();
         if (atLeastOneToken)
         {
             History.InitGrid(dataGridView1);
         }
+        else
+        {
+            msg += "You need to add at least one API token!";
+        }
 
-        //Temp debug -- adding the Rich text format Job descriptoin
-        Helper._debug_RichTextArea(ManualJDPaste_txt);
+        if (string.IsNullOrEmpty(msg) == false)
+        {
+            Helper.FeedBackHelper.SetFeedback(msg);
+            Helper.FeedBackHelper.SetdManualJDPaste(msg);
+            Helper.FeedBackHelper.SetATS_Injection(msg);
+        }
+    }
 
-        //Add code that will check if
-        //ManualJDPaste_txt
-        //has text or not
+    private void LoadInUserSettings(UserSettings userSettings)
+    {
+        SettingsResumePath_txt.Text = userSettings.ResumePath;
 
-        Update_ProcessCreateAction_btn();
+        if (userSettings.PreviousToken == API_AI_ID.NO_TOKEN == false)
+        {
+            //TODO fill in the selected thing
+        }
+
     }
 
     private void Update_ProcessCreateAction_btn()
@@ -56,7 +120,7 @@ public partial class Form1 : Form
             ProcessCreateAction_btn.Enabled = false;
         }
 
-        if(ATS_Injection_txt.Text.Length >= 5)
+        if (ATS_Injection_txt.Text.Length >= 5)
         {
             ATS_Injection_btn.Enabled = true;
         }
@@ -82,7 +146,32 @@ public partial class Form1 : Form
 
     private void Form1_FormClosing(object sender, FormClosingEventArgs e)
     {
+        //delete this when done deubgging
         Helper._debug_RichTextArea(ManualJDPaste_txt);
+
+        //When program is closed, save your settings
+        
+        string Input_ResumePath = SettingsResumePath_txt.Text;
+        string Input_OutputFolderPath = OutputFolderPath_txt.Text;
+        string Input_OutputFileName = OutputFileName_txt.Text;
+        //TODO, create routine to check and update.....
+        API_AI_ID Input_PreviousToken = API_AI_ID.NO_TOKEN;
+
+        UserSettings currentSettings = new UserSettings 
+        { 
+            ResumePath = Input_ResumePath, 
+            PreviousToken = Input_PreviousToken, 
+            OutputFolderPath = Input_OutputFolderPath, 
+            OutputFileName = Input_OutputFileName 
+        };
+
+        PersistanceSettings settings = new PersistanceSettings(out string errorMsg);
+
+        if (string.IsNullOrEmpty(errorMsg))
+        {
+            //cool, seems we can create the file and such
+            settings.UpdateData(currentSettings);
+        }
     }
 
 
@@ -161,7 +250,7 @@ public partial class Form1 : Form
             }
         });
 
-        
+
     }
 
     #region old code, reuse when ready
@@ -257,4 +346,14 @@ public partial class Form1 : Form
 
     //}
     #endregion old code, reuse when ready
+
+    private void ATS_Injection_btn_Click(object sender, EventArgs e)
+    {
+        //before starting anything, check that the input file exists, and the output folder exists
+        //Do dumb user checking to make sure they are NOT overwritting existsing input PDF
+        //If all is well, go ahead and save settings
+
+    }
+
+
 }

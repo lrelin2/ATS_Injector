@@ -44,12 +44,12 @@ partial class Form1
         FeedbackArea_txt = new RichTextBox();
         ProcessCreateAction_btn = new Button();
         ATS_Injection_txt = new RichTextBox();
-        textBox4 = new TextBox();
+        OutputFileName_txt = new TextBox();
         label4 = new Label();
-        textBox3 = new TextBox();
+        OutputFolderPath_txt = new TextBox();
         label3 = new Label();
         tabPage2 = new TabPage();
-        textBox1 = new TextBox();
+        SettingsResumePath_txt = new TextBox();
         label1 = new Label();
         groupBox1 = new GroupBox();
         button5 = new Button();
@@ -96,9 +96,9 @@ partial class Form1
         tabPage1.Controls.Add(FeedbackArea_txt);
         tabPage1.Controls.Add(ProcessCreateAction_btn);
         tabPage1.Controls.Add(ATS_Injection_txt);
-        tabPage1.Controls.Add(textBox4);
+        tabPage1.Controls.Add(OutputFileName_txt);
         tabPage1.Controls.Add(label4);
-        tabPage1.Controls.Add(textBox3);
+        tabPage1.Controls.Add(OutputFolderPath_txt);
         tabPage1.Controls.Add(label3);
         tabPage1.Location = new Point(4, 24);
         tabPage1.Name = "tabPage1";
@@ -117,6 +117,7 @@ partial class Form1
         ATS_Injection_btn.TabIndex = 17;
         ATS_Injection_btn.Text = "Inject ATS";
         ATS_Injection_btn.UseVisualStyleBackColor = true;
+        ATS_Injection_btn.Click += ATS_Injection_btn_Click;
         // 
         // label6
         // 
@@ -238,12 +239,12 @@ partial class Form1
         ATS_Injection_txt.TabIndex = 10;
         ATS_Injection_txt.Text = "";
         // 
-        // textBox4
+        // OutputFileName_txt
         // 
-        textBox4.Location = new Point(266, 511);
-        textBox4.Name = "textBox4";
-        textBox4.Size = new Size(458, 23);
-        textBox4.TabIndex = 8;
+        OutputFileName_txt.Location = new Point(266, 511);
+        OutputFileName_txt.Name = "OutputFileName_txt";
+        OutputFileName_txt.Size = new Size(458, 23);
+        OutputFileName_txt.TabIndex = 8;
         // 
         // label4
         // 
@@ -254,13 +255,13 @@ partial class Form1
         label4.TabIndex = 7;
         label4.Text = "Output Name:";
         // 
-        // textBox3
+        // OutputFolderPath_txt
         // 
-        textBox3.Location = new Point(266, 482);
-        textBox3.Name = "textBox3";
-        textBox3.Size = new Size(458, 23);
-        textBox3.TabIndex = 6;
-        textBox3.Text = "C:\\Users\\leore\\Downloads\\Custom ATS output";
+        OutputFolderPath_txt.Location = new Point(266, 482);
+        OutputFolderPath_txt.Name = "OutputFolderPath_txt";
+        OutputFolderPath_txt.Size = new Size(458, 23);
+        OutputFolderPath_txt.TabIndex = 6;
+        OutputFolderPath_txt.Text = "C:\\Users\\leore\\Downloads\\Custom ATS output";
         // 
         // label3
         // 
@@ -273,7 +274,7 @@ partial class Form1
         // 
         // tabPage2
         // 
-        tabPage2.Controls.Add(textBox1);
+        tabPage2.Controls.Add(SettingsResumePath_txt);
         tabPage2.Controls.Add(label1);
         tabPage2.Controls.Add(groupBox1);
         tabPage2.Location = new Point(4, 24);
@@ -284,13 +285,12 @@ partial class Form1
         tabPage2.Text = "Settings";
         tabPage2.UseVisualStyleBackColor = true;
         // 
-        // textBox1
+        // SettingsResumePath_txt
         // 
-        textBox1.Location = new Point(130, 14);
-        textBox1.Name = "textBox1";
-        textBox1.Size = new Size(586, 23);
-        textBox1.TabIndex = 3;
-        textBox1.Text = "C:\\Users\\leore\\Downloads\\Leo Relin Resume 2026.pdf";
+        SettingsResumePath_txt.Location = new Point(130, 14);
+        SettingsResumePath_txt.Name = "SettingsResumePath_txt";
+        SettingsResumePath_txt.Size = new Size(586, 23);
+        SettingsResumePath_txt.TabIndex = 3;
         // 
         // label1
         // 
@@ -436,6 +436,7 @@ partial class Form1
         Name = "Form1";
         Text = "Form1";
         FormClosing += Form1_FormClosing;
+        Shown += Form1_Shown;
         tabControl1.ResumeLayout(false);
         tabPage1.ResumeLayout(false);
         tabPage1.PerformLayout();
@@ -457,9 +458,9 @@ partial class Form1
     private TabControl tabControl1;
     private TabPage tabPage1;
     private TabPage tabPage2;
-    private TextBox textBox4;
+    private TextBox OutputFileName_txt;
     private Label label4;
-    private TextBox textBox3;
+    private TextBox OutputFolderPath_txt;
     private Label label3;
     private GroupBox groupBox1;
     private Button button5;
@@ -475,7 +476,7 @@ partial class Form1
     private Button ProcessCreateAction_btn;
     private TabPage tabPage3;
     private DataGridView dataGridView1;
-    private TextBox textBox1;
+    private TextBox SettingsResumePath_txt;
     private Label label1;
     private Label label2;
     private RichTextBox FeedbackArea_txt;

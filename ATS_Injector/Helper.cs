@@ -6,14 +6,13 @@ namespace ATS_Injector
 {
     internal class Helper
     {
-        //public static readonly string ProcessJD_text = "Process JD";
-        //public static readonly string InjectATS_text = "Inject ATS";
         public static readonly string AI_ATS_Question =
             "Using the Job description below, create a resume that has all the needed experiance, knowledge, and technology used." +
             "Add at least two paragraphs on how you excelled at your previous role that used the needed tools, technology, and required experience." +
             "From that resume remove everything that is not relevant to what an ATS scanner would look for." +
             "Only provide the list of keywords and bullet points, without any explanation or additional information." +
             "The Job Descripion:";
+
         public sealed class MyHttpClient
         {
             // The backing field
@@ -146,8 +145,6 @@ namespace ATS_Injector
             return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult)
                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
-
-
 
         internal static bool RemoveLoginJunk(string url, out string newurl, out string complainMessage)
         {

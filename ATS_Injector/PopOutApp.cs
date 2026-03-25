@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ATS_Injector
 {
-    internal class PopOutApp
+    public class PopOutApp
     {
         /// <summary>
         /// Shows an input dialog with a prompt, and optional window & prompt icons.
@@ -293,11 +293,12 @@ namespace ATS_Injector
             return returningBool;
         }
 
-        public enum API_AI_ID
-        {
-            ChatGPT,
-            Gemini,
-            Claude
-        }
+    }
+    public enum API_AI_ID
+    {
+        ChatGPT,
+        Gemini,
+        Claude,
+        NO_TOKEN
     }
 }
