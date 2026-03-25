@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Security.Policy;
 using static ATS_Injector.PopOutApp;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ATS_Injector;
 
@@ -95,6 +96,8 @@ public partial class Form1 : Form
         {
             //TODO fill in the selected thing
         }
+        OutputFolderPath_txt.Text = userSettings.OutputFolderPath;
+        OutputFileName_txt.Text = userSettings.OutputFileName;
 
     }
 
@@ -111,23 +114,51 @@ public partial class Form1 : Form
         //1 - Enable the button
         //2 - Set text to "Inject ATS keywords"
 
-        if (ManualJDPaste_txt.Text.Length >= 5)
+        if (ProcessCreateAction_btn.InvokeRequired)
         {
-            ProcessCreateAction_btn.Enabled = true;
+            //control.Invoke(new Action(() => control.Text = text))
+
+            int txtLengthJD = ManualJDPaste_txt.Invoke<int>(() => ManualJDPaste_txt.Text.Length);
+            if(txtLengthJD >= 5)
+            {
+                ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = true));
+            }
+            else
+            {
+                ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = false));
+            }
+
+            int txtLengthATS = ATS_Injection_txt.Invoke<int>(() => ATS_Injection_txt.Text.Length);
+            if (txtLengthJD >= 5)
+            {
+                ATS_Injection_btn.Invoke(new Action(() => ATS_Injection_btn.Enabled = true));
+            }
+            else
+            {
+                ATS_Injection_btn.Invoke(new Action(() => ATS_Injection_btn.Enabled = false));
+            }
         }
         else
         {
-            ProcessCreateAction_btn.Enabled = false;
+            if (ManualJDPaste_txt.Text.Length >= 5)
+            {
+                ProcessCreateAction_btn.Enabled = true;
+            }
+            else
+            {
+                ProcessCreateAction_btn.Enabled = false;
+            }
+
+            if (ATS_Injection_txt.Text.Length >= 5)
+            {
+                ATS_Injection_btn.Enabled = true;
+            }
+            else
+            {
+                ATS_Injection_btn.Enabled = false;
+            }
         }
 
-        if (ATS_Injection_txt.Text.Length >= 5)
-        {
-            ATS_Injection_btn.Enabled = true;
-        }
-        else
-        {
-            ATS_Injection_btn.Enabled = false;
-        }
     }
 
 
@@ -241,7 +272,7 @@ public partial class Form1 : Form
                                     .GetResult();
                 JD_Results = result;
                 Helper.FeedBackHelper.SetATS_Injection(result);
-                //Update_ProcessCreateAction_btn();
+                Update_ProcessCreateAction_btn();
                 Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
             }
             else if (string.IsNullOrEmpty(errorMsg) == false)
@@ -352,7 +383,7 @@ public partial class Form1 : Form
         //before starting anything, check that the input file exists, and the output folder exists
         //Do dumb user checking to make sure they are NOT overwritting existsing input PDF
         //If all is well, go ahead and save settings
-
+        string bulletPoints = ATS_Injection_txt.Text;
     }
 
 
