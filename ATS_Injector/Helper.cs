@@ -1,10 +1,19 @@
 ﻿using System.Text;
 using System.Web;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATS_Injector
 {
     internal class Helper
     {
+        //public static readonly string ProcessJD_text = "Process JD";
+        //public static readonly string InjectATS_text = "Inject ATS";
+        public static readonly string AI_ATS_Question =
+            "Using the Job description below, create a resume that has all the needed experiance, knowledge, and technology used." +
+            "Add at least two paragraphs on how you excelled at your previous role that used the needed tools, technology, and required experience." +
+            "From that resume remove everything that is not relevant to what an ATS scanner would look for." +
+            "Only provide the list of keywords and bullet points, without any explanation or additional information." +
+            "The Job Descripion:";
         public sealed class MyHttpClient
         {
             // The backing field
@@ -23,6 +32,78 @@ namespace ATS_Injector
 
             // Private constructor to prevent "new MyHttpClient()"
             private MyHttpClient() { }
+        }
+
+        public class FeedBackHelper
+        {
+            // The backing field
+#pragma warning disable CS8625 //Instance object will be initalized, otherwise the whole thing fails in spectacular fashion. 
+            private static FeedBackHelper _instance = null;
+#pragma warning restore CS8625
+            private RichTextBox _FeedbackArea_txt;
+            private RichTextBox _ManualJDPaste_txt;
+            private RichTextBox _ATS_Injection_txt;
+
+            public static void InitalizeFeedBackHelper(RichTextBox FeedbackArea_txt, RichTextBox ManualJDPaste_txt, RichTextBox ATS_Injection_txt)
+            {
+                _instance = new FeedBackHelper(FeedbackArea_txt, ManualJDPaste_txt, ATS_Injection_txt);
+            }
+
+            // The static constructor runs exactly once, the first time the class is accessed
+            public FeedBackHelper(RichTextBox FeedbackArea_txt, RichTextBox ManualJDPaste_txt, RichTextBox ATS_Injection_txt)
+            {
+                _FeedbackArea_txt = FeedbackArea_txt;
+                _ManualJDPaste_txt = ManualJDPaste_txt;
+                _ATS_Injection_txt = ATS_Injection_txt;
+            }
+
+            public static void SetFeedback(string msg)
+            {
+                _instance._FeedbackArea_txt.Invoke((Action)delegate
+                { _instance._FeedbackArea_txt.Text = msg; });
+            }
+            public static void SetdManualJDPaste(string msg)
+            {
+                _instance._ManualJDPaste_txt.Invoke((Action)delegate
+                { _instance._ManualJDPaste_txt.Text = msg; });
+            }
+            public static void SetATS_Injection(string msg)
+            {
+                _instance._ATS_Injection_txt.Invoke((Action)delegate
+                { _instance._ATS_Injection_txt.Text = msg; });
+            }
+
+            public static void AppendFeedback(string msg)
+            {
+                _instance._FeedbackArea_txt.Invoke((Action)delegate
+                { _instance._FeedbackArea_txt.AppendText($"\r\n{msg}"); });
+            }
+            public static void AppendManualJDPaste(string msg)
+            {
+                _instance._ManualJDPaste_txt.Invoke((Action)delegate
+                { _instance._ManualJDPaste_txt.AppendText($"\r\n{msg}"); });
+            }
+            public static void AppendATS_Injection(string msg)
+            {
+                _instance._ATS_Injection_txt.Invoke((Action)delegate
+                { _instance._ATS_Injection_txt.AppendText($"\r\n{msg}"); });
+            }
+
+            public static string GetTextFeedback()
+            {
+                return (string)_instance._FeedbackArea_txt.Invoke((Func<string>)delegate
+                { return _instance._FeedbackArea_txt.Text; });
+            }
+            public static string GetTextManualJDPaste()
+            {
+                return (string)_instance._ManualJDPaste_txt.Invoke((Func<string>)delegate
+                { return _instance._ManualJDPaste_txt.Text; });
+            }
+            public static string GetTextATS_Injection()
+            {
+                return (string)_instance._ATS_Injection_txt.Invoke((Func<string>)delegate
+                { return _instance._ATS_Injection_txt.Text; });
+            }
         }
 
 
@@ -65,6 +146,8 @@ namespace ATS_Injector
             return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult)
                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
+
+
 
         internal static bool RemoveLoginJunk(string url, out string newurl, out string complainMessage)
         {

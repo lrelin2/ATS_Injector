@@ -12,17 +12,159 @@ public partial class Form1 : Form
     {
         InitializeComponent();
         //TODO
-        //Add initialization steps, check if user path is added for resume and such
+        //Initiail step, you MUST initialize the helperfeeback thing
+        Helper.FeedBackHelper.InitalizeFeedBackHelper(FeedbackArea_txt, ManualJDPaste_txt, ATS_Injection_txt);
+
+        //Check if user has entered valid path for thier resume
+
+        //Check if Token has been entered at least once
         bool atLeastOneToken = CheckAPI_Tokens();
         if (atLeastOneToken)
         {
             History.InitGrid(dataGridView1);
         }
 
+        //Temp debug -- adding the Rich text format Job descriptoin
+        Helper._debug_RichTextArea(ManualJDPaste_txt);
+
+        //Add code that will check if
+        //ManualJDPaste_txt
+        //has text or not
+
+        Update_ProcessCreateAction_btn();
+    }
+
+    private void Update_ProcessCreateAction_btn()
+    {
+        //When called this function shall toggle and or update the ProcessCreateAction_btn button
+        //rules are,
+        //
+        //if there is NO TEXT inside of ManualJDPaste_txt, then
+        //1 - disable the button
+        //2 - Set text to "process JD"
+        //
+        //If there is text inside of ManualJDPaste_txt, then
+        //1 - Enable the button
+        //2 - Set text to "Inject ATS keywords"
+
+        if (ManualJDPaste_txt.Text.Length >= 5)
+        {
+            ProcessCreateAction_btn.Enabled = true;
+        }
+        else
+        {
+            ProcessCreateAction_btn.Enabled = false;
+        }
+
+        if(ATS_Injection_txt.Text.Length >= 5)
+        {
+            ATS_Injection_btn.Enabled = true;
+        }
+        else
+        {
+            ATS_Injection_btn.Enabled = false;
+        }
+    }
+
+
+
+
+
+    private void AddChatGPTToken_btn_Click(object sender, EventArgs e)
+    {
+        PopOutBox_automated(API_AI_ID.ChatGPT);
+    }
+
+    private void AddGeminiToken_btn_Click(object sender, EventArgs e)
+    {
+        PopOutBox_automated(API_AI_ID.Gemini);
+    }
+
+    private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+    {
         Helper._debug_RichTextArea(ManualJDPaste_txt);
     }
 
-    
+
+
+
+
+    private bool CheckAPI_Tokens()
+    {
+        bool atLeastOneEnabled = false;
+        if (API_Token_Written(API_AI_ID.ChatGPT) == false)
+        {
+            ChatGPT_rdbtn.Checked = false;
+            ChatGPT_rdbtn.Enabled = false;
+        }
+        else if (atLeastOneEnabled == false)
+        {
+            atLeastOneEnabled = true;
+            ChatGPT_rdbtn.Checked = true;
+        }
+
+        if (API_Token_Written(API_AI_ID.Gemini) == false)
+        {
+            Gemini_rdbtn.Checked = false;
+            Gemini_rdbtn.Enabled = false;
+        }
+        else if (atLeastOneEnabled == false)
+        {
+            atLeastOneEnabled = true;
+            Gemini_rdbtn.Checked = true;
+        }
+
+        if (API_Token_Written(API_AI_ID.Claude) == false)
+        {
+            Claude_rdbtn.Checked = false;
+            Claude_rdbtn.Enabled = false;
+        }
+        else if (atLeastOneEnabled == false)
+        {
+            atLeastOneEnabled = true;
+            Claude_rdbtn.Checked = true;
+        }
+
+        return atLeastOneEnabled;
+    }
+
+    private void ProcessCreateAction_btn_Click(object sender, EventArgs e)
+    {
+
+        Task.Run(() =>
+        {
+            //When this function is called, it shall do one of two things
+            //1 - Process the Job Description and send it to AI
+            if (GetAPI_Token(API_AI_ID.Gemini, out string Token, out string errorMsg))
+            {
+                //at least we know token is written, pass it to the API thing now
+                GeminiAPI API = new GeminiAPI(Token);
+                //ProcessJD_btn.Enabled = false;
+                //string prompt = "Explain DO-178C compliance levels.";
+                string promptTry1 = Helper.AI_ATS_Question;
+                Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Gemini} AI to generate ATS friendly keywords and phrases.\r\n");
+
+                string prompt = $"{promptTry1}\r\n{Helper.FeedBackHelper.GetTextManualJDPaste()}";
+
+                // This runs the task on a ThreadPool thread and waits for the result
+                string result = Task.Run(async () => await API.SendPrompt(prompt))
+                                    .GetAwaiter()
+                                    .GetResult();
+                JD_Results = result;
+                Helper.FeedBackHelper.SetATS_Injection(result);
+                //Update_ProcessCreateAction_btn();
+                Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
+            }
+            else if (string.IsNullOrEmpty(errorMsg) == false)
+            {
+                FeedbackArea_txt.Text = $"An error occured retrieving your {API_AI_ID.Gemini} API token. Error stack:[{errorMsg}]";
+            }
+        });
+
+        
+    }
+
+    #region old code, reuse when ready
 
     //private void ProcessJD_btn_Click(object sender, EventArgs e)
     //{
@@ -83,22 +225,6 @@ public partial class Form1 : Form
     //    }
     //}
 
-    private void AddChatGPTToken_btn_Click(object sender, EventArgs e)
-    {
-        PopOutBox_automated(API_AI_ID.ChatGPT);
-    }
-
-    private void AddGeminiToken_btn_Click(object sender, EventArgs e)
-    {
-        PopOutBox_automated(API_AI_ID.Gemini);
-    }
-
-    private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-    {
-        Helper._debug_RichTextArea(ManualJDPaste_txt);
-    }
-
-
     //private void CreatePDF_btn_Click(object sender, EventArgs e)
     //{
     //    //When here, this means Job Description has been extracted.
@@ -130,44 +256,5 @@ public partial class Form1 : Form
     //    }
 
     //}
-
-
-    private bool CheckAPI_Tokens()
-    {
-        bool atLeastOneEnabled = false;
-        if (API_Token_Written(API_AI_ID.ChatGPT) == false)
-        {
-            ChatGPT_rdbtn.Checked = false;
-            ChatGPT_rdbtn.Enabled = false;
-        }
-        else if (atLeastOneEnabled == false)
-        {
-            atLeastOneEnabled = true;
-            ChatGPT_rdbtn.Checked = true;
-        }
-
-        if (API_Token_Written(API_AI_ID.Gemini) == false)
-        {
-            Gemini_rdbtn.Checked = false;
-            Gemini_rdbtn.Enabled = false;
-        }
-        else if (atLeastOneEnabled == false)
-        {
-            atLeastOneEnabled = true;
-            Gemini_rdbtn.Checked = true;
-        }
-
-        if (API_Token_Written(API_AI_ID.Claude) == false)
-        {
-            Claude_rdbtn.Checked = false;
-            Claude_rdbtn.Enabled = false;
-        }
-        else if (atLeastOneEnabled == false)
-        {
-            atLeastOneEnabled = true;
-            Claude_rdbtn.Checked = true;
-        }
-
-        return atLeastOneEnabled;
-    }
+    #endregion old code, reuse when ready
 }

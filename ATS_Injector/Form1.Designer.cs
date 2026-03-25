@@ -30,6 +30,7 @@ partial class Form1
     {
         tabControl1 = new TabControl();
         tabPage1 = new TabPage();
+        ATS_Injection_btn = new Button();
         label6 = new Label();
         tabControl2 = new TabControl();
         tabPage4 = new TabPage();
@@ -40,9 +41,9 @@ partial class Form1
         textBox2 = new TextBox();
         progressBar1 = new ProgressBar();
         label2 = new Label();
-        richTextBox1 = new RichTextBox();
-        CreatePDF_btn = new Button();
         FeedbackArea_txt = new RichTextBox();
+        ProcessCreateAction_btn = new Button();
+        ATS_Injection_txt = new RichTextBox();
         textBox4 = new TextBox();
         label4 = new Label();
         textBox3 = new TextBox();
@@ -87,13 +88,14 @@ partial class Form1
         // 
         // tabPage1
         // 
+        tabPage1.Controls.Add(ATS_Injection_btn);
         tabPage1.Controls.Add(label6);
         tabPage1.Controls.Add(tabControl2);
         tabPage1.Controls.Add(progressBar1);
         tabPage1.Controls.Add(label2);
-        tabPage1.Controls.Add(richTextBox1);
-        tabPage1.Controls.Add(CreatePDF_btn);
         tabPage1.Controls.Add(FeedbackArea_txt);
+        tabPage1.Controls.Add(ProcessCreateAction_btn);
+        tabPage1.Controls.Add(ATS_Injection_txt);
         tabPage1.Controls.Add(textBox4);
         tabPage1.Controls.Add(label4);
         tabPage1.Controls.Add(textBox3);
@@ -105,6 +107,16 @@ partial class Form1
         tabPage1.TabIndex = 0;
         tabPage1.Text = "ATS Injector Main";
         tabPage1.UseVisualStyleBackColor = true;
+        // 
+        // ATS_Injection_btn
+        // 
+        ATS_Injection_btn.Enabled = false;
+        ATS_Injection_btn.Location = new Point(19, 509);
+        ATS_Injection_btn.Name = "ATS_Injection_btn";
+        ATS_Injection_btn.Size = new Size(123, 24);
+        ATS_Injection_btn.TabIndex = 17;
+        ATS_Injection_btn.Text = "Inject ATS";
+        ATS_Injection_btn.UseVisualStyleBackColor = true;
         // 
         // label6
         // 
@@ -199,60 +211,61 @@ partial class Form1
         label2.TabIndex = 13;
         label2.Text = "Feedback:";
         // 
-        // richTextBox1
-        // 
-        richTextBox1.Location = new Point(13, 24);
-        richTextBox1.Name = "richTextBox1";
-        richTextBox1.Size = new Size(715, 65);
-        richTextBox1.TabIndex = 12;
-        richTextBox1.Text = "";
-        // 
-        // CreatePDF_btn
-        // 
-        CreatePDF_btn.Enabled = false;
-        CreatePDF_btn.Location = new Point(18, 480);
-        CreatePDF_btn.Name = "CreatePDF_btn";
-        CreatePDF_btn.Size = new Size(123, 24);
-        CreatePDF_btn.TabIndex = 11;
-        CreatePDF_btn.Text = "Create Custom PDF";
-        CreatePDF_btn.UseVisualStyleBackColor = true;
-        // 
         // FeedbackArea_txt
         // 
-        FeedbackArea_txt.Location = new Point(17, 317);
+        FeedbackArea_txt.Location = new Point(13, 24);
         FeedbackArea_txt.Name = "FeedbackArea_txt";
-        FeedbackArea_txt.Size = new Size(710, 157);
-        FeedbackArea_txt.TabIndex = 10;
+        FeedbackArea_txt.Size = new Size(715, 65);
+        FeedbackArea_txt.TabIndex = 12;
         FeedbackArea_txt.Text = "";
+        // 
+        // ProcessCreateAction_btn
+        // 
+        ProcessCreateAction_btn.Enabled = false;
+        ProcessCreateAction_btn.Location = new Point(18, 480);
+        ProcessCreateAction_btn.Name = "ProcessCreateAction_btn";
+        ProcessCreateAction_btn.Size = new Size(123, 24);
+        ProcessCreateAction_btn.TabIndex = 11;
+        ProcessCreateAction_btn.Text = "Process JD";
+        ProcessCreateAction_btn.UseVisualStyleBackColor = true;
+        ProcessCreateAction_btn.Click += ProcessCreateAction_btn_Click;
+        // 
+        // ATS_Injection_txt
+        // 
+        ATS_Injection_txt.Location = new Point(17, 317);
+        ATS_Injection_txt.Name = "ATS_Injection_txt";
+        ATS_Injection_txt.Size = new Size(710, 157);
+        ATS_Injection_txt.TabIndex = 10;
+        ATS_Injection_txt.Text = "";
         // 
         // textBox4
         // 
-        textBox4.Location = new Point(216, 482);
+        textBox4.Location = new Point(266, 511);
         textBox4.Name = "textBox4";
-        textBox4.Size = new Size(512, 23);
+        textBox4.Size = new Size(458, 23);
         textBox4.TabIndex = 8;
         // 
         // label4
         // 
         label4.AutoSize = true;
-        label4.Location = new Point(147, 485);
+        label4.Location = new Point(177, 514);
         label4.Name = "label4";
-        label4.Size = new Size(63, 15);
+        label4.Size = new Size(83, 15);
         label4.TabIndex = 7;
-        label4.Text = "File Name:";
+        label4.Text = "Output Name:";
         // 
         // textBox3
         // 
-        textBox3.Location = new Point(108, 511);
+        textBox3.Location = new Point(266, 482);
         textBox3.Name = "textBox3";
-        textBox3.Size = new Size(620, 23);
+        textBox3.Size = new Size(458, 23);
         textBox3.TabIndex = 6;
         textBox3.Text = "C:\\Users\\leore\\Downloads\\Custom ATS output";
         // 
         // label3
         // 
         label3.AutoSize = true;
-        label3.Location = new Point(18, 514);
+        label3.Location = new Point(176, 485);
         label3.Name = "label3";
         label3.Size = new Size(84, 15);
         label3.TabIndex = 5;
@@ -458,14 +471,14 @@ partial class Form1
     private Button button2;
     private Button AddChatGPTToken_btn;
     private RadioButton ChatGPT_rdbtn;
-    private RichTextBox FeedbackArea_txt;
-    private Button CreatePDF_btn;
+    private RichTextBox ATS_Injection_txt;
+    private Button ProcessCreateAction_btn;
     private TabPage tabPage3;
     private DataGridView dataGridView1;
     private TextBox textBox1;
     private Label label1;
     private Label label2;
-    private RichTextBox richTextBox1;
+    private RichTextBox FeedbackArea_txt;
     private TabControl tabControl2;
     private TabPage tabPage4;
     private TabPage tabPage5;
@@ -475,4 +488,5 @@ partial class Form1
     private Label label5;
     private TextBox textBox2;
     private RichTextBox ManualJDPaste_txt;
+    private Button ATS_Injection_btn;
 }
