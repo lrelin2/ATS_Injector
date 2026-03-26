@@ -60,6 +60,7 @@ namespace ATS_Injector
         public string ResumePath { get; set; }
         public string OutputFolderPath { get; set; }
         public string OutputFileName { get; set; }
+        public bool WarnOverWriteOutputFile { get; set; }
         public API_AI_ID PreviousToken { get; set; }
 
         public static UserSettings CreateDefault()
@@ -67,9 +68,10 @@ namespace ATS_Injector
             string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             string downloadsPath = Path.Combine(userProfile, "Downloads", "MyResumePDF.pdf");
             string outputFolderPath = Path.Combine(userProfile, "Downloads");
+            bool warnOverWriteOutputFile = true;
             //string outputFileName = "ATS_injectedResume.pdf";
 
-            return new UserSettings { ResumePath = downloadsPath, PreviousToken = API_AI_ID.NO_TOKEN, OutputFolderPath = outputFolderPath };
+            return new UserSettings { ResumePath = downloadsPath, PreviousToken = API_AI_ID.NO_TOKEN, OutputFolderPath = outputFolderPath , WarnOverWriteOutputFile =warnOverWriteOutputFile};
         }
     }
 }

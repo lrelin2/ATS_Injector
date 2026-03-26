@@ -8,9 +8,9 @@ namespace ATS_Injector
     {
         public static readonly string AI_ATS_Question =
             "Using the Job description below, create a resume that has all the needed experiance, knowledge, and technology used." +
-            "Add at least two paragraphs on how you excelled at your previous role that used the needed tools, technology, and required experience." +
+            "Add at needed soft skill, and hard skill that are used for the tools, technology, and required experience." +
             "From that resume remove everything that is not relevant to what an ATS scanner would look for." +
-            "Only provide the list of keywords and bullet points, without any explanation or additional information." +
+            "Only provide the list of keywords and bullet points, without any explanation or additional information. When creating bullet points, use only the '*' character." +
             "The Job Descripion:";
 
         public sealed class MyHttpClient

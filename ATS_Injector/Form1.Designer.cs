@@ -49,6 +49,7 @@ partial class Form1
         OutputFolderPath_txt = new TextBox();
         label3 = new Label();
         tabPage2 = new TabPage();
+        WarnOverWriteOutputFile_rdbtn = new RadioButton();
         SettingsResumePath_txt = new TextBox();
         label1 = new Label();
         groupBox1 = new GroupBox();
@@ -274,6 +275,7 @@ partial class Form1
         // 
         // tabPage2
         // 
+        tabPage2.Controls.Add(WarnOverWriteOutputFile_rdbtn);
         tabPage2.Controls.Add(SettingsResumePath_txt);
         tabPage2.Controls.Add(label1);
         tabPage2.Controls.Add(groupBox1);
@@ -284,6 +286,17 @@ partial class Form1
         tabPage2.TabIndex = 1;
         tabPage2.Text = "Settings";
         tabPage2.UseVisualStyleBackColor = true;
+        // 
+        // OverWriteOutputFile_rdbtn
+        // 
+        WarnOverWriteOutputFile_rdbtn.AutoSize = true;
+        WarnOverWriteOutputFile_rdbtn.Location = new Point(11, 191);
+        WarnOverWriteOutputFile_rdbtn.Name = "OverWriteOutputFile_rdbtn";
+        WarnOverWriteOutputFile_rdbtn.Size = new Size(153, 19);
+        WarnOverWriteOutputFile_rdbtn.TabIndex = 11;
+        WarnOverWriteOutputFile_rdbtn.TabStop = true;
+        WarnOverWriteOutputFile_rdbtn.Text = "Warn when outfile exists";
+        WarnOverWriteOutputFile_rdbtn.UseVisualStyleBackColor = true;
         // 
         // SettingsResumePath_txt
         // 
@@ -312,7 +325,7 @@ partial class Form1
         groupBox1.Controls.Add(button2);
         groupBox1.Controls.Add(AddChatGPTToken_btn);
         groupBox1.Controls.Add(ChatGPT_rdbtn);
-        groupBox1.Location = new Point(8, 56);
+        groupBox1.Location = new Point(11, 43);
         groupBox1.Name = "groupBox1";
         groupBox1.Size = new Size(444, 142);
         groupBox1.TabIndex = 0;
@@ -490,4 +503,5 @@ partial class Form1
     private TextBox textBox2;
     private RichTextBox ManualJDPaste_txt;
     private Button ATS_Injection_btn;
+    private RadioButton WarnOverWriteOutputFile_rdbtn;
 }

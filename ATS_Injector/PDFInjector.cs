@@ -14,13 +14,35 @@ namespace ATS_Injector
 
         }
 
+
         /// <summary>
         /// Injects an array of strings into a PDF at off-screen coordinates.
         /// </summary>
         /// <param name="inputPath">Path to the existing PDF</param>
         /// <param name="outputPath">Path where the new PDF will be saved</param>
-        /// <param name="hiddenMetadata">Array of strings to embed</param>
-        public static void InjectHiddenText(string inputPath, string outputPath, string[] hiddenMetadata)
+        /// <param name="RawData">String stream that needs to be split</param>
+        public static void InjectHiddenText(string inputPath, string outputPath, string RawData)
+        { 
+            //List<string> lines = new List<string>();
+            string[] data = RawData
+            // 1. Split into lines, removing empty entries automatically
+            .Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+            // 2. Select only lines that start with * (trimmed)
+            .Where(line => line.TrimStart().StartsWith("*"))
+            // 3. Remove the * symbol and trim whitespace from the remaining text
+            .Select(line => line.TrimStart().TrimStart('*').Trim())
+            // 4. Ensure we don't return empty strings if a line was just "*"
+            .Where(line => !string.IsNullOrEmpty(line))
+            .ToArray();
+            InjectHiddenText(inputPath, outputPath, data);
+        }
+        /// <summary>
+        /// Injects an array of strings into a PDF at off-screen coordinates.
+        /// </summary>
+        /// <param name="inputPath">Path to the existing PDF</param>
+        /// <param name="outputPath">Path where the new PDF will be saved</param>
+        /// <param name="BulletPoints">Array of strings to embed</param>
+        public static void InjectHiddenText(string inputPath, string outputPath, string[] BulletPoints)
         {
             if (!File.Exists(inputPath))
                 throw new FileNotFoundException("Input PDF not found.");
@@ -39,18 +61,18 @@ namespace ATS_Injector
                     XBrush brush = XBrushes.Transparent; // Added layer of "invisibility"
 
                     // 4. Iterate through the array and print each string "off-screen"
-                    // Standard A4 is ~595x842. Points like 5000x5000 are miles off the canvas.
-                    double offScreenX = 5000;
-                    double offScreenY = 5000;
+                    // Standard A4 is ~595x842. Points like 2000x2000 are miles off the canvas.
+                    double offScreenX = 2000;
+                    double offScreenY = 2000;
 
-                    foreach (string data in hiddenMetadata)
+                    foreach (string data in BulletPoints)
                     {
                         if (string.IsNullOrWhiteSpace(data)) continue;
 
                         gfx.DrawString(data, font, brush, new XPoint(offScreenX, offScreenY));
 
                         // Increment Y slightly for each entry so they are distinct in the internal stream
-                        offScreenY += 10;
+                        offScreenX += 10;
                     }
                 }
 

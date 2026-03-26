@@ -1,7 +1,4 @@
-using System.ComponentModel;
-using System.Security.Policy;
 using static ATS_Injector.PopOutApp;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ATS_Injector;
 
@@ -15,9 +12,6 @@ public partial class Form1 : Form
         //TODO
         //Initiail step, you MUST initialize the helperfeeback thing
         Helper.FeedBackHelper.InitalizeFeedBackHelper(FeedbackArea_txt, ManualJDPaste_txt, ATS_Injection_txt);
-
-
-
     }
 
     private void Form1_Shown(object sender, EventArgs e)
@@ -98,6 +92,8 @@ public partial class Form1 : Form
         }
         OutputFolderPath_txt.Text = userSettings.OutputFolderPath;
         OutputFileName_txt.Text = userSettings.OutputFileName;
+
+        WarnOverWriteOutputFile_rdbtn.Checked = userSettings.WarnOverWriteOutputFile;
 
     }
 
@@ -187,13 +183,15 @@ public partial class Form1 : Form
         string Input_OutputFileName = OutputFileName_txt.Text;
         //TODO, create routine to check and update.....
         API_AI_ID Input_PreviousToken = API_AI_ID.NO_TOKEN;
+        bool Input_WarnOverWriteOutputFile = WarnOverWriteOutputFile_rdbtn.Checked;
 
         UserSettings currentSettings = new UserSettings 
         { 
             ResumePath = Input_ResumePath, 
             PreviousToken = Input_PreviousToken, 
             OutputFolderPath = Input_OutputFolderPath, 
-            OutputFileName = Input_OutputFileName 
+            OutputFileName = Input_OutputFileName,
+            WarnOverWriteOutputFile = Input_WarnOverWriteOutputFile
         };
 
         PersistanceSettings settings = new PersistanceSettings(out string errorMsg);
@@ -270,7 +268,7 @@ public partial class Form1 : Form
                 string result = Task.Run(async () => await API.SendPrompt(prompt))
                                     .GetAwaiter()
                                     .GetResult();
-                JD_Results = result;
+                //JD_Results = result;
                 Helper.FeedBackHelper.SetATS_Injection(result);
                 Update_ProcessCreateAction_btn();
                 Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
@@ -386,14 +384,46 @@ public partial class Form1 : Form
         string bulletPoints = ATS_Injection_txt.Text;
         string infile = SettingsResumePath_txt.Text;
         string outFile = Path.Combine(OutputFolderPath_txt.Text.Trim(), OutputFileName_txt.Text.Trim());
+        bool QC_Passed = true;
         if (Directory.Exists(OutputFolderPath_txt.Text.Trim()) == false)
             Directory.CreateDirectory(OutputFolderPath_txt.Text.Trim());
-        string[] injectData = new string[] { bulletPoints };
-        if(outFile.ToLower().EndsWith(".pdf") == false)
+
+        //File appending needs to happen first, before doing QC check stuff
+        if (outFile.ToLower().EndsWith(".pdf") == false)
         {
             outFile += ".PDF";
+            Helper.FeedBackHelper.AppendFeedback($"Output file didn't end with PDF, appending it for you.");
         }
-        PDFInjector.InjectHiddenText(infile, outFile, injectData);
+
+        if (SettingsResumePath_txt.Text.Trim().ToLower().Equals(outFile.Trim().ToLower()))
+        {
+            QC_Passed = false;
+            Helper.FeedBackHelper.AppendFeedback($"You cannot overwrite your source resume file!\r\nThis file needs to stay clean of any ATS injections!!!!");
+        }
+
+        if (File.Exists(outFile) && QC_Passed)
+        {
+            if(WarnOverWriteOutputFile_rdbtn.Checked)
+            {
+                string title = "Overwrite Exsting file";
+                string message = $"The file [{OutputFileName_txt.Text.Trim()}] all ready exists, do you want to overwrite it?";
+                DialogResult result = MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.No)
+                {
+                    // User clicked no, cancel operation
+                    QC_Passed = false;
+                }
+            }
+        }
+       // string[] injectData = new string[] { bulletPoints };
+
+
+        if (QC_Passed)
+        {
+            PDFInjector.InjectHiddenText(infile, outFile, bulletPoints);
+        }
+        
     }
 
 
