@@ -9,10 +9,10 @@ namespace ATS_Injector
     internal class PDFInjector
     {
 
-        public PDFInjector(string inputFile, string outFile, string injectionText)
-        {
+        //public PDFInjector(string inputFile, string outFile, string injectionText)
+        //{
 
-        }
+        //}
 
 
         /// <summary>
@@ -52,6 +52,9 @@ namespace ATS_Injector
             {
                 // 2. We only need to attach this to the first page (or any single page)
                 PdfPage page = document.Pages[0];
+                double width = page.Width.Value;
+                double height = page.Height.Value;
+                int offestVal = 100;
 
                 // 3. Create graphics object. 'Append' ensures we don't overwrite existing content.
                 using (XGraphics gfx = XGraphics.FromPdfPage(page, XGraphicsPdfPageOptions.Append))
@@ -61,9 +64,8 @@ namespace ATS_Injector
                     XBrush brush = XBrushes.Transparent; // Added layer of "invisibility"
 
                     // 4. Iterate through the array and print each string "off-screen"
-                    // Standard A4 is ~595x842. Points like 2000x2000 are miles off the canvas.
-                    double offScreenX = 2000;
-                    double offScreenY = 2000;
+                    double offScreenX = width+ offestVal;
+                    double offScreenY = height + offestVal;
 
                     foreach (string data in BulletPoints)
                     {
@@ -72,7 +74,7 @@ namespace ATS_Injector
                         gfx.DrawString(data, font, brush, new XPoint(offScreenX, offScreenY));
 
                         // Increment Y slightly for each entry so they are distinct in the internal stream
-                        offScreenX += 10;
+                        offScreenY += 10;
                     }
                 }
 

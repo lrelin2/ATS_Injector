@@ -93,7 +93,7 @@ public partial class Form1 : Form
         OutputFolderPath_txt.Text = userSettings.OutputFolderPath;
         OutputFileName_txt.Text = userSettings.OutputFileName;
 
-        WarnOverWriteOutputFile_rdbtn.Checked = userSettings.WarnOverWriteOutputFile;
+        WarnOverWriteOutputFile_chkbx.Checked = userSettings.WarnOverWriteOutputFile;
 
     }
 
@@ -183,7 +183,7 @@ public partial class Form1 : Form
         string Input_OutputFileName = OutputFileName_txt.Text;
         //TODO, create routine to check and update.....
         API_AI_ID Input_PreviousToken = API_AI_ID.NO_TOKEN;
-        bool Input_WarnOverWriteOutputFile = WarnOverWriteOutputFile_rdbtn.Checked;
+        bool Input_WarnOverWriteOutputFile = WarnOverWriteOutputFile_chkbx.Checked;
 
         UserSettings currentSettings = new UserSettings 
         { 
@@ -248,7 +248,7 @@ public partial class Form1 : Form
 
     private void ProcessCreateAction_btn_Click(object sender, EventArgs e)
     {
-
+        ATS_Injection_txt.Text = string.Empty;
         Task.Run(() =>
         {
             //When this function is called, it shall do one of two things
@@ -403,7 +403,7 @@ public partial class Form1 : Form
 
         if (File.Exists(outFile) && QC_Passed)
         {
-            if(WarnOverWriteOutputFile_rdbtn.Checked)
+            if(WarnOverWriteOutputFile_chkbx.Checked)
             {
                 string title = "Overwrite Exsting file";
                 string message = $"The file [{OutputFileName_txt.Text.Trim()}] all ready exists, do you want to overwrite it?";
@@ -423,7 +423,8 @@ public partial class Form1 : Form
         {
             PDFInjector.InjectHiddenText(infile, outFile, bulletPoints);
         }
-        
+
+        FeedbackArea_txt.Text = "Injection completed!";
     }
 
 

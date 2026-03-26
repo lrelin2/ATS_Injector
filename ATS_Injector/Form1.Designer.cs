@@ -49,7 +49,7 @@ partial class Form1
         OutputFolderPath_txt = new TextBox();
         label3 = new Label();
         tabPage2 = new TabPage();
-        WarnOverWriteOutputFile_rdbtn = new RadioButton();
+        WarnOverWriteOutputFile_chkbx = new CheckBox();
         SettingsResumePath_txt = new TextBox();
         label1 = new Label();
         groupBox1 = new GroupBox();
@@ -275,7 +275,7 @@ partial class Form1
         // 
         // tabPage2
         // 
-        tabPage2.Controls.Add(WarnOverWriteOutputFile_rdbtn);
+        tabPage2.Controls.Add(WarnOverWriteOutputFile_chkbx);
         tabPage2.Controls.Add(SettingsResumePath_txt);
         tabPage2.Controls.Add(label1);
         tabPage2.Controls.Add(groupBox1);
@@ -287,16 +287,15 @@ partial class Form1
         tabPage2.Text = "Settings";
         tabPage2.UseVisualStyleBackColor = true;
         // 
-        // OverWriteOutputFile_rdbtn
+        // WarnOverWriteOutputFile_chkbx
         // 
-        WarnOverWriteOutputFile_rdbtn.AutoSize = true;
-        WarnOverWriteOutputFile_rdbtn.Location = new Point(11, 191);
-        WarnOverWriteOutputFile_rdbtn.Name = "OverWriteOutputFile_rdbtn";
-        WarnOverWriteOutputFile_rdbtn.Size = new Size(153, 19);
-        WarnOverWriteOutputFile_rdbtn.TabIndex = 11;
-        WarnOverWriteOutputFile_rdbtn.TabStop = true;
-        WarnOverWriteOutputFile_rdbtn.Text = "Warn when outfile exists";
-        WarnOverWriteOutputFile_rdbtn.UseVisualStyleBackColor = true;
+        WarnOverWriteOutputFile_chkbx.AutoSize = true;
+        WarnOverWriteOutputFile_chkbx.Location = new Point(14, 192);
+        WarnOverWriteOutputFile_chkbx.Name = "WarnOverWriteOutputFile_chkbx";
+        WarnOverWriteOutputFile_chkbx.Size = new Size(154, 19);
+        WarnOverWriteOutputFile_chkbx.TabIndex = 4;
+        WarnOverWriteOutputFile_chkbx.Text = "Warn when outfile exists";
+        WarnOverWriteOutputFile_chkbx.UseVisualStyleBackColor = true;
         // 
         // SettingsResumePath_txt
         // 
@@ -503,5 +502,5 @@ partial class Form1
     private TextBox textBox2;
     private RichTextBox ManualJDPaste_txt;
     private Button ATS_Injection_btn;
-    private RadioButton WarnOverWriteOutputFile_rdbtn;
+    private CheckBox WarnOverWriteOutputFile_chkbx;
 }
