@@ -20,6 +20,7 @@ namespace ATS_Injector
         public async Task<string> SendPrompt(string userPrompt)
         {
             string Url = $"https://generativelanguage.googleapis.com/v1beta/models/{ModelId}:generateContent?key={ApiKey}";
+            int timeOut = 30;
            // using var client = Helper.MyHttpClient.Instance;
             string returnStr = string.Empty;
             var payload = new
@@ -29,40 +30,49 @@ namespace ATS_Injector
 
             string jsonPayload = JsonSerializer.Serialize(payload);
 
-            using (var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json"))
+            using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeOut)))
             {
-                try
+                using (var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json"))
                 {
-                    using (var response = await MyHttpClient.Instance.PostAsync(Url, content))
+                    try
                     {
-                        string responseBody = await response.Content.ReadAsStringAsync();
-                        if (response.IsSuccessStatusCode)
+                        using (var response = await MyHttpClient.Instance.PostAsync(Url, content, cts.Token))
                         {
-                            using var doc = JsonDocument.Parse(responseBody);
-
-                            // Navigate the JSON tree to find the text response
-                            var root = doc.RootElement;
-                            if (root.TryGetProperty("candidates", out var candidates) && candidates.GetArrayLength() > 0)
+                            string responseBody = await response.Content.ReadAsStringAsync(cts.Token);
+                            if (response.IsSuccessStatusCode)
                             {
-                                returnStr = candidates[0]
-                                    .GetProperty("content")
-                                    .GetProperty("parts")[0]
-                                    .GetProperty("text")
-                                    .GetString() ?? "No text found in response.";
+                                using var doc = JsonDocument.Parse(responseBody);
+
+                                // Navigate the JSON tree to find the text response
+                                var root = doc.RootElement;
+                                if (root.TryGetProperty("candidates", out var candidates) && candidates.GetArrayLength() > 0)
+                                {
+                                    returnStr = candidates[0]
+                                        .GetProperty("content")
+                                        .GetProperty("parts")[0]
+                                        .GetProperty("text")
+                                        .GetString() ?? "No text found in response.";
+                                }
+                            }
+                            else
+                            {
+                                returnStr = $"Error ({response.StatusCode}): {responseBody}";
                             }
                         }
-                        else
-                        {
-                            returnStr = $"Error ({response.StatusCode}): {responseBody}";
-                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        returnStr = "The request timed out.";
+                        Console.WriteLine("Task was cancelled due to timeout.");
+                    }
+                    catch (HttpRequestException e)
+                    {
+                        Console.WriteLine($"Request exception: {e.Message}");
+                        returnStr = e.Message;
                     }
                 }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Request exception: {e.Message}");
-                    returnStr = e.Message;
-                }
             }
+                
             return returnStr;
         }
     }

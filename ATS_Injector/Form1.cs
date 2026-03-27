@@ -1,4 +1,5 @@
 using static ATS_Injector.PopOutApp;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATS_Injector;
 
@@ -272,6 +273,7 @@ public partial class Form1 : Form
                 Helper.FeedBackHelper.SetATS_Injection(result);
                 Update_ProcessCreateAction_btn();
                 Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
+                ProgressBar(ProgressBarStat.AI_START);
             }
             else if (string.IsNullOrEmpty(errorMsg) == false)
             {
@@ -279,7 +281,28 @@ public partial class Form1 : Form
             }
         });
 
+        ProgressBar(ProgressBarStat.JD_START);
+    }
 
+    private void ProgressBar(ProgressBarStat enumState)
+    {
+        switch (enumState)
+        {
+            case ProgressBarStat.ZERO:
+                progressBar1.Value = 0;
+                break;
+            case ProgressBarStat.JD_START:
+                progressBar1.Value = 10;
+
+                break;
+            case ProgressBarStat.AI_START:
+                progressBar1.Invoke(new Action(() => progressBar1.Value = 80));
+                break;
+            case ProgressBarStat.END:
+                progressBar1.Invoke(new Action(() => progressBar1.Value = 100));
+                break;
+        }
+            
     }
 
     #region old code, reuse when ready
@@ -403,7 +426,8 @@ public partial class Form1 : Form
 
         if (File.Exists(outFile) && QC_Passed)
         {
-            if(WarnOverWriteOutputFile_chkbx.Checked)
+            
+            if (WarnOverWriteOutputFile_chkbx.Checked)
             {
                 string title = "Overwrite Exsting file";
                 string message = $"The file [{OutputFileName_txt.Text.Trim()}] all ready exists, do you want to overwrite it?";
@@ -422,10 +446,18 @@ public partial class Form1 : Form
         if (QC_Passed)
         {
             PDFInjector.InjectHiddenText(infile, outFile, bulletPoints);
+            ProgressBar(ProgressBarStat.END);
         }
 
         FeedbackArea_txt.Text = "Injection completed!";
     }
 
 
+    enum ProgressBarStat
+    {
+        ZERO,
+        JD_START,
+        AI_START,
+        END
+    }
 }

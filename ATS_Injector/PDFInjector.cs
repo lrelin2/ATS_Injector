@@ -9,12 +9,6 @@ namespace ATS_Injector
     internal class PDFInjector
     {
 
-        //public PDFInjector(string inputFile, string outFile, string injectionText)
-        //{
-
-        //}
-
-
         /// <summary>
         /// Injects an array of strings into a PDF at off-screen coordinates.
         /// </summary>

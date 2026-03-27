@@ -64,6 +64,8 @@ partial class Form1
         ChatGPT_rdbtn = new RadioButton();
         tabPage3 = new TabPage();
         dataGridView1 = new DataGridView();
+        label7 = new Label();
+        AI_IntTimeout_txt = new TextBox();
         tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
         tabControl2.SuspendLayout();
@@ -275,6 +277,8 @@ partial class Form1
         // 
         // tabPage2
         // 
+        tabPage2.Controls.Add(AI_IntTimeout_txt);
+        tabPage2.Controls.Add(label7);
         tabPage2.Controls.Add(WarnOverWriteOutputFile_chkbx);
         tabPage2.Controls.Add(SettingsResumePath_txt);
         tabPage2.Controls.Add(label1);
@@ -439,6 +443,23 @@ partial class Form1
         dataGridView1.Size = new Size(792, 582);
         dataGridView1.TabIndex = 0;
         // 
+        // label7
+        // 
+        label7.AutoSize = true;
+        label7.Location = new Point(11, 222);
+        label7.Name = "label7";
+        label7.Size = new Size(149, 15);
+        label7.TabIndex = 5;
+        label7.Text = "Timeout For AI processing:";
+        // 
+        // AI_IntTimeout_txt
+        // 
+        AI_IntTimeout_txt.Location = new Point(166, 219);
+        AI_IntTimeout_txt.Name = "AI_IntTimeout_txt";
+        AI_IntTimeout_txt.Size = new Size(75, 23);
+        AI_IntTimeout_txt.TabIndex = 6;
+        AI_IntTimeout_txt.Text = "30";
+        // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -503,4 +524,6 @@ partial class Form1
     private RichTextBox ManualJDPaste_txt;
     private Button ATS_Injection_btn;
     private CheckBox WarnOverWriteOutputFile_chkbx;
+    private Label label7;
+    private TextBox AI_IntTimeout_txt;
 }
