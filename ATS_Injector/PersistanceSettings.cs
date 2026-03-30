@@ -20,6 +20,11 @@ namespace ATS_Injector
             {
                 if (File.Exists(outFile) == false)
                 {
+                    if(Directory.Exists(SettingsFolder) == false)
+                    {
+                        Directory.CreateDirectory(SettingsFolder);
+                        Thread.Sleep(50);
+                    }
                     string updatedJson = JsonSerializer.Serialize(UserSettings.CreateDefault(), new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(outFile, updatedJson);
                     Console.WriteLine("File updated successfully.");
