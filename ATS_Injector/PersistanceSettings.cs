@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ATS_Injector
 {
-    internal class PersistanceSettings
+    [JsonSerializable(typeof(UserSettings))]
+    internal class PersistanceSettings : JsonSerializerContext
     {
         //private readonly string _filePath;
         private static string SettingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ATS_Tokens");
