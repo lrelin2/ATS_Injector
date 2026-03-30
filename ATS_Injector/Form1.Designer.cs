@@ -49,6 +49,8 @@ partial class Form1
         OutputFolderPath_txt = new TextBox();
         label3 = new Label();
         tabPage2 = new TabPage();
+        AI_IntTimeout_txt = new TextBox();
+        label7 = new Label();
         WarnOverWriteOutputFile_chkbx = new CheckBox();
         SettingsResumePath_txt = new TextBox();
         label1 = new Label();
@@ -64,8 +66,6 @@ partial class Form1
         ChatGPT_rdbtn = new RadioButton();
         tabPage3 = new TabPage();
         dataGridView1 = new DataGridView();
-        label7 = new Label();
-        AI_IntTimeout_txt = new TextBox();
         tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
         tabControl2.SuspendLayout();
@@ -291,12 +291,29 @@ partial class Form1
         tabPage2.Text = "Settings";
         tabPage2.UseVisualStyleBackColor = true;
         // 
+        // AI_IntTimeout_txt
+        // 
+        AI_IntTimeout_txt.Location = new Point(166, 219);
+        AI_IntTimeout_txt.Name = "AI_IntTimeout_txt";
+        AI_IntTimeout_txt.Size = new Size(75, 23);
+        AI_IntTimeout_txt.TabIndex = 6;
+        AI_IntTimeout_txt.Text = "30";
+        // 
+        // label7
+        // 
+        label7.AutoSize = true;
+        label7.Location = new Point(11, 222);
+        label7.Name = "label7";
+        label7.Size = new Size(148, 15);
+        label7.TabIndex = 5;
+        label7.Text = "Timeout For AI processing:";
+        // 
         // WarnOverWriteOutputFile_chkbx
         // 
         WarnOverWriteOutputFile_chkbx.AutoSize = true;
         WarnOverWriteOutputFile_chkbx.Location = new Point(14, 192);
         WarnOverWriteOutputFile_chkbx.Name = "WarnOverWriteOutputFile_chkbx";
-        WarnOverWriteOutputFile_chkbx.Size = new Size(154, 19);
+        WarnOverWriteOutputFile_chkbx.Size = new Size(155, 19);
         WarnOverWriteOutputFile_chkbx.TabIndex = 4;
         WarnOverWriteOutputFile_chkbx.Text = "Warn when outfile exists";
         WarnOverWriteOutputFile_chkbx.UseVisualStyleBackColor = true;
@@ -350,7 +367,7 @@ partial class Form1
         AddClaudeToken_btn.Name = "AddClaudeToken_btn";
         AddClaudeToken_btn.Size = new Size(104, 24);
         AddClaudeToken_btn.TabIndex = 9;
-        AddClaudeToken_btn.Text = "Add API Token";
+        AddClaudeToken_btn.Text = "Add API Key";
         AddClaudeToken_btn.UseVisualStyleBackColor = true;
         // 
         // Claude_rdbtn
@@ -379,7 +396,7 @@ partial class Form1
         AddGeminiToken_btn.Name = "AddGeminiToken_btn";
         AddGeminiToken_btn.Size = new Size(104, 24);
         AddGeminiToken_btn.TabIndex = 6;
-        AddGeminiToken_btn.Text = "Add API Token";
+        AddGeminiToken_btn.Text = "Add API Key";
         AddGeminiToken_btn.UseVisualStyleBackColor = true;
         AddGeminiToken_btn.Click += AddGeminiToken_btn_Click;
         // 
@@ -409,7 +426,7 @@ partial class Form1
         AddChatGPTToken_btn.Name = "AddChatGPTToken_btn";
         AddChatGPTToken_btn.Size = new Size(104, 24);
         AddChatGPTToken_btn.TabIndex = 3;
-        AddChatGPTToken_btn.Text = "Add API Token";
+        AddChatGPTToken_btn.Text = "Add API Key";
         AddChatGPTToken_btn.UseVisualStyleBackColor = true;
         AddChatGPTToken_btn.Click += AddChatGPTToken_btn_Click;
         // 
@@ -418,7 +435,7 @@ partial class Form1
         ChatGPT_rdbtn.AutoSize = true;
         ChatGPT_rdbtn.Location = new Point(11, 27);
         ChatGPT_rdbtn.Name = "ChatGPT_rdbtn";
-        ChatGPT_rdbtn.Size = new Size(72, 19);
+        ChatGPT_rdbtn.Size = new Size(71, 19);
         ChatGPT_rdbtn.TabIndex = 0;
         ChatGPT_rdbtn.TabStop = true;
         ChatGPT_rdbtn.Text = "ChatGPT";
@@ -442,23 +459,6 @@ partial class Form1
         dataGridView1.Name = "dataGridView1";
         dataGridView1.Size = new Size(792, 582);
         dataGridView1.TabIndex = 0;
-        // 
-        // label7
-        // 
-        label7.AutoSize = true;
-        label7.Location = new Point(11, 222);
-        label7.Name = "label7";
-        label7.Size = new Size(149, 15);
-        label7.TabIndex = 5;
-        label7.Text = "Timeout For AI processing:";
-        // 
-        // AI_IntTimeout_txt
-        // 
-        AI_IntTimeout_txt.Location = new Point(166, 219);
-        AI_IntTimeout_txt.Name = "AI_IntTimeout_txt";
-        AI_IntTimeout_txt.Size = new Size(75, 23);
-        AI_IntTimeout_txt.TabIndex = 6;
-        AI_IntTimeout_txt.Text = "30";
         // 
         // Form1
         // 
