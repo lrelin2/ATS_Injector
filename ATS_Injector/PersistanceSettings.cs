@@ -7,9 +7,10 @@ using System.Text.Json.Serialization;
 namespace ATS_Injector
 {
     [JsonSerializable(typeof(UserSettings))]
-    internal class PersistanceSettings : JsonSerializerContext
+    internal partial class AppJsonContext : JsonSerializerContext { }
+
+    internal class PersistanceSettings
     {
-        //private readonly string _filePath;
         private static string SettingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ATS_Tokens");
         private static string outFile = Path.Combine(SettingsFolder, "UserSettings.json");
 
@@ -20,18 +21,19 @@ namespace ATS_Injector
             {
                 if (File.Exists(outFile) == false)
                 {
-                    if(Directory.Exists(SettingsFolder) == false)
+                    if (Directory.Exists(SettingsFolder) == false)
                     {
                         Directory.CreateDirectory(SettingsFolder);
                         Thread.Sleep(50);
                     }
-                    string updatedJson = JsonSerializer.Serialize(UserSettings.CreateDefault(), new JsonSerializerOptions { WriteIndented = true });
+                    string updatedJson = JsonSerializer.Serialize(
+                        UserSettings.CreateDefault(),
+                        AppJsonContext.Default.UserSettings);
                     File.WriteAllText(outFile, updatedJson);
                     Console.WriteLine("File updated successfully.");
                 }
             }
             catch (Exception ex) { ErrorMsg = ex.Message; }
-
         }
 
         public UserSettings GetSettings()
@@ -45,19 +47,22 @@ namespace ATS_Injector
             try
             {
                 string jsonString = File.ReadAllText(outFile);
-                // Deserialize the JSON back into a C# object
-                return JsonSerializer.Deserialize<UserSettings>(jsonString);
+                return JsonSerializer.Deserialize<UserSettings>(
+                    jsonString,
+                    AppJsonContext.Default.UserSettings);
             }
             catch (JsonException ex)
             {
                 Console.WriteLine($"Error parsing settings file: {ex.Message}");
-                return null;
+                return UserSettings.CreateDefault();
             }
         }
 
         public void UpdateData(UserSettings newSettings)
         {
-            string updatedJson = JsonSerializer.Serialize(newSettings, new JsonSerializerOptions { WriteIndented = true });
+            string updatedJson = JsonSerializer.Serialize(
+                newSettings,
+                AppJsonContext.Default.UserSettings);
             File.WriteAllText(outFile, updatedJson);
         }
     }
@@ -76,9 +81,14 @@ namespace ATS_Injector
             string downloadsPath = Path.Combine(userProfile, "Downloads", "MyResumePDF.pdf");
             string outputFolderPath = Path.Combine(userProfile, "Downloads");
             bool warnOverWriteOutputFile = true;
-            //string outputFileName = "ATS_injectedResume.pdf";
 
-            return new UserSettings { ResumePath = downloadsPath, PreviousToken = API_AI_ID.NO_TOKEN, OutputFolderPath = outputFolderPath , WarnOverWriteOutputFile =warnOverWriteOutputFile};
+            return new UserSettings
+            {
+                ResumePath = downloadsPath,
+                PreviousToken = API_AI_ID.NO_TOKEN,
+                OutputFolderPath = outputFolderPath,
+                WarnOverWriteOutputFile = warnOverWriteOutputFile
+            };
         }
     }
 }
