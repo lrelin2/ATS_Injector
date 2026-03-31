@@ -1,12 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using static ATS_Injector.Helper;
 
 namespace ATS_Injector
 {
+    [JsonSerializable(typeof(GeminiPayload))]
+    internal partial class GeminiJsonContext : JsonSerializerContext { }
+
+    public class GeminiPayload
+    {
+        public GeminiContent[] contents { get; set; }
+    }
+
+    public class GeminiContent
+    {
+        public GeminiPart[] parts { get; set; }
+    }
+
+    public class GeminiPart
+    {
+        public string text { get; set; }
+    }
+
     internal class GeminiAPI
     {
         private string ApiKey;
@@ -21,14 +39,20 @@ namespace ATS_Injector
         {
             string Url = $"https://generativelanguage.googleapis.com/v1beta/models/{ModelId}:generateContent?key={ApiKey}";
             int timeOut = 30;
-           // using var client = Helper.MyHttpClient.Instance;
             string returnStr = string.Empty;
-            var payload = new
+
+            var payload = new GeminiPayload
             {
-                contents = new[] { new { parts = new[] { new { text = userPrompt } } } }
+                contents = new[]
+                {
+                    new GeminiContent
+                    {
+                        parts = new[] { new GeminiPart { text = userPrompt } }
+                    }
+                }
             };
 
-            string jsonPayload = JsonSerializer.Serialize(payload);
+            string jsonPayload = JsonSerializer.Serialize(payload, GeminiJsonContext.Default.GeminiPayload);
 
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeOut)))
             {
@@ -42,8 +66,6 @@ namespace ATS_Injector
                             if (response.IsSuccessStatusCode)
                             {
                                 using var doc = JsonDocument.Parse(responseBody);
-
-                                // Navigate the JSON tree to find the text response
                                 var root = doc.RootElement;
                                 if (root.TryGetProperty("candidates", out var candidates) && candidates.GetArrayLength() > 0)
                                 {
@@ -72,7 +94,7 @@ namespace ATS_Injector
                     }
                 }
             }
-                
+
             return returnStr;
         }
     }
@@ -94,6 +116,5 @@ namespace ATS_Injector
                 new ModelGemini { ID = 3, ModelName = "Gemini 2.5 Flash-Lite", RateLimit = 15, RateLimitDaily = 1000 }
             };
         }
-
     }
 }
