@@ -1,4 +1,7 @@
-﻿namespace ATS_Injector;
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace ATS_Injector;
 
 partial class Form1
 {
