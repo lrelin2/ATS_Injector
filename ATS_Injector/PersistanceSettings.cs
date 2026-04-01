@@ -6,9 +6,6 @@ using System.Text.Json.Serialization;
 
 namespace ATS_Injector
 {
-    [JsonSerializable(typeof(UserSettings))]
-    internal partial class AppJsonContext : JsonSerializerContext { }
-
     internal class PersistanceSettings
     {
         private static string SettingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ATS_Tokens");
@@ -26,9 +23,7 @@ namespace ATS_Injector
                         Directory.CreateDirectory(SettingsFolder);
                         Thread.Sleep(50);
                     }
-                    string updatedJson = JsonSerializer.Serialize(
-                        UserSettings.CreateDefault(),
-                        AppJsonContext.Default.UserSettings);
+                    string updatedJson = JsonSerializer.Serialize(UserSettings.CreateDefault());
                     File.WriteAllText(outFile, updatedJson);
                     Console.WriteLine("File updated successfully.");
                 }
@@ -47,9 +42,7 @@ namespace ATS_Injector
             try
             {
                 string jsonString = File.ReadAllText(outFile);
-                return JsonSerializer.Deserialize<UserSettings>(
-                    jsonString,
-                    AppJsonContext.Default.UserSettings);
+                return JsonSerializer.Deserialize<UserSettings>(jsonString);
             }
             catch (JsonException ex)
             {
@@ -60,18 +53,16 @@ namespace ATS_Injector
 
         public void UpdateData(UserSettings newSettings)
         {
-            string updatedJson = JsonSerializer.Serialize(
-                newSettings,
-                AppJsonContext.Default.UserSettings);
+            string updatedJson = JsonSerializer.Serialize(newSettings);
             File.WriteAllText(outFile, updatedJson);
         }
     }
 
     public class UserSettings
     {
-        public string ResumePath { get; set; }
-        public string OutputFolderPath { get; set; }
-        public string OutputFileName { get; set; }
+        public required string ResumePath { get; set; }
+        public required string OutputFolderPath { get; set; }
+        public required string OutputFileName { get; set; }
         public bool WarnOverWriteOutputFile { get; set; }
         public API_AI_ID PreviousToken { get; set; }
 
@@ -80,6 +71,7 @@ namespace ATS_Injector
             string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             string downloadsPath = Path.Combine(userProfile, "Downloads", "MyResumePDF.pdf");
             string outputFolderPath = Path.Combine(userProfile, "Downloads");
+            string outputFileName = "MyResumePDF.pdf";
             bool warnOverWriteOutputFile = true;
 
             return new UserSettings
@@ -87,7 +79,8 @@ namespace ATS_Injector
                 ResumePath = downloadsPath,
                 PreviousToken = API_AI_ID.NO_TOKEN,
                 OutputFolderPath = outputFolderPath,
-                WarnOverWriteOutputFile = warnOverWriteOutputFile
+                WarnOverWriteOutputFile = warnOverWriteOutputFile,
+                OutputFileName = outputFileName
             };
         }
     }

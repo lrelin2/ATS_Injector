@@ -270,6 +270,11 @@ public partial class Form1 : Form
                                     .GetAwaiter()
                                     .GetResult();
                 //JD_Results = result;
+                if (result.Equals(GeminiAPI.GeminiTimeOut))
+                {
+                    //TODO
+                    //add a pop up asking if they want to try again
+                }
                 Helper.FeedBackHelper.SetATS_Injection(result);
                 Update_ProcessCreateAction_btn();
                 Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
