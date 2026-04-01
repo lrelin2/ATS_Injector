@@ -1,34 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using static ATS_Injector.Helper;
 
 namespace ATS_Injector
 {
-    [JsonSerializable(typeof(GeminiPayload))]
-    internal partial class GeminiJsonContext : JsonSerializerContext { }
-
-    public class GeminiPayload
-    {
-        public GeminiContent[] contents { get; set; }
-    }
-
-    public class GeminiContent
-    {
-        public GeminiPart[] parts { get; set; }
-    }
-
-    public class GeminiPart
-    {
-        public string text { get; set; }
-    }
-
     internal class GeminiAPI
     {
         private string ApiKey;
         private const string ModelId = "gemini-3-flash-preview";
+        public static readonly string GeminiTimeOut = "The request timed out.";
 
         public GeminiAPI(string ApiKey)
         {
@@ -39,20 +19,14 @@ namespace ATS_Injector
         {
             string Url = $"https://generativelanguage.googleapis.com/v1beta/models/{ModelId}:generateContent?key={ApiKey}";
             int timeOut = 30;
+            // using var client = Helper.MyHttpClient.Instance;
             string returnStr = string.Empty;
-
-            var payload = new GeminiPayload
+            var payload = new
             {
-                contents = new[]
-                {
-                    new GeminiContent
-                    {
-                        parts = new[] { new GeminiPart { text = userPrompt } }
-                    }
-                }
+                contents = new[] { new { parts = new[] { new { text = userPrompt } } } }
             };
 
-            string jsonPayload = JsonSerializer.Serialize(payload, GeminiJsonContext.Default.GeminiPayload);
+            string jsonPayload = JsonSerializer.Serialize(payload);
 
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeOut)))
             {
@@ -84,7 +58,7 @@ namespace ATS_Injector
                     }
                     catch (OperationCanceledException)
                     {
-                        returnStr = "The request timed out.";
+                        returnStr = GeminiTimeOut;
                         Console.WriteLine("Task was cancelled due to timeout.");
                     }
                     catch (HttpRequestException e)
