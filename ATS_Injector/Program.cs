@@ -1,3 +1,6 @@
+using System;
+using System.Windows.Forms;
+
 namespace ATS_Injector;
 
 static class Program
@@ -8,8 +11,10 @@ static class Program
     [STAThread]
     static void Main()
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
+        // Remeber to get the single .exe run this command in the terminal
+        //dotnet publish -c Release
+        //Then go to [[current dir]]\bin\Release\net10.0-windows\win-x64\publish
+        //and you will have the .exe file!
         ApplicationConfiguration.Initialize();
         Application.Run(new Form1());
     }    

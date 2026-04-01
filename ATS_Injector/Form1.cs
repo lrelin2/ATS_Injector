@@ -1,3 +1,7 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using static ATS_Injector.PopOutApp;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
