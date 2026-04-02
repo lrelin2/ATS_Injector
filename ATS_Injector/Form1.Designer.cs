@@ -60,15 +60,15 @@ partial class Form1
         groupBox1 = new GroupBox();
         button5 = new Button();
         AddClaudeToken_btn = new Button();
-        Claude_rdbtn = new RadioButton();
         button3 = new Button();
         AddGeminiToken_btn = new Button();
-        Gemini_rdbtn = new RadioButton();
         button2 = new Button();
         AddChatGPTToken_btn = new Button();
-        ChatGPT_rdbtn = new RadioButton();
         tabPage3 = new TabPage();
         dataGridView1 = new DataGridView();
+        ChatGPT_rdbtn = new RadioButton();
+        Gemini_rdbtn = new RadioButton();
+        Claude_rdbtn = new RadioButton();
         tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
         tabControl2.SuspendLayout();
@@ -339,15 +339,15 @@ partial class Form1
         // 
         // groupBox1
         // 
+        groupBox1.Controls.Add(Claude_rdbtn);
+        groupBox1.Controls.Add(Gemini_rdbtn);
+        groupBox1.Controls.Add(ChatGPT_rdbtn);
         groupBox1.Controls.Add(button5);
         groupBox1.Controls.Add(AddClaudeToken_btn);
-        groupBox1.Controls.Add(Claude_rdbtn);
         groupBox1.Controls.Add(button3);
         groupBox1.Controls.Add(AddGeminiToken_btn);
-        groupBox1.Controls.Add(Gemini_rdbtn);
         groupBox1.Controls.Add(button2);
         groupBox1.Controls.Add(AddChatGPTToken_btn);
-        groupBox1.Controls.Add(ChatGPT_rdbtn);
         groupBox1.Location = new Point(11, 43);
         groupBox1.Name = "groupBox1";
         groupBox1.Size = new Size(444, 142);
@@ -357,7 +357,7 @@ partial class Form1
         // 
         // button5
         // 
-        button5.Location = new Point(213, 82);
+        button5.Location = new Point(271, 82);
         button5.Name = "button5";
         button5.Size = new Size(104, 24);
         button5.TabIndex = 10;
@@ -366,27 +366,17 @@ partial class Form1
         // 
         // AddClaudeToken_btn
         // 
-        AddClaudeToken_btn.Location = new Point(89, 82);
+        AddClaudeToken_btn.Location = new Point(147, 82);
         AddClaudeToken_btn.Name = "AddClaudeToken_btn";
         AddClaudeToken_btn.Size = new Size(104, 24);
         AddClaudeToken_btn.TabIndex = 9;
         AddClaudeToken_btn.Text = "Add API Key";
         AddClaudeToken_btn.UseVisualStyleBackColor = true;
-        // 
-        // Claude_rdbtn
-        // 
-        Claude_rdbtn.AutoSize = true;
-        Claude_rdbtn.Location = new Point(11, 87);
-        Claude_rdbtn.Name = "Claude_rdbtn";
-        Claude_rdbtn.Size = new Size(62, 19);
-        Claude_rdbtn.TabIndex = 8;
-        Claude_rdbtn.TabStop = true;
-        Claude_rdbtn.Text = "Claude";
-        Claude_rdbtn.UseVisualStyleBackColor = true;
+        AddClaudeToken_btn.Click += AddClaudeToken_btn_Click;
         // 
         // button3
         // 
-        button3.Location = new Point(213, 52);
+        button3.Location = new Point(271, 52);
         button3.Name = "button3";
         button3.Size = new Size(104, 24);
         button3.TabIndex = 7;
@@ -395,7 +385,7 @@ partial class Form1
         // 
         // AddGeminiToken_btn
         // 
-        AddGeminiToken_btn.Location = new Point(89, 52);
+        AddGeminiToken_btn.Location = new Point(147, 52);
         AddGeminiToken_btn.Name = "AddGeminiToken_btn";
         AddGeminiToken_btn.Size = new Size(104, 24);
         AddGeminiToken_btn.TabIndex = 6;
@@ -403,20 +393,9 @@ partial class Form1
         AddGeminiToken_btn.UseVisualStyleBackColor = true;
         AddGeminiToken_btn.Click += AddGeminiToken_btn_Click;
         // 
-        // Gemini_rdbtn
-        // 
-        Gemini_rdbtn.AutoSize = true;
-        Gemini_rdbtn.Location = new Point(11, 57);
-        Gemini_rdbtn.Name = "Gemini_rdbtn";
-        Gemini_rdbtn.Size = new Size(63, 19);
-        Gemini_rdbtn.TabIndex = 5;
-        Gemini_rdbtn.TabStop = true;
-        Gemini_rdbtn.Text = "Gemini";
-        Gemini_rdbtn.UseVisualStyleBackColor = true;
-        // 
         // button2
         // 
-        button2.Location = new Point(213, 22);
+        button2.Location = new Point(271, 22);
         button2.Name = "button2";
         button2.Size = new Size(104, 24);
         button2.TabIndex = 4;
@@ -425,24 +404,13 @@ partial class Form1
         // 
         // AddChatGPTToken_btn
         // 
-        AddChatGPTToken_btn.Location = new Point(89, 22);
+        AddChatGPTToken_btn.Location = new Point(147, 22);
         AddChatGPTToken_btn.Name = "AddChatGPTToken_btn";
         AddChatGPTToken_btn.Size = new Size(104, 24);
         AddChatGPTToken_btn.TabIndex = 3;
         AddChatGPTToken_btn.Text = "Add API Key";
         AddChatGPTToken_btn.UseVisualStyleBackColor = true;
         AddChatGPTToken_btn.Click += AddChatGPTToken_btn_Click;
-        // 
-        // ChatGPT_rdbtn
-        // 
-        ChatGPT_rdbtn.AutoSize = true;
-        ChatGPT_rdbtn.Location = new Point(11, 27);
-        ChatGPT_rdbtn.Name = "ChatGPT_rdbtn";
-        ChatGPT_rdbtn.Size = new Size(71, 19);
-        ChatGPT_rdbtn.TabIndex = 0;
-        ChatGPT_rdbtn.TabStop = true;
-        ChatGPT_rdbtn.Text = "ChatGPT";
-        ChatGPT_rdbtn.UseVisualStyleBackColor = true;
         // 
         // tabPage3
         // 
@@ -462,6 +430,39 @@ partial class Form1
         dataGridView1.Name = "dataGridView1";
         dataGridView1.Size = new Size(792, 582);
         dataGridView1.TabIndex = 0;
+        // 
+        // ChatGPT_rdbtn
+        // 
+        ChatGPT_rdbtn.AutoSize = true;
+        ChatGPT_rdbtn.Location = new Point(16, 22);
+        ChatGPT_rdbtn.Name = "ChatGPT_rdbtn";
+        ChatGPT_rdbtn.Size = new Size(71, 19);
+        ChatGPT_rdbtn.TabIndex = 11;
+        ChatGPT_rdbtn.TabStop = true;
+        ChatGPT_rdbtn.Text = "ChatGPT";
+        ChatGPT_rdbtn.UseVisualStyleBackColor = true;
+        // 
+        // Gemini_rdbtn
+        // 
+        Gemini_rdbtn.AutoSize = true;
+        Gemini_rdbtn.Location = new Point(16, 52);
+        Gemini_rdbtn.Name = "Gemini_rdbtn";
+        Gemini_rdbtn.Size = new Size(63, 19);
+        Gemini_rdbtn.TabIndex = 12;
+        Gemini_rdbtn.TabStop = true;
+        Gemini_rdbtn.Text = "Gemini";
+        Gemini_rdbtn.UseVisualStyleBackColor = true;
+        // 
+        // Claude_rdbtn
+        // 
+        Claude_rdbtn.AutoSize = true;
+        Claude_rdbtn.Location = new Point(16, 82);
+        Claude_rdbtn.Name = "Claude_rdbtn";
+        Claude_rdbtn.Size = new Size(137, 19);
+        Claude_rdbtn.TabIndex = 13;
+        Claude_rdbtn.TabStop = true;
+        Claude_rdbtn.Text = "OpenRouter (Claude)";
+        Claude_rdbtn.UseVisualStyleBackColor = true;
         // 
         // Form1
         // 
@@ -501,13 +502,10 @@ partial class Form1
     private GroupBox groupBox1;
     private Button button5;
     private Button AddClaudeToken_btn;
-    private RadioButton Claude_rdbtn;
     private Button button3;
     private Button AddGeminiToken_btn;
-    private RadioButton Gemini_rdbtn;
     private Button button2;
     private Button AddChatGPTToken_btn;
-    private RadioButton ChatGPT_rdbtn;
     private RichTextBox ATS_Injection_txt;
     private Button ProcessCreateAction_btn;
     private TabPage tabPage3;
@@ -529,4 +527,8 @@ partial class Form1
     private CheckBox WarnOverWriteOutputFile_chkbx;
     private Label label7;
     private TextBox AI_IntTimeout_txt;
+    private RadioButton ChatGPT_rdbtn;
+    private RadioButton Claude_rdbtn;
+    private RadioButton Gemini_rdbtn;
+    private CheckBox checkBox1;
 }

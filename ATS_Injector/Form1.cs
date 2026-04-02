@@ -91,10 +91,30 @@ public partial class Form1 : Form
     {
         SettingsResumePath_txt.Text = userSettings.ResumePath;
 
-        if (userSettings.PreviousToken == API_AI_ID.NO_TOKEN == false)
+        switch (userSettings.PreviousToken)
         {
-            //TODO fill in the selected thing
+            case API_AI_ID.ChatGPT:
+                ChatGPT_rdbtn.Checked = true;
+                Gemini_rdbtn.Checked = false;
+                Claude_rdbtn.Checked = false;
+                break;
+            case API_AI_ID.Gemini:
+                ChatGPT_rdbtn.Checked = false;
+                Gemini_rdbtn.Checked = true;
+                Claude_rdbtn.Checked = false;
+                break;
+            case API_AI_ID.Claude:
+                ChatGPT_rdbtn.Checked = false;
+                Gemini_rdbtn.Checked = false;
+                Claude_rdbtn.Checked = true;
+                break;
+            case API_AI_ID.NO_TOKEN:
+                ChatGPT_rdbtn.Checked = false;
+                Gemini_rdbtn.Checked = false;
+                Claude_rdbtn.Checked = false;
+                break;
         }
+
         OutputFolderPath_txt.Text = userSettings.OutputFolderPath;
         OutputFileName_txt.Text = userSettings.OutputFileName;
 
@@ -120,7 +140,7 @@ public partial class Form1 : Form
             //control.Invoke(new Action(() => control.Text = text))
 
             int txtLengthJD = ManualJDPaste_txt.Invoke<int>(() => ManualJDPaste_txt.Text.Length);
-            if(txtLengthJD >= 5)
+            if (txtLengthJD >= 5)
             {
                 ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = true));
             }
@@ -163,9 +183,6 @@ public partial class Form1 : Form
     }
 
 
-
-
-
     private void AddChatGPTToken_btn_Click(object sender, EventArgs e)
     {
         PopOutBox_automated(API_AI_ID.ChatGPT);
@@ -176,25 +193,30 @@ public partial class Form1 : Form
         PopOutBox_automated(API_AI_ID.Gemini);
     }
 
+    private void AddClaudeToken_btn_Click(object sender, EventArgs e)
+    {
+        PopOutBox_automated(API_AI_ID.Claude);
+    }
+
     private void Form1_FormClosing(object sender, FormClosingEventArgs e)
     {
         //delete this when done deubgging
         Helper._debug_RichTextArea(ManualJDPaste_txt);
 
         //When program is closed, save your settings
-        
+
         string Input_ResumePath = SettingsResumePath_txt.Text;
         string Input_OutputFolderPath = OutputFolderPath_txt.Text;
         string Input_OutputFileName = OutputFileName_txt.Text;
         //TODO, create routine to check and update.....
-        API_AI_ID Input_PreviousToken = API_AI_ID.NO_TOKEN;
+        API_AI_ID Input_PreviousToken = GetSelectedAPI();
         bool Input_WarnOverWriteOutputFile = WarnOverWriteOutputFile_chkbx.Checked;
 
-        UserSettings currentSettings = new UserSettings 
-        { 
-            ResumePath = Input_ResumePath, 
-            PreviousToken = Input_PreviousToken, 
-            OutputFolderPath = Input_OutputFolderPath, 
+        UserSettings currentSettings = new UserSettings
+        {
+            ResumePath = Input_ResumePath,
+            PreviousToken = Input_PreviousToken,
+            OutputFolderPath = Input_OutputFolderPath,
             OutputFileName = Input_OutputFileName,
             WarnOverWriteOutputFile = Input_WarnOverWriteOutputFile
         };
@@ -208,44 +230,40 @@ public partial class Form1 : Form
         }
     }
 
-
-
-
+    private API_AI_ID GetSelectedAPI()
+    {
+        API_AI_ID returnVal = API_AI_ID.NO_TOKEN;
+        if (ChatGPT_rdbtn.Checked)
+            returnVal = API_AI_ID.ChatGPT;
+        else if (Gemini_rdbtn.Checked)
+            returnVal = API_AI_ID.Gemini;
+        else if (Claude_rdbtn.Checked)
+            returnVal = API_AI_ID.Claude;
+        return returnVal;
+    }
 
     private bool CheckAPI_Tokens()
     {
         bool atLeastOneEnabled = false;
-        if (API_Token_Written(API_AI_ID.ChatGPT) == false)
+        ChatGPT_rdbtn.Enabled = false;
+        Gemini_rdbtn.Enabled = false;
+        Claude_rdbtn.Enabled = false;
+        if (API_Token_Written(API_AI_ID.ChatGPT))
         {
-            ChatGPT_rdbtn.Checked = false;
-            ChatGPT_rdbtn.Enabled = false;
-        }
-        else if (atLeastOneEnabled == false)
-        {
+            ChatGPT_rdbtn.Enabled = true;
             atLeastOneEnabled = true;
-            ChatGPT_rdbtn.Checked = true;
         }
 
-        if (API_Token_Written(API_AI_ID.Gemini) == false)
+        if (API_Token_Written(API_AI_ID.Gemini))
         {
-            Gemini_rdbtn.Checked = false;
-            Gemini_rdbtn.Enabled = false;
-        }
-        else if (atLeastOneEnabled == false)
-        {
+            Gemini_rdbtn.Enabled = true;
             atLeastOneEnabled = true;
-            Gemini_rdbtn.Checked = true;
         }
 
-        if (API_Token_Written(API_AI_ID.Claude) == false)
+        if (API_Token_Written(API_AI_ID.Claude))
         {
-            Claude_rdbtn.Checked = false;
-            Claude_rdbtn.Enabled = false;
-        }
-        else if (atLeastOneEnabled == false)
-        {
+            Claude_rdbtn.Enabled = true;
             atLeastOneEnabled = true;
-            Claude_rdbtn.Checked = true;
         }
 
         return atLeastOneEnabled;
@@ -256,38 +274,80 @@ public partial class Form1 : Form
         ATS_Injection_txt.Text = string.Empty;
         Task.Run(() =>
         {
-            //When this function is called, it shall do one of two things
-            //1 - Process the Job Description and send it to AI
-            if (GetAPI_Token(API_AI_ID.Gemini, out string Token, out string errorMsg))
+            string Token = string.Empty;
+            string errorMsg;
+            string result = string.Empty;
+            API_AI_ID choice = GetSelectedAPI();
+            switch (choice)
             {
-                //at least we know token is written, pass it to the API thing now
-                GeminiAPI API = new GeminiAPI(Token);
-                //ProcessJD_btn.Enabled = false;
-                //string prompt = "Explain DO-178C compliance levels.";
-                string promptTry1 = Helper.AI_ATS_Question;
-                Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Gemini} AI to generate ATS friendly keywords and phrases.\r\n");
+                case API_AI_ID.ChatGPT:
+                    break;
+                case API_AI_ID.Gemini:
 
-                string prompt = $"{promptTry1}\r\n{Helper.FeedBackHelper.GetTextManualJDPaste()}";
+                    //When this function is called, it shall do one of two things
+                    //1 - Process the Job Description and send it to AI
+                    if (GetAPI_Token(API_AI_ID.Gemini, out Token, out errorMsg))
+                    {
+                        //at least we know token is written, pass it to the API thing now
+                        GeminiAPI API = new GeminiAPI(Token);
+                        //ProcessJD_btn.Enabled = false;
+                        //string prompt = "Explain DO-178C compliance levels.";
+                        string promptTry1 = Helper.AI_ATS_Question;
+                        Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Gemini} AI to generate ATS friendly keywords and phrases.\r\n");
 
-                // This runs the task on a ThreadPool thread and waits for the result
-                string result = Task.Run(async () => await API.SendPrompt(prompt))
-                                    .GetAwaiter()
-                                    .GetResult();
-                //JD_Results = result;
-                if (result.Equals(GeminiAPI.GeminiTimeOut))
-                {
-                    //TODO
-                    //add a pop up asking if they want to try again
-                }
-                Helper.FeedBackHelper.SetATS_Injection(result);
-                Update_ProcessCreateAction_btn();
-                Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
-                ProgressBar(ProgressBarStat.AI_START);
+                        string prompt = $"{promptTry1}\r\n{Helper.FeedBackHelper.GetTextManualJDPaste()}";
+
+                        // This runs the task on a ThreadPool thread and waits for the result
+                        result = Task.Run(async () => await API.SendPrompt(prompt))
+                                            .GetAwaiter()
+                                            .GetResult();
+                        //JD_Results = result;
+
+                    }
+                    else if (string.IsNullOrEmpty(errorMsg) == false)
+                    {
+                        FeedbackArea_txt.Text = $"An error occured retrieving your {API_AI_ID.Gemini} API token. Error stack:[{errorMsg}]";
+                    }
+
+                    break;
+                case API_AI_ID.Claude:
+
+                    if (GetAPI_Token(API_AI_ID.Claude, out Token, out errorMsg))
+                    {
+                        OpenRouter_Calude API = new OpenRouter_Calude(Token);
+                        //ProcessJD_btn.Enabled = false;
+                        //string prompt = "Explain DO-178C compliance levels.";
+                        string promptTry1 = Helper.AI_ATS_Question;
+                        Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Claude} AI to generate ATS friendly keywords and phrases.\r\n");
+
+                        string prompt = $"{promptTry1}\r\n{Helper.FeedBackHelper.GetTextManualJDPaste()}";
+
+                        // This runs the task on a ThreadPool thread and waits for the result
+                        result = Task.Run(async () => await API.SendPrompt(prompt))
+                                            .GetAwaiter()
+                                            .GetResult();
+
+                        int ab = 4;
+                    }
+                    else
+                    {
+
+                    }
+                    break;
+                case API_AI_ID.NO_TOKEN:
+                    break;
             }
-            else if (string.IsNullOrEmpty(errorMsg) == false)
+
+
+            if (result.Equals(GeminiAPI.GeminiTimeOut))
             {
-                FeedbackArea_txt.Text = $"An error occured retrieving your {API_AI_ID.Gemini} API token. Error stack:[{errorMsg}]";
+                //TODO
+                //add a pop up asking if they want to try again
             }
+            Helper.FeedBackHelper.SetATS_Injection(result);
+            Update_ProcessCreateAction_btn();
+            Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
+            ProgressBar(ProgressBarStat.AI_START);
         });
 
         ProgressBar(ProgressBarStat.JD_START);
@@ -311,7 +371,7 @@ public partial class Form1 : Form
                 progressBar1.Invoke(new Action(() => progressBar1.Value = 100));
                 break;
         }
-            
+
     }
 
     #region old code, reuse when ready
@@ -435,7 +495,7 @@ public partial class Form1 : Form
 
         if (File.Exists(outFile) && QC_Passed)
         {
-            
+
             if (WarnOverWriteOutputFile_chkbx.Checked)
             {
                 string title = "Overwrite Exsting file";
@@ -449,7 +509,7 @@ public partial class Form1 : Form
                 }
             }
         }
-       // string[] injectData = new string[] { bulletPoints };
+        // string[] injectData = new string[] { bulletPoints };
 
 
         if (QC_Passed)
@@ -460,6 +520,7 @@ public partial class Form1 : Form
 
         FeedbackArea_txt.Text = "Injection completed!";
     }
+
 
 
     enum ProgressBarStat
