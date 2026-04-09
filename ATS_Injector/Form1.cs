@@ -49,6 +49,15 @@ public partial class Form1 : Form
         //Add code that will check if
         //ManualJDPaste_txt
         //has text or not
+
+        bool degugPDF = true;
+
+        if (degugPDF)
+        {
+            ATS_Injection_btn.Enabled = true;
+            string txt = "* Full Stack Software Developer\r\n* C# .NET\r\n* Delphi\r\n* COM+\r\n* Python\r\n* AI/ML\r\n* Artificial Intelligence\r\n* Machine Learning\r\n* OCR\r\n* Document-understanding\r\n* OpenCV\r\n* AWS\r\n* Google Document AI\r\n* Azure Computer Vision\r\n* SQL Server\r\n* React\r\n* Angular\r\n* JavaScript\r\n* HTML5\r\n* CSS3\r\n* REST\r\n* JSON\r\n* XML\r\n* Xamarin\r\n* .NET MAUI\r\n* React Native\r\n* EDI\r\n* Epicor\r\n* Logistics\r\n* Supply Chain Management\r\n* OOP Design Patterns\r\n* Legacy System Modernization\r\n* Refactoring\r\n* Re-platforming\r\n* Service-based Design\r\n* Software Development Life Cycle (SDLC)\r\n* Automation\r\n* Data Processing\r\n* API Integration\r\n* Mobile App Development\r\n* Performance Tuning\r\n* Problem Framing\r\n* Production Support\r\n* Developed and maintained full-stack applications using C# .NET, Delphi (COM+), and SQL Server within the logistics and supply chain sector.\r\n* Designed and implemented end-to-end AI/ML solutions, including OCR and document-understanding pipelines using OpenCV, AWS, and Azure Computer Vision.\r\n* Modernized legacy systems through refactoring, re-platforming, and service-based architecture to improve system scalability.\r\n* Built responsive web interfaces and front-end features using React, Angular, JavaScript, HTML5, and CSS3.\r\n* Optimized SQL Server database performance and managed complex data flows through REST, JSON, and XML integrations.\r\n* Engineered Python automation scripts for data processing and seamless integration across disparate software platforms.\r\n* Developed cross-platform mobile applications using Xamarin, .NET MAUI, and React Native, managing App Store and Play Store delivery.\r\n* Implemented and supported EDI solutions using Epicor to streamline supply chain production services.\r\n* Applied Object-Oriented Programming (OOP) design patterns to create scalable, maintainable, and high-performance codebases.\r\n* Conducted native module integration and performance tuning for mobile and web applications.\r\n* Managed the full development lifecycle from problem framing and data preparation to model training and deployment.\r\n* Provided production support and executed low-risk improvements for mission-critical legacy code and systems.";
+            ATS_Injection_txt.Text = txt;
+        }
     }
 
     private void CheckUserSettings()
@@ -514,7 +523,9 @@ public partial class Form1 : Form
 
         if (QC_Passed)
         {
-            PDFInjector.InjectHiddenText(infile, outFile, bulletPoints);
+            PDFInjector Action = new PDFInjector(PDFInjector.InjectionMethod.TINYFONT, infile, outFile, bulletPoints);
+            bool result = Action.StartProcess().GetAwaiter().GetResult();
+            //PDFInjector.InjectOFFSCREEN(infile, outFile, bulletPoints);
             ProgressBar(ProgressBarStat.END);
         }
 
