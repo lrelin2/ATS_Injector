@@ -523,9 +523,26 @@ public partial class Form1 : Form
 
         if (QC_Passed)
         {
-            PDFInjector Action = new PDFInjector(PDFInjector.InjectionMethod.TINYFONT, infile, outFile, bulletPoints);
-            bool result = Action.StartProcess().GetAwaiter().GetResult();
+            Task task = new Task(() =>
+            {
+                PDFInjector Action = new PDFInjector(PDFInjector.InjectionMethod.TINYFONT, infile, outFile, bulletPoints);
+                bool result = Action.StartProcess().GetAwaiter().GetResult();
+                if (result)
+                {
+                    int abc = 4;
+                }
+                else
+                {
+                    int asdas = 5;
+                }
+            });
+
+            task.Start();
             //PDFInjector.InjectOFFSCREEN(infile, outFile, bulletPoints);
+            //ProgressBar(ProgressBarStat.END);
+        }
+        else
+        {
             ProgressBar(ProgressBarStat.END);
         }
 
