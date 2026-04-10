@@ -67,7 +67,8 @@ namespace ATS_Injector
                             retValue = pSharp.StartProcess().GetAwaiter().GetResult();
                             break;
                         case InjectionMethod.TINYFONT:
-                           // InjectTINYFONT();
+                            PDFInjectorPdfPig pPig = new PDFInjectorPdfPig(inputPath, outputPath, BulletPoints);
+                            retValue = pPig.StartProcess().GetAwaiter().GetResult();
                             break;
                     }
                     return retValue;
