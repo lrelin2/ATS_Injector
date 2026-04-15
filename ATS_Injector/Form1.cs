@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ATS_Injector.PopOutApp;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATS_Injector;
 
@@ -14,8 +13,6 @@ public partial class Form1 : Form
     public Form1()
     {
         InitializeComponent();
-        //TODO
-        //Initiail step, you MUST initialize the helperfeeback thing
         Helper.FeedBackHelper.InitalizeFeedBackHelper(FeedbackArea_txt, ManualJDPaste_txt, ATS_Injection_txt);
     }
 
@@ -42,15 +39,15 @@ public partial class Form1 : Form
         //Check if Token has been entered at least once
 
 
-        //Temp debug -- adding the Rich text format Job descriptoin
-        Helper._debug_RichTextArea(ManualJDPaste_txt);
+        ////Temp debug -- adding the Rich text format Job descriptoin
+        //Helper._debug_RichTextArea(ManualJDPaste_txt);
         //have this only because of the debug, and debug only.
         Update_ProcessCreateAction_btn();
         //Add code that will check if
         //ManualJDPaste_txt
         //has text or not
 
-        bool degugPDF = true;
+        bool degugPDF = false;
 
         if (degugPDF)
         {
