@@ -1,7 +1,4 @@
-﻿//using PdfSharpCore.Drawing;
-//using PdfSharpCore.Pdf;
-//using PdfSharpCore.Pdf.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -53,24 +50,21 @@ namespace ATS_Injector
         /// </summary>
         private void InjectTINYTEXT()
         {
-            
-            List<bool[,]> gridList = generateGridList();
             List<List<PdfPoint>> PDFareasToPrintList = new List<List<PdfPoint>>();
             List<string[]> textToPrintLists = new List<string[]>();
 
+            //Generate a list of white spaces available per page
+            List<bool[,]> gridList = generateGridList();
+
+            //Next step is figure out where you can stick the text. If you run out of space to inject the text, go to next page.
             for (int i=0; i< gridList.Count; i++)
             {
                 List<PdfPoint> placements = FindPlacement(gridList[i], out string[] listToPrint);
-                //yeah only doing one page for now.....
                 PDFareasToPrintList.Add(placements);
                 textToPrintLists.Add(listToPrint);
-                break;
             }
 
             AddTextWithPdfSharp(PDFareasToPrintList, textToPrintLists);
-
-            int ab = 54;
-           // Environment.Exit(0);
         }
 
         public void AddTextWithPdfSharp(List<List<PdfPoint>> PdfPointlocations, List<string[]> texts)
@@ -109,10 +103,10 @@ namespace ATS_Injector
             List<List<XPoint>> returningData = new List<List<XPoint>>();
             using (PdfSharpCore.Pdf.PdfDocument document = PdfSharpCore.Pdf.IO.PdfReader.Open(inputPath, PdfSharpCore.Pdf.IO.PdfDocumentOpenMode.ReadOnly))
             {
-                for(int i=0; i< pdfPointlocations.Count; i++)
+                for(int i=0; i<pdfPointlocations.Count; i++)
                 {
                     List<PdfPoint> outerData = pdfPointlocations[i];
-                    PdfSharpCore.Pdf.PdfPage page = document.Pages[i+1];
+                    PdfSharpCore.Pdf.PdfPage page = document.Pages[i];
                     double pageHeight = page.Height.Point;
                     List<XPoint> TempOuterData = new List<XPoint>();
                     foreach (PdfPoint data in outerData)
@@ -159,9 +153,6 @@ namespace ATS_Injector
 
             foreach (string text in BulletPoints)
             {
-
-                bool placed = false;
-
                 // Scan from top to bottom
                 for (int y = gridHeight - requiredHeight; y > 0; y--)
                 {
@@ -177,33 +168,17 @@ namespace ATS_Injector
 
                             // Mark the rows we just used so the next string doesn't overlap
                             MarkRangeOccupied(grid, y, requiredHeight, gridWidth);
-
-                            placed = true;
                             break;
                         }
                     }
                 }
             }
 
-
-
             if(compileList.Count < BulletPoints.Length)
             {
-
-                //TODO, what happens when you do NOT have enough space to print stuff out?
-                //meaning you want to inject the entire book war and peace into the first page
-                //but run out of room?
-                //that is a problem that I will figure out later, but the scaffolding is set to do so.
-
                 //if here, we took SOME, but not ALL of the bullet points out of the stirng array....
-                int ab = 4;
                 BulletPoints = BulletPoints[compileList.Count..];
                 listToPrint = compileList.ToArray();
-                Console.WriteLine("You need to debug this and figure out this edge case.!");
-                // Keep everything from compileList.Count index to the end
-                // check the 1 boundy make sure you are not cutting stuff of and such
-                //BulletPoints = BulletPoints[compileList.Count..];
-                //throw new Exception("Edge case ran out of room!");
             }
             else
             {
