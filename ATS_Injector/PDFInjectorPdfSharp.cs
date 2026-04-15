@@ -1,15 +1,13 @@
-﻿using PdfSharpCore.Drawing;
+﻿
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.Content;
 using PdfSharpCore.Pdf.Content.Objects;
 using PdfSharpCore.Pdf.IO;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATS_Injector
 {
@@ -84,15 +82,6 @@ namespace ATS_Injector
         // A point is 1/72 of an inch. A gridSize of 5 is quite precise.
         private const int GridSize = 5;
 
-        private void InjectTINYFONT()
-        {
-            //Steps
-            //loop over every page and create a grid of available empty spaces per page
-            //loop over bullet list, and inject the text using greddy algorith
-
-            List<bool[,]> gridList = generateGridList();
-            int ab = 4;
-        }
 
         private List<bool[,]> generateGridList()
         {

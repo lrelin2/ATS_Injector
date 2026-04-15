@@ -518,9 +518,7 @@ public partial class Form1 : Form
                 }
             }
         }
-        // string[] injectData = new string[] { bulletPoints };
-
-
+     
         if (QC_Passed)
         {
             Task task = new Task(() =>
@@ -538,8 +536,6 @@ public partial class Form1 : Form
             });
 
             task.Start();
-            //PDFInjector.InjectOFFSCREEN(infile, outFile, bulletPoints);
-            //ProgressBar(ProgressBarStat.END);
         }
         else
         {
