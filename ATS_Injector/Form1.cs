@@ -277,6 +277,8 @@ public partial class Form1 : Form
 
     private void ProcessCreateAction_btn_Click(object sender, EventArgs e)
     {
+        //prevent double tap....
+        ProcessCreateAction_btn.Enabled = false;
         ATS_Injection_txt.Text = string.Empty;
         Task.Run(() =>
         {
@@ -354,6 +356,7 @@ public partial class Form1 : Form
             Update_ProcessCreateAction_btn();
             Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
             ProgressBar(ProgressBarStat.AI_START);
+            ProcessCreateAction_btn.Enabled = true;
         });
 
         ProgressBar(ProgressBarStat.JD_START);
@@ -515,7 +518,7 @@ public partial class Form1 : Form
                 }
             }
         }
-     
+
         if (QC_Passed)
         {
             Task task = new Task(() =>
@@ -525,10 +528,12 @@ public partial class Form1 : Form
                 if (result)
                 {
                     int abc = 4;
+                    ProgressBar(ProgressBarStat.END);
                 }
                 else
                 {
                     int asdas = 5;
+                    ProgressBar(ProgressBarStat.ZERO);
                 }
             });
 
@@ -542,7 +547,11 @@ public partial class Form1 : Form
         FeedbackArea_txt.Text = "Injection completed!";
     }
 
-
+    private void ManualJDPaste_txt_TextChanged(object sender, EventArgs e)
+    {
+        //if text changed here, you can now enable the inject button
+        ProcessCreateAction_btn.Enabled = true;
+    }
 
     enum ProgressBarStat
     {
