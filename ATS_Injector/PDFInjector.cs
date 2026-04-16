@@ -1,81 +1,99 @@
-﻿using System;
+﻿using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
+using PdfSharpCore.Pdf.Content;
+using PdfSharpCore.Pdf.Content.Objects;
+using PdfSharpCore.Pdf.IO;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using PdfSharpCore.Drawing;
-using PdfSharpCore.Pdf;
-using PdfSharpCore.Pdf.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATS_Injector
 {
     internal class PDFInjector
     {
 
+        private InjectionMethod PDFAction;
+        private string inputPath;
+        private string outputPath;
+        private string[] BulletPoints;
+
         /// <summary>
-        /// Injects an array of strings into a PDF at off-screen coordinates.
+        /// Injection constructor
         /// </summary>
+        /// <param name="PDFAction">Enum that lets user decide what PDF injection method to use.</param>
         /// <param name="inputPath">Path to the existing PDF</param>
         /// <param name="outputPath">Path where the new PDF will be saved</param>
-        /// <param name="RawData">String stream that needs to be split</param>
-        public static void InjectHiddenText(string inputPath, string outputPath, string RawData)
-        { 
-            //List<string> lines = new List<string>();
-            string[] data = RawData
-            // 1. Split into lines, removing empty entries automatically
-            .Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
-            // 2. Select only lines that start with * (trimmed)
-            .Where(line => line.TrimStart().StartsWith("*"))
-            // 3. Remove the * symbol and trim whitespace from the remaining text
-            .Select(line => line.TrimStart().TrimStart('*').Trim())
-            // 4. Ensure we don't return empty strings if a line was just "*"
-            .Where(line => !string.IsNullOrEmpty(line))
-            .ToArray();
-            InjectHiddenText(inputPath, outputPath, data);
+        /// <param name="RawData">String that needs to be parsed.</param>
+        public PDFInjector(InjectionMethod PDFAction, string inputPath, string outputPath, string RawData)
+        {
+            this.PDFAction = PDFAction;
+            this.inputPath = inputPath;
+            this.outputPath = outputPath;
+            this.BulletPoints = AISplit(RawData);
         }
+
         /// <summary>
-        /// Injects an array of strings into a PDF at off-screen coordinates.
+        /// Injection constructor
         /// </summary>
+        /// <param name="PDFAction">Enum that lets user decide what PDF injection method to use.</param>
         /// <param name="inputPath">Path to the existing PDF</param>
         /// <param name="outputPath">Path where the new PDF will be saved</param>
         /// <param name="BulletPoints">Array of strings to embed</param>
-        public static void InjectHiddenText(string inputPath, string outputPath, string[] BulletPoints)
+        public PDFInjector(InjectionMethod PDFAction, string inputPath, string outputPath, string[] BulletPoints)
         {
-            if (!File.Exists(inputPath))
-                throw new FileNotFoundException("Input PDF not found.");
-
-            // 1. Open the existing document in Modify mode
-            using (PdfDocument document = PdfReader.Open(inputPath, PdfDocumentOpenMode.Modify))
-            {
-                // 2. We only need to attach this to the first page (or any single page)
-                PdfPage page = document.Pages[0];
-                double width = page.Width.Value;
-                double height = page.Height.Value;
-                int offestVal = 100;
-
-                // 3. Create graphics object. 'Append' ensures we don't overwrite existing content.
-                using (XGraphics gfx = XGraphics.FromPdfPage(page, XGraphicsPdfPageOptions.Append))
-                {
-                    // Define a standard font (required for PDFSharp to write the stream)
-                    XFont font = new XFont("Arial", 8);
-                    XBrush brush = XBrushes.Transparent; // Added layer of "invisibility"
-
-                    // 4. Iterate through the array and print each string "off-screen"
-                    double offScreenX = width+ offestVal;
-                    double offScreenY = height + offestVal;
-
-                    foreach (string data in BulletPoints)
-                    {
-                        if (string.IsNullOrWhiteSpace(data)) continue;
-
-                        gfx.DrawString(data, font, brush, new XPoint(offScreenX, offScreenY));
-
-                        // Increment Y slightly for each entry so they are distinct in the internal stream
-                        offScreenY += 10;
-                    }
-                }
-
-                // 5. Save the updated PDF to the new location
-                document.Save(outputPath);
-            }
+            this.PDFAction = PDFAction;
+            this.inputPath = inputPath;
+            this.outputPath = outputPath;
+            this.BulletPoints = BulletPoints;
         }
+
+
+        public async Task<bool> StartProcess()
+        {
+            bool returningBool = false;
+            if (File.Exists(inputPath))
+            {
+                bool result = await Task.Run(() =>
+                {
+                    bool retValue = false;
+                    switch (PDFAction)
+                    {
+                        case InjectionMethod.OFFSCREEN:
+                            PDFInjectorPdfSharp pSharp = new PDFInjectorPdfSharp(inputPath, outputPath, BulletPoints);
+                            retValue = pSharp.StartProcess().GetAwaiter().GetResult();
+                            break;
+                        case InjectionMethod.TINYFONT:
+                            PDFInjectorPdfPig pPig = new PDFInjectorPdfPig(inputPath, outputPath, BulletPoints);
+                            retValue = pPig.StartProcess().GetAwaiter().GetResult();
+                            break;
+                    }
+                    return retValue;
+                });
+
+                returningBool = result;
+            }
+            return returningBool;
+        }
+
+        public enum InjectionMethod
+        {
+            OFFSCREEN,
+            TINYFONT,
+        }
+
+        private string[] AISplit(string RawData)
+        {
+            return RawData
+            .Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+            .Where(line => line.TrimStart().StartsWith("*"))
+            .Select(line => line.TrimStart().TrimStart('*').Trim())
+            .Where(line => !string.IsNullOrEmpty(line))
+            .ToArray();
+        }
+
     }
 }

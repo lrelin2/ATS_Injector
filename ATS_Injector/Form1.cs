@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ATS_Injector.PopOutApp;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATS_Injector;
 
@@ -14,8 +13,6 @@ public partial class Form1 : Form
     public Form1()
     {
         InitializeComponent();
-        //TODO
-        //Initiail step, you MUST initialize the helperfeeback thing
         Helper.FeedBackHelper.InitalizeFeedBackHelper(FeedbackArea_txt, ManualJDPaste_txt, ATS_Injection_txt);
     }
 
@@ -42,13 +39,22 @@ public partial class Form1 : Form
         //Check if Token has been entered at least once
 
 
-        //Temp debug -- adding the Rich text format Job descriptoin
-        Helper._debug_RichTextArea(ManualJDPaste_txt);
+        ////Temp debug -- adding the Rich text format Job descriptoin
+        //Helper._debug_RichTextArea(ManualJDPaste_txt);
         //have this only because of the debug, and debug only.
         Update_ProcessCreateAction_btn();
         //Add code that will check if
         //ManualJDPaste_txt
         //has text or not
+
+        bool degugPDF = false;
+
+        if (degugPDF)
+        {
+            ATS_Injection_btn.Enabled = true;
+            string txt = "* Full Stack Software Developer\r\n* C# .NET\r\n* Delphi\r\n* COM+\r\n* Python\r\n* AI/ML\r\n* Artificial Intelligence\r\n* Machine Learning\r\n* OCR\r\n* Document-understanding\r\n* OpenCV\r\n* AWS\r\n* Google Document AI\r\n* Azure Computer Vision\r\n* SQL Server\r\n* React\r\n* Angular\r\n* JavaScript\r\n* HTML5\r\n* CSS3\r\n* REST\r\n* JSON\r\n* XML\r\n* Xamarin\r\n* .NET MAUI\r\n* React Native\r\n* EDI\r\n* Epicor\r\n* Logistics\r\n* Supply Chain Management\r\n* OOP Design Patterns\r\n* Legacy System Modernization\r\n* Refactoring\r\n* Re-platforming\r\n* Service-based Design\r\n* Software Development Life Cycle (SDLC)\r\n* Automation\r\n* Data Processing\r\n* API Integration\r\n* Mobile App Development\r\n* Performance Tuning\r\n* Problem Framing\r\n* Production Support\r\n* Developed and maintained full-stack applications using C# .NET, Delphi (COM+), and SQL Server within the logistics and supply chain sector.\r\n* Designed and implemented end-to-end AI/ML solutions, including OCR and document-understanding pipelines using OpenCV, AWS, and Azure Computer Vision.\r\n* Modernized legacy systems through refactoring, re-platforming, and service-based architecture to improve system scalability.\r\n* Built responsive web interfaces and front-end features using React, Angular, JavaScript, HTML5, and CSS3.\r\n* Optimized SQL Server database performance and managed complex data flows through REST, JSON, and XML integrations.\r\n* Engineered Python automation scripts for data processing and seamless integration across disparate software platforms.\r\n* Developed cross-platform mobile applications using Xamarin, .NET MAUI, and React Native, managing App Store and Play Store delivery.\r\n* Implemented and supported EDI solutions using Epicor to streamline supply chain production services.\r\n* Applied Object-Oriented Programming (OOP) design patterns to create scalable, maintainable, and high-performance codebases.\r\n* Conducted native module integration and performance tuning for mobile and web applications.\r\n* Managed the full development lifecycle from problem framing and data preparation to model training and deployment.\r\n* Provided production support and executed low-risk improvements for mission-critical legacy code and systems.";
+            ATS_Injection_txt.Text = txt;
+        }
     }
 
     private void CheckUserSettings()
@@ -271,6 +277,8 @@ public partial class Form1 : Form
 
     private void ProcessCreateAction_btn_Click(object sender, EventArgs e)
     {
+        //prevent double tap....
+        ProcessCreateAction_btn.Enabled = false;
         ATS_Injection_txt.Text = string.Empty;
         Task.Run(() =>
         {
@@ -348,6 +356,7 @@ public partial class Form1 : Form
             Update_ProcessCreateAction_btn();
             Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
             ProgressBar(ProgressBarStat.AI_START);
+            ProcessCreateAction_btn.Enabled = true;
         });
 
         ProgressBar(ProgressBarStat.JD_START);
@@ -509,19 +518,40 @@ public partial class Form1 : Form
                 }
             }
         }
-        // string[] injectData = new string[] { bulletPoints };
-
 
         if (QC_Passed)
         {
-            PDFInjector.InjectHiddenText(infile, outFile, bulletPoints);
+            Task task = new Task(() =>
+            {
+                PDFInjector Action = new PDFInjector(PDFInjector.InjectionMethod.TINYFONT, infile, outFile, bulletPoints);
+                bool result = Action.StartProcess().GetAwaiter().GetResult();
+                if (result)
+                {
+                    int abc = 4;
+                    ProgressBar(ProgressBarStat.END);
+                }
+                else
+                {
+                    int asdas = 5;
+                    ProgressBar(ProgressBarStat.ZERO);
+                }
+            });
+
+            task.Start();
+        }
+        else
+        {
             ProgressBar(ProgressBarStat.END);
         }
 
         FeedbackArea_txt.Text = "Injection completed!";
     }
 
-
+    private void ManualJDPaste_txt_TextChanged(object sender, EventArgs e)
+    {
+        //if text changed here, you can now enable the inject button
+        ProcessCreateAction_btn.Enabled = true;
+    }
 
     enum ProgressBarStat
     {
