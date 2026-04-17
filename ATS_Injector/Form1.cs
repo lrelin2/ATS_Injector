@@ -72,7 +72,7 @@ public partial class Form1 : Form
         bool atLeastOneToken = CheckAPI_Tokens();
         if (atLeastOneToken)
         {
-            History.InitGrid(dataGridView1);
+            History.InitHistory();
         }
         else
         {
