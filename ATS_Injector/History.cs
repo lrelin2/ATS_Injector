@@ -63,13 +63,9 @@ namespace ATS_Injector
             {
                 if(string.IsNullOrEmpty(srcData) == false)
                 {
-                    if(NearMatchJDFound(srcData) == false)
-                    {
-                        //string[] srcData = cleanDirtyData(dirtyData);
-                        jobDescriptions.Add(new LogEntry(cleanDirtyData(srcData)));
-                        var json = JsonSerializer.Serialize(jobDescriptions);
-                        File.WriteAllText(_filePath, json);
-                    }
+                    jobDescriptions.Add(new LogEntry(cleanDirtyData(srcData)));
+                    var json = JsonSerializer.Serialize(jobDescriptions);
+                    File.WriteAllText(_filePath, json);
                 }
 
             }

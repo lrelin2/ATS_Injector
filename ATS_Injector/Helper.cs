@@ -16,8 +16,11 @@ namespace ATS_Injector
         public static readonly string AI_ATS_Question =
             "Using the Job description below, create a resume that has all the needed experiance, knowledge, and understanding.\r\n" +
             "Add needed soft skill, and hard skill that are used for the tools, technology, and required experience.\r\n" +
-            "Create at least 50 sentences, with bullet points at the start of each sentence, where all of the skills, tools, framework, technology, experiance level, demonstation, and capabilities are used.\r\n" +
+            "Create only the Professional Summary, techninical skills, professional experiance and certification sections.\r\n" +
+            "in the mentioned sections above, create at least 50 sentences all togthere, with bullet points at the start of each sentence, where all of the skills, tools, framework, technology, experiance level, demonstation, and capabilities are used.\r\n" +
+            "In each sentence, do not include any stars or bullet points or the symbol '*'\r\n at any point of time. Do not include tabs or other escape characters." +
             "From that resume remove everything that is not relevant to what an ATS scanner would look for.\r\n" +
+            "Make the resume education, experiance, and knowledge look real, do not add things in parantheses, or say in related field or related technology or the like.\r\n" +
             "When creating bullet points, use only the '*' character.\r\n" +
             "\r\n" +
             "The Job Descripion:";
@@ -236,7 +239,7 @@ namespace ATS_Injector
             {
                 InitializeComponent(leftContent, rightContent);
 
-                // Run the highlighting logic after initialization
+                // Highlight common lines
                 string[] commonLines = leftContent.Intersect(rightContent, StringComparer.OrdinalIgnoreCase).ToArray();
                 HighlightKeywords(rtbLeft, commonLines);
                 HighlightKeywords(rtbRight, commonLines);
@@ -244,74 +247,99 @@ namespace ATS_Injector
 
             private void HighlightKeywords(RichTextBox rtb, string[] words)
             {
-               
                 foreach (string word in words)
                 {
+                    if (string.IsNullOrWhiteSpace(word)) continue;
                     int startIndex = 0;
                     while (startIndex < rtb.TextLength)
                     {
-                        // Find the index of the word (Case-Insensitive)
                         int wordPos = rtb.Find(word, startIndex, RichTextBoxFinds.None);
-
                         if (wordPos != -1)
                         {
-                            // Select the text to apply formatting
                             rtb.SelectionStart = wordPos;
                             rtb.SelectionLength = word.Length;
                             rtb.SelectionBackColor = Color.Yellow;
-
-                            // Move the pointer forward to find the next occurrence
                             startIndex = wordPos + word.Length;
                         }
-                        else
-                        {
-                            break;
-                        }
+                        else break;
                     }
-
-                    // Reset selection so the window doesn't look like everything is highlighted
-                    rtb.SelectionStart = 0;
-                    rtb.SelectionLength = 0;
                 }
-                
+                rtb.SelectionStart = 0;
+                rtb.SelectionLength = 0;
             }
 
             private void InitializeComponent(string[] leftContent, string[] rightContent)
             {
+                // 1. Form Settings
                 this.Text = "Duplicate job description";
-                this.Size = new Size(1260, 1000);
-                this.FormBorderStyle = FormBorderStyle.FixedDialog;
+                this.MinimumSize = new Size(800, 600); // Prevent window from getting too small
+                this.Size = new Size(1280, 950);
                 this.StartPosition = FormStartPosition.CenterScreen;
+                this.Padding = new Padding(15); // Overall outer spacing
+
                 string labelTxt = "Found previously entered Job Description. Left was previously pasted, right is current job description. Yellow is duplicate(s) found.\r\n" +
-                    "Select OK if not a duplicate, continue with ATS injection. Select Cancel to not inject anything into PDF.";
+    "Select OK if not a duplicate, continue with ATS injection. Select Cancel to not inject anything into PDF.";
+
+                // 2. Header Label (Stays at the top)
                 Label headerLabel = new Label()
                 {
                     Text = labelTxt,
-                    Location = new Point(20, 10),
-                    AutoSize = true,
-                    Font = new Font("Segoe UI", 12, FontStyle.Bold)
+                    Dock = DockStyle.Top,
+                    Height = 60,
+                    Font = new Font("Segoe UI", 11, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleLeft
                 };
 
-                rtbLeft = new RichTextBox()
+                // 3. Layout Table (Handles the 50/50 split and resizing)
+                TableLayoutPanel tlpCenter = new TableLayoutPanel()
                 {
-                    Location = new Point(20, 70),
-                    Size = new Size(600, 800),
-                    Text = string.Join(Environment.NewLine, leftContent),
-                    HideSelection = false // Ensures highlights are visible
+                    Dock = DockStyle.Fill,
+                    ColumnCount = 2,
+                    RowCount = 1,
+                    Padding = new Padding(0, 10, 0, 10)
                 };
+                tlpCenter.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+                tlpCenter.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
 
-                rtbRight = new RichTextBox()
+                rtbLeft = new RichTextBox { Dock = DockStyle.Fill, Text = string.Join(Environment.NewLine, leftContent), Margin = new Padding(0, 0, 10, 0) };
+                rtbRight = new RichTextBox { Dock = DockStyle.Fill, Text = string.Join(Environment.NewLine, rightContent), Margin = new Padding(10, 0, 0, 0) };
+
+                tlpCenter.Controls.Add(rtbLeft, 0, 0);
+                tlpCenter.Controls.Add(rtbRight, 1, 0);
+
+                // 4. Button Panel (Keeps buttons on bottom right)
+                FlowLayoutPanel buttonPanel = new FlowLayoutPanel()
                 {
-                    Location = new Point(630, 70),
-                    Size = new Size(600, 800),
-                    Text = string.Join(Environment.NewLine, rightContent),
-                    HideSelection = false
+                    Dock = DockStyle.Bottom,
+                    FlowDirection = FlowDirection.RightToLeft, // Buttons start from right side
+                    Height = 50,
+                    Padding = new Padding(0, 5, 0, 0)
                 };
 
-                Button btnOk = new Button() { Text = "This is a new Job Description", DialogResult = DialogResult.OK, Location = new Point(1040, 870), Size = new Size(150, 40) };
-                Button btnCancel = new Button() { Text = "Cancel, you probably already applied here", DialogResult = DialogResult.Cancel, Location = new Point(1140, 870), Size = new Size(150, 40) };
+                Button btnCancel = new Button()
+                {
+                    Text = "Cancel, already applied",
+                    DialogResult = DialogResult.Cancel,
+                    Size = new Size(200, 40),
+                    Margin = new Padding(5)
+                };
 
-                this.Controls.AddRange(new Control[] { headerLabel, rtbLeft, rtbRight, btnOk, btnCancel });
+                Button btnOk = new Button()
+                {
+                    Text = "New Job Description",
+                    DialogResult = DialogResult.OK,
+                    Size = new Size(200, 40),
+                    Margin = new Padding(5)
+                };
+
+                buttonPanel.Controls.Add(btnCancel); // Added first because of RightToLeft
+                buttonPanel.Controls.Add(btnOk);
+
+                // 5. Add to Form (Order matters for DockStyle.Fill)
+                this.Controls.Add(tlpCenter);
+                this.Controls.Add(headerLabel);
+                this.Controls.Add(buttonPanel);
+
                 this.AcceptButton = btnOk;
                 this.CancelButton = btnCancel;
             }
