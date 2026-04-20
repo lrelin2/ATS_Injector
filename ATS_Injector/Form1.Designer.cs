@@ -58,6 +58,9 @@ partial class Form1
         SettingsResumePath_txt = new TextBox();
         label1 = new Label();
         groupBox1 = new GroupBox();
+        Claude_rdbtn = new RadioButton();
+        Gemini_rdbtn = new RadioButton();
+        ChatGPT_rdbtn = new RadioButton();
         button5 = new Button();
         AddClaudeToken_btn = new Button();
         button3 = new Button();
@@ -66,9 +69,6 @@ partial class Form1
         AddChatGPTToken_btn = new Button();
         tabPage3 = new TabPage();
         dataGridView1 = new DataGridView();
-        ChatGPT_rdbtn = new RadioButton();
-        Gemini_rdbtn = new RadioButton();
-        Claude_rdbtn = new RadioButton();
         tabControl1.SuspendLayout();
         tabPage1.SuspendLayout();
         tabControl2.SuspendLayout();
@@ -163,6 +163,7 @@ partial class Form1
         ManualJDPaste_txt.Size = new Size(701, 164);
         ManualJDPaste_txt.TabIndex = 0;
         ManualJDPaste_txt.Text = "";
+        ManualJDPaste_txt.TextChanged += ManualJDPaste_txt_TextChanged;
         // 
         // tabPage5
         // 
@@ -355,6 +356,39 @@ partial class Form1
         groupBox1.TabStop = false;
         groupBox1.Text = "AI Models";
         // 
+        // Claude_rdbtn
+        // 
+        Claude_rdbtn.AutoSize = true;
+        Claude_rdbtn.Location = new Point(16, 82);
+        Claude_rdbtn.Name = "Claude_rdbtn";
+        Claude_rdbtn.Size = new Size(137, 19);
+        Claude_rdbtn.TabIndex = 13;
+        Claude_rdbtn.TabStop = true;
+        Claude_rdbtn.Text = "OpenRouter (Claude)";
+        Claude_rdbtn.UseVisualStyleBackColor = true;
+        // 
+        // Gemini_rdbtn
+        // 
+        Gemini_rdbtn.AutoSize = true;
+        Gemini_rdbtn.Location = new Point(16, 52);
+        Gemini_rdbtn.Name = "Gemini_rdbtn";
+        Gemini_rdbtn.Size = new Size(63, 19);
+        Gemini_rdbtn.TabIndex = 12;
+        Gemini_rdbtn.TabStop = true;
+        Gemini_rdbtn.Text = "Gemini";
+        Gemini_rdbtn.UseVisualStyleBackColor = true;
+        // 
+        // ChatGPT_rdbtn
+        // 
+        ChatGPT_rdbtn.AutoSize = true;
+        ChatGPT_rdbtn.Location = new Point(16, 22);
+        ChatGPT_rdbtn.Name = "ChatGPT_rdbtn";
+        ChatGPT_rdbtn.Size = new Size(71, 19);
+        ChatGPT_rdbtn.TabIndex = 11;
+        ChatGPT_rdbtn.TabStop = true;
+        ChatGPT_rdbtn.Text = "ChatGPT";
+        ChatGPT_rdbtn.UseVisualStyleBackColor = true;
+        // 
         // button5
         // 
         button5.Location = new Point(271, 82);
@@ -430,39 +464,6 @@ partial class Form1
         dataGridView1.Name = "dataGridView1";
         dataGridView1.Size = new Size(792, 582);
         dataGridView1.TabIndex = 0;
-        // 
-        // ChatGPT_rdbtn
-        // 
-        ChatGPT_rdbtn.AutoSize = true;
-        ChatGPT_rdbtn.Location = new Point(16, 22);
-        ChatGPT_rdbtn.Name = "ChatGPT_rdbtn";
-        ChatGPT_rdbtn.Size = new Size(71, 19);
-        ChatGPT_rdbtn.TabIndex = 11;
-        ChatGPT_rdbtn.TabStop = true;
-        ChatGPT_rdbtn.Text = "ChatGPT";
-        ChatGPT_rdbtn.UseVisualStyleBackColor = true;
-        // 
-        // Gemini_rdbtn
-        // 
-        Gemini_rdbtn.AutoSize = true;
-        Gemini_rdbtn.Location = new Point(16, 52);
-        Gemini_rdbtn.Name = "Gemini_rdbtn";
-        Gemini_rdbtn.Size = new Size(63, 19);
-        Gemini_rdbtn.TabIndex = 12;
-        Gemini_rdbtn.TabStop = true;
-        Gemini_rdbtn.Text = "Gemini";
-        Gemini_rdbtn.UseVisualStyleBackColor = true;
-        // 
-        // Claude_rdbtn
-        // 
-        Claude_rdbtn.AutoSize = true;
-        Claude_rdbtn.Location = new Point(16, 82);
-        Claude_rdbtn.Name = "Claude_rdbtn";
-        Claude_rdbtn.Size = new Size(137, 19);
-        Claude_rdbtn.TabIndex = 13;
-        Claude_rdbtn.TabStop = true;
-        Claude_rdbtn.Text = "OpenRouter (Claude)";
-        Claude_rdbtn.UseVisualStyleBackColor = true;
         // 
         // Form1
         // 
