@@ -284,20 +284,16 @@ public partial class Form1 : Form
                 if (result == DialogResult.OK)
                 {
                     // User clicked OK - Proceed with logic using commonEntries
-                    int abc = 4;
-
+                    continueOp = true;
+                    History.SaveData(ManualJDPaste_txt.Text);
                 }
                 else if (result == DialogResult.Cancel)
                 {
                     // User clicked Cancel or closed the window
                     Console.WriteLine("User cancelled the operation. No changes made.");
+                    Helper.FeedBackHelper.AppendFeedback($"Injection Canceled, duplicate JD was found! \r\n");
                 }
             }
-                //TODO
-                //window pop up I guess or some sort of feedback?
-                //GetNearestMatch
-//                Helper.DuplicateMatchForm dupFound = new Helper.DuplicateMatchForm(History.GetNearestMatch(ManualJDPaste_txt.Text), History.cleanDirtyData(ManualJDPaste_txt.Text));
-            continueOp = true;
         }
 
         if (continueOp)
@@ -545,7 +541,7 @@ public partial class Form1 : Form
 
         if (QC_Passed)
         {
-            History.SaveData(ManualJDPaste_txt.Text);
+            //History.SaveData(ManualJDPaste_txt.Text);
             PDFInjector.InjectHiddenText(infile, outFile, bulletPoints);
             ProgressBar(ProgressBarStat.END);
         }
