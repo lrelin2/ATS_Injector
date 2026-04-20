@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace ATS_Injector
 {
@@ -18,22 +19,57 @@ namespace ATS_Injector
             jobDescriptions = ab.LoadData();
         }
 
-        public static bool NearMatchJD(string[] srcData)
+        public static bool NearMatchJDFound(string dirtyData)
         {
             bool returningBool = false;
-            return false;
+            List<string[]> PreviousEntries = GetPreviousEntries();
+            string[] srcData = cleanDirtyData(dirtyData);
+            List <(string[] Candidate, TMR Match)> DupFinder = ArrayMatcher.FindMatchesWithTolerance(srcData, PreviousEntries);
+            if (DupFinder.Count > 1)
+                returningBool = true;
+            return returningBool;
         }
 
-        internal static void SaveData(string[] srcData)
+        public static string[] GetNearestMatch(string dirtyData)
         {
-            string[] cleanedData = cleanDirtyData(srcData);
+            string[] returningData = new string[] { string.Empty };
+            int currentHighestMatchValue = -1;
+            List<string[]> PreviousEntries = GetPreviousEntries();
+            string[] srcData = cleanDirtyData(dirtyData);
+            List<(string[] Candidate, TMR Match)> DupFinder = ArrayMatcher.FindMatchesWithTolerance(srcData, PreviousEntries);
+
+            foreach (var CurrentMatch in DupFinder )
+            {
+                if (CurrentMatch.Match.MatchedValues.Length > currentHighestMatchValue)
+                    returningData = CurrentMatch.Candidate;
+            }
+            return returningData;
+        }
+
+        private static List<string[]> GetPreviousEntries()
+        {
+            List<string[]> compileList = new List<string[]>();
+            foreach(LogEntry entry in jobDescriptions)
+            {
+                compileList.Add(entry.Data);
+            }
+            return compileList;
+        }
+
+        internal static void SaveData(string srcData)
+        {
+            
             try
             {
-                if(cleanedData != null)
+                if(string.IsNullOrEmpty(srcData) == false)
                 {
-                    jobDescriptions.Add(new LogEntry(cleanedData));
-                    var json = JsonSerializer.Serialize(jobDescriptions);
-                    File.WriteAllText(_filePath, json);
+                    if(NearMatchJDFound(srcData) == false)
+                    {
+                        //string[] srcData = cleanDirtyData(dirtyData);
+                        jobDescriptions.Add(new LogEntry(cleanDirtyData(srcData)));
+                        var json = JsonSerializer.Serialize(jobDescriptions);
+                        File.WriteAllText(_filePath, json);
+                    }
                 }
 
             }
@@ -43,10 +79,11 @@ namespace ATS_Injector
             }
         }
 
-        private static string[] cleanDirtyData(string[] srcData)
+        public static string[] cleanDirtyData(string srcLine)
         {
             List<string> compileList = new List<string>();
 
+            string[] srcData = srcLine.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string entry in srcData)
             {
                 if (string.IsNullOrEmpty(entry))
@@ -80,8 +117,6 @@ namespace ATS_Injector
         {
             return jobDescriptions;
         }
-
-
 
         private List<LogEntry> LoadData()
         {
@@ -120,7 +155,7 @@ namespace ATS_Injector
     }
 
     #region tolerance match maker
-    public class TolerantMatchResult
+    public class TMR
     {
         public int Length { get; set; }
         public int Matches { get; set; }
@@ -132,14 +167,13 @@ namespace ATS_Injector
 
     public class ArrayMatcher
     {
-        public static List<(string[] Candidate, TolerantMatchResult Match)>
-            FindMatchesWithTolerance(string[] input, List<string[]> candidates, double tolerance = 0.05)
+        public static List<(string[] Candidate, TMR Match)> FindMatchesWithTolerance(string[] input, List<string[]> candidates, double tolerance = 0.05)
         {
-            var results = new List<(string[], TolerantMatchResult)>();
+            List<(string[], TMR)> results = new List<(string[], TMR)>();
 
-            foreach (var candidate in candidates)
+            foreach (string[] candidate in candidates)
             {
-                var match = FindBestTolerantMatch(input, candidate, tolerance);
+                TMR match = FindBestTolerantMatch(input, candidate, tolerance);
 
                 double inputPercent = (double)match.Matches / input.Length;
                 double candidatePercent = (double)match.Matches / candidate.Length;
@@ -153,9 +187,9 @@ namespace ATS_Injector
             return results;
         }
 
-        private static TolerantMatchResult FindBestTolerantMatch(string[] a, string[] b, double tolerance)
+        private static TMR FindBestTolerantMatch(string[] a, string[] b, double tolerance)
         {
-            TolerantMatchResult best = new TolerantMatchResult();
+            TMR best = new TMR();
 
             for (int i = 0; i < a.Length; i++)
             {
@@ -174,7 +208,7 @@ namespace ATS_Injector
                     {
                         length++;
 
-                        if (a[ai] == b[bj])
+                        if (string.Equals(a[ai], b[bj], StringComparison.OrdinalIgnoreCase))
                         {
                             matches++;
                             tempMatch.Add(a[ai]);
@@ -184,7 +218,6 @@ namespace ATS_Injector
                             gaps++;
                         }
 
-                        // Enforce tolerance dynamically
                         int allowedGaps = (int)Math.Ceiling(length * tolerance);
 
                         if (gaps > allowedGaps)
@@ -196,7 +229,7 @@ namespace ATS_Injector
 
                     if (matches > best.Matches)
                     {
-                        best = new TolerantMatchResult
+                        best = new TMR
                         {
                             Length = length,
                             Matches = matches,
