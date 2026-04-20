@@ -1,22 +1,25 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATS_Injector
 {
     internal class Helper
     {
         public static readonly string AI_ATS_Question =
-            "Using the Job description below, create a resume that has all the needed experiance, knowledge, and technology used." +
-            "Add at needed soft skill, and hard skill that are used for the tools, technology, and required experience." +
-            "From that resume remove everything that is not relevant to what an ATS scanner would look for." +
-            "Only provide the list of keywords and bullet points, without any explanation or additional information. When creating bullet points, use only the '*' character." +
+            "Using the Job description below, create a resume that has all the needed experiance, knowledge, and understanding.\r\n" +
+            "Add needed soft skill, and hard skill that are used for the tools, technology, and required experience.\r\n" +
+            "Create at least 50 sentences, with bullet points at the start of each sentence, where all of the skills, tools, framework, technology, experiance level, demonstation, and capabilities are used.\r\n" +
+            "From that resume remove everything that is not relevant to what an ATS scanner would look for.\r\n" +
+            "When creating bullet points, use only the '*' character.\r\n" +
+            "\r\n" +
             "The Job Descripion:";
 
         public sealed class MyHttpClient
@@ -223,5 +226,96 @@ namespace ATS_Injector
             }
 
         }
+
+        public class DuplicateMatchForm : Form
+        {
+            private RichTextBox rtbLeft;
+            private RichTextBox rtbRight;
+
+            public DuplicateMatchForm(string[] leftContent, string[] rightContent)
+            {
+                InitializeComponent(leftContent, rightContent);
+
+                // Run the highlighting logic after initialization
+                string[] commonLines = leftContent.Intersect(rightContent, StringComparer.OrdinalIgnoreCase).ToArray();
+                HighlightKeywords(rtbLeft, commonLines);
+                HighlightKeywords(rtbRight, commonLines);
+            }
+
+            private void HighlightKeywords(RichTextBox rtb, string[] words)
+            {
+               
+                foreach (string word in words)
+                {
+                    int startIndex = 0;
+                    while (startIndex < rtb.TextLength)
+                    {
+                        // Find the index of the word (Case-Insensitive)
+                        int wordPos = rtb.Find(word, startIndex, RichTextBoxFinds.None);
+
+                        if (wordPos != -1)
+                        {
+                            // Select the text to apply formatting
+                            rtb.SelectionStart = wordPos;
+                            rtb.SelectionLength = word.Length;
+                            rtb.SelectionBackColor = Color.Yellow;
+
+                            // Move the pointer forward to find the next occurrence
+                            startIndex = wordPos + word.Length;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    // Reset selection so the window doesn't look like everything is highlighted
+                    rtb.SelectionStart = 0;
+                    rtb.SelectionLength = 0;
+                }
+                
+            }
+
+            private void InitializeComponent(string[] leftContent, string[] rightContent)
+            {
+                this.Text = "Duplicate job description";
+                this.Size = new Size(1260, 1000);
+                this.FormBorderStyle = FormBorderStyle.FixedDialog;
+                this.StartPosition = FormStartPosition.CenterScreen;
+                string labelTxt = "Found previously entered Job Description. Left was previously pasted, right is current job description. Yellow is duplicate(s) found.\r\n" +
+                    "Select OK if not a duplicate, continue with ATS injection. Select Cancel to not inject anything into PDF.";
+                Label headerLabel = new Label()
+                {
+                    Text = labelTxt,
+                    Location = new Point(20, 10),
+                    AutoSize = true,
+                    Font = new Font("Segoe UI", 12, FontStyle.Bold)
+                };
+
+                rtbLeft = new RichTextBox()
+                {
+                    Location = new Point(20, 70),
+                    Size = new Size(600, 800),
+                    Text = string.Join(Environment.NewLine, leftContent),
+                    HideSelection = false // Ensures highlights are visible
+                };
+
+                rtbRight = new RichTextBox()
+                {
+                    Location = new Point(630, 70),
+                    Size = new Size(600, 800),
+                    Text = string.Join(Environment.NewLine, rightContent),
+                    HideSelection = false
+                };
+
+                Button btnOk = new Button() { Text = "This is a new Job Description", DialogResult = DialogResult.OK, Location = new Point(1040, 870), Size = new Size(150, 40) };
+                Button btnCancel = new Button() { Text = "Cancel, you probably already applied here", DialogResult = DialogResult.Cancel, Location = new Point(1140, 870), Size = new Size(150, 40) };
+
+                this.Controls.AddRange(new Control[] { headerLabel, rtbLeft, rtbRight, btnOk, btnCancel });
+                this.AcceptButton = btnOk;
+                this.CancelButton = btnCancel;
+            }
+        }
+
     }
 }
