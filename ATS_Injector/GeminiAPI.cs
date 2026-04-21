@@ -13,7 +13,7 @@ namespace ATS_Injector
     {
         private string ApiKey;
         private const string ModelId = "gemini-3-flash-preview";
-        public static readonly string GeminiTimeOut = "The request timed out.";
+        private static readonly string Error503 = "\"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",";
 
         public GeminiAPI(string ApiKey)
         {
@@ -63,17 +63,26 @@ namespace ATS_Injector
                     }
                     catch (OperationCanceledException)
                     {
-                        returnStr = GeminiTimeOut;
+                        returnStr = Helper.TimeOutErrorMsg;
                         Console.WriteLine("Task was cancelled due to timeout.");
                     }
                     catch (HttpRequestException e)
                     {
+                        //Check for 503, pretty common service is down error message...
                         Console.WriteLine($"Request exception: {e.Message}");
-                        returnStr = e.Message;
+                        if (e.StatusCode.Value.Equals(503))
+                        {
+                            returnStr = Helper.Http503;
+                        }
+                        else
+                        {
+                            returnStr = e.Message;
+                        }
                     }
                 }
             }
-
+            if(returnStr.Contains(Error503))
+                returnStr = Helper.Http503;
             return returnStr;
         }
     }

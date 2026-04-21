@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ATS_Injector.Helper;
 using static ATS_Injector.PopOutApp;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATS_Injector;
 
@@ -28,7 +29,7 @@ public partial class Form1 : Form
             Helper.FeedBackHelper.SetFeedback(msg);
             Helper.FeedBackHelper.SetdManualJDPaste(msg);
             Helper.FeedBackHelper.SetATS_Injection(msg);
-            //fore a return, do nothing else
+            //for a return, do nothing else
             return;
         }
         UserSettings userSettings = PerSettings.GetSettings();
@@ -74,17 +75,10 @@ public partial class Form1 : Form
             msg = $"File :[{resPath}] is not type PDF!";
         }
 
-        //add more QC here later
-
-        bool atLeastOneToken = CheckAPI_Tokens();
-        if (atLeastOneToken)
-        {
+        if (CheckAPI_Tokens())
             History.InitHistory();
-        }
         else
-        {
             msg += "You need to add at least one API token!";
-        }
 
         if (string.IsNullOrEmpty(msg) == false)
         {
@@ -131,91 +125,48 @@ public partial class Form1 : Form
 
     private void Update_ProcessCreateAction_btn()
     {
-        //When called this function shall toggle and or update the ProcessCreateAction_btn button
-        //rules are,
-        //
-        //if there is NO TEXT inside of ManualJDPaste_txt, then
-        //1 - disable the button
-        //2 - Set text to "process JD"
-        //
-        //If there is text inside of ManualJDPaste_txt, then
-        //1 - Enable the button
-        //2 - Set text to "Inject ATS keywords"
-
         if (ProcessCreateAction_btn.InvokeRequired)
         {
-            //control.Invoke(new Action(() => control.Text = text))
-
             int txtLengthJD = ManualJDPaste_txt.Invoke<int>(() => ManualJDPaste_txt.Text.Length);
             if (txtLengthJD >= 5)
-            {
                 ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = true));
-            }
             else
-            {
                 ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = false));
-            }
 
             int txtLengthATS = ATS_Injection_txt.Invoke<int>(() => ATS_Injection_txt.Text.Length);
             if (txtLengthJD >= 5)
-            {
                 ATS_Injection_btn.Invoke(new Action(() => ATS_Injection_btn.Enabled = true));
-            }
             else
-            {
                 ATS_Injection_btn.Invoke(new Action(() => ATS_Injection_btn.Enabled = false));
-            }
         }
         else
         {
             if (ManualJDPaste_txt.Text.Length >= 5)
-            {
                 ProcessCreateAction_btn.Enabled = true;
-            }
             else
-            {
                 ProcessCreateAction_btn.Enabled = false;
-            }
 
             if (ATS_Injection_txt.Text.Length >= 5)
-            {
                 ATS_Injection_btn.Enabled = true;
-            }
             else
-            {
                 ATS_Injection_btn.Enabled = false;
-            }
         }
-
     }
 
-
-    private void AddChatGPTToken_btn_Click(object sender, EventArgs e)
-    {
-        PopOutBox_automated(API_AI_ID.ChatGPT);
-    }
-
-    private void AddGeminiToken_btn_Click(object sender, EventArgs e)
-    {
-        PopOutBox_automated(API_AI_ID.Gemini);
-    }
-
-    private void AddClaudeToken_btn_Click(object sender, EventArgs e)
-    {
-        PopOutBox_automated(API_AI_ID.Claude);
-    }
+    private void AddChatGPTToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.ChatGPT); }
+    private void AddGeminiToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.Gemini); }
+    private void AddClaudeToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.Claude); }
 
     private void Form1_FormClosing(object sender, FormClosingEventArgs e)
     {
         //delete this when done deubgging
-        Helper._debug_RichTextArea(ManualJDPaste_txt);
+       // Helper._debug_RichTextArea(ManualJDPaste_txt);
 
         //When program is closed, save your settings
-
         string Input_ResumePath = SettingsResumePath_txt.Text;
         string Input_OutputFolderPath = OutputFolderPath_txt.Text;
         string Input_OutputFileName = OutputFileName_txt.Text;
-        //TODO, create routine to check and update.....
+
         API_AI_ID Input_PreviousToken = GetSelectedAPI();
         bool Input_WarnOverWriteOutputFile = WarnOverWriteOutputFile_chkbx.Checked;
 
@@ -240,12 +191,9 @@ public partial class Form1 : Form
     private API_AI_ID GetSelectedAPI()
     {
         API_AI_ID returnVal = API_AI_ID.NO_TOKEN;
-        if (ChatGPT_rdbtn.Checked)
-            returnVal = API_AI_ID.ChatGPT;
-        else if (Gemini_rdbtn.Checked)
-            returnVal = API_AI_ID.Gemini;
-        else if (Claude_rdbtn.Checked)
-            returnVal = API_AI_ID.Claude;
+        if (ChatGPT_rdbtn.Checked) returnVal = API_AI_ID.ChatGPT;
+        else if (Gemini_rdbtn.Checked) returnVal = API_AI_ID.Gemini;
+        else if (Claude_rdbtn.Checked) returnVal = API_AI_ID.Claude;
         return returnVal;
     }
 
@@ -293,7 +241,7 @@ public partial class Form1 : Form
                 {
                     // User clicked OK - Proceed with logic using commonEntries
                     continueOp = true;
-                    History.SaveData(ManualJDPaste_txt.Text);
+                    //History.SaveData(ManualJDPaste_txt.Text);
                 }
                 else if (result == DialogResult.Cancel)
                 {
@@ -368,17 +316,25 @@ public partial class Form1 : Form
                         break;
                 }
 
+                Helper.FeedBackHelper.SetATS_Injection(result);
+                ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = true));
+                if (result.Equals(Helper.TimeOutErrorMsg))
+                {
+                    //TODO
+                    //add a pop up asking if they want to try again
+                }
+                else if (result.Equals(Helper.Http503))
+                {
 
-            if (result.Equals(GeminiAPI.GeminiTimeOut))
-            {
-                //TODO
-                //add a pop up asking if they want to try again
-            }
-            Helper.FeedBackHelper.SetATS_Injection(result);
-            Update_ProcessCreateAction_btn();
-            Helper.FeedBackHelper.AppendFeedback($"Does the ATS injection look Acceptable at the bottom? \r\n");
-            ProgressBar(ProgressBarStat.AI_START);
-            ProcessCreateAction_btn.Enabled = true;
+                }
+                else
+                {
+                    Update_ProcessCreateAction_btn();
+                    Helper.FeedBackHelper.SetFeedback($"Does the ATS injection look Acceptable at the bottom?");
+                    ProgressBar(ProgressBarStat.AI_START);
+                }
+
+            
         });
 
             ProgressBar(ProgressBarStat.JD_START);
@@ -386,6 +342,7 @@ public partial class Form1 : Form
         else
         {
             //JD was a dup, probably...
+            ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = true));
         }
     }
 
@@ -512,6 +469,7 @@ public partial class Form1 : Form
         string bulletPoints = ATS_Injection_txt.Text;
         string infile = SettingsResumePath_txt.Text;
         string outFile = Path.Combine(OutputFolderPath_txt.Text.Trim(), OutputFileName_txt.Text.Trim());
+        string JDDescription = ManualJDPaste_txt.Text;
         bool QC_Passed = true;
         if (Directory.Exists(OutputFolderPath_txt.Text.Trim()) == false)
             Directory.CreateDirectory(OutputFolderPath_txt.Text.Trim());
@@ -556,7 +514,7 @@ public partial class Form1 : Form
                 {
                     int abc = 4;
                     ProgressBar(ProgressBarStat.END);
-                    History.SaveData(ManualJDPaste_txt.Text);
+                    History.SaveData(JDDescription);
                 }
                 else
                 {
