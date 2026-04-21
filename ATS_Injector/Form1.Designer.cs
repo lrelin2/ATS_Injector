@@ -467,7 +467,6 @@ partial class Form1
     }
 
     #endregion
-    private CheckBox checkBox1;
     private TabPage tabPage2;
     private TextBox AI_IntTimeout_txt;
     private TextBox SettingsResumePath_txt;

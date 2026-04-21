@@ -301,11 +301,7 @@ public partial class Form1 : Form
                             string prompt = $"{promptTry1}\r\n{Helper.FeedBackHelper.GetTextManualJDPaste()}";
 
                             // This runs the task on a ThreadPool thread and waits for the result
-                            result = Task.Run(async () => await API.SendPrompt(prompt))
-                                                .GetAwaiter()
-                                                .GetResult();
-
-                            int ab = 4;
+                            result = Task.Run(async () => await API.SendPrompt(prompt)).GetAwaiter().GetResult();
                         }
                         else
                         {
@@ -324,6 +320,10 @@ public partial class Form1 : Form
                     //add a pop up asking if they want to try again
                 }
                 else if (result.Equals(Helper.Http503))
+                {
+
+                }
+                else if (result.Equals(Helper.Http429))
                 {
 
                 }
@@ -512,13 +512,11 @@ public partial class Form1 : Form
                 bool result = Action.StartProcess().GetAwaiter().GetResult();
                 if (result)
                 {
-                    int abc = 4;
                     ProgressBar(ProgressBarStat.END);
                     History.SaveData(JDDescription);
                 }
                 else
                 {
-                    int asdas = 5;
                     ProgressBar(ProgressBarStat.ZERO);
                 }
             });

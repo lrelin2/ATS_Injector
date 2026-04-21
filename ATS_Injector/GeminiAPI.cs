@@ -13,11 +13,30 @@ namespace ATS_Injector
     {
         private string ApiKey;
         private const string ModelId = "gemini-3-flash-preview";
+        private static HttpClient _httpClient = null;
         private static readonly string Error503 = "\"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",";
+        private static readonly string Error429 = "\"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to:";
 
+        //
         public GeminiAPI(string ApiKey)
         {
             this.ApiKey = ApiKey;
+            //if (_httpClient == null)
+            //{
+            //    _httpClient = new HttpClient { BaseAddress = new Uri("https://openrouter.ai/api/v1/") };
+            //    _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
+            //    // OpenRouter likes these for rankings
+            //    _httpClient.DefaultRequestHeaders.Add("HTTP-Referer", "https://your-project-url.com");
+            //    _httpClient.DefaultRequestHeaders.Add("X-Title", "ATS_Injector");
+            //    //_httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36");
+            //    _httpClient.Timeout = TimeSpan.FromSeconds(30);
+            //}
+            if(_httpClient == null)
+            {
+                _httpClient = new HttpClient();
+                _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36");
+                _httpClient.Timeout = TimeSpan.FromSeconds(30);
+            }
         }
 
         public async Task<string> SendPrompt(string userPrompt)
@@ -39,7 +58,7 @@ namespace ATS_Injector
                 {
                     try
                     {
-                        using (var response = await MyHttpClient.Instance.PostAsync(Url, content, cts.Token))
+                        using (var response = await _httpClient.PostAsync(Url, content, cts.Token))
                         {
                             string responseBody = await response.Content.ReadAsStringAsync(cts.Token);
                             if (response.IsSuccessStatusCode)
@@ -83,6 +102,8 @@ namespace ATS_Injector
             }
             if(returnStr.Contains(Error503))
                 returnStr = Helper.Http503;
+            else if (returnStr.Contains(Error429))
+                returnStr = Helper.Http429;
             return returnStr;
         }
     }
