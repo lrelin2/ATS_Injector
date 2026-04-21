@@ -103,9 +103,16 @@ namespace ATS_Injector
                 }
             }
 
-            //if you have LESS than 5 entries ignore the whole thing
+            //if you have LESS than 5 entries AND less than 100 chracters, ignore the whole thing 
             if (compileList.Count < 5)
-                return null;
+            {
+                int cnt = 1;
+                foreach (string str in compileList)
+                    cnt += str.Length;
+                if(cnt <= 100)
+                    return null;
+            }
+                
             return compileList.ToArray();
         }
 
