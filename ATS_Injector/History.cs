@@ -25,7 +25,7 @@ namespace ATS_Injector
             List<string[]> PreviousEntries = GetPreviousEntries();
             string[] srcData = cleanDirtyData(dirtyData);
             List <(string[] Candidate, TMR Match)> DupFinder = ArrayMatcher.FindMatchesWithTolerance(srcData, PreviousEntries);
-            if (DupFinder.Count > 1)
+            if (DupFinder.Count >= 1)
                 returningBool = true;
             return returningBool;
         }

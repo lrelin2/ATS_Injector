@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Reflection.Metadata;
-using System.Security.Policy;
-using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using static ATS_Injector.Helper;
 
 namespace ATS_Injector
@@ -18,7 +13,7 @@ namespace ATS_Injector
     {
         private string ApiKey;
         private readonly HttpClient _httpClient;
-        public static readonly string GeminiTimeOut = "The request timed out.";
+        private static readonly string Error503 = "\"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",";
 
         public OpenRouter_Calude(string ApiKey)
         {
@@ -58,15 +53,25 @@ namespace ATS_Injector
                 }
                 catch (OperationCanceledException)
                 {
-                    returnStr = GeminiTimeOut;
+                    returnStr = Helper.TimeOutErrorMsg;
                     Console.WriteLine("Task was cancelled due to timeout.");
                 }
                 catch (HttpRequestException e)
                 {
+                    //Check for 503, pretty common service is down error message...
                     Console.WriteLine($"Request exception: {e.Message}");
-                    returnStr = e.Message;
+                    if (e.StatusCode.Value.Equals(503))
+                    {
+                        returnStr = Helper.Http503;
+                    }
+                    else
+                    {
+                        returnStr = e.Message;
+                    }
                 }
             }
+            if (returnStr.Contains(Error503))
+                returnStr = Helper.Http503;
             return returnStr;
         }
     }
