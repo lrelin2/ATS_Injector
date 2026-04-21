@@ -13,7 +13,7 @@ namespace ATS_Injector
 {
     internal class Helper
     {
-        public static readonly string AI_ATS_Question =
+        public static readonly string AI_ATS_Question_Gemini =
             "Using the Job description below, create a resume that has all the needed experiance, knowledge, and understanding.\r\n" +
             "Add needed soft skill, and hard skill that are used for the tools, technology, and required experience.\r\n" +
             "Create only the Professional Summary, techninical skills, professional experiance and certification sections.\r\n" +
@@ -24,6 +24,53 @@ namespace ATS_Injector
             "When creating bullet points, use only the '*' character.\r\n" +
             "\r\n" +
             "The Job Descripion:";
+
+        //    public static readonly string AI_ATS_Question_Claude =
+        //"Using the Job description below, create a resume that has all the needed experiance, knowledge, and understanding.\r\n" +
+        //"Add needed soft skill, and hard skill that are used for the tools, technology, and required experience.\r\n" +
+        //"Create only the Professional Summary, techninical skills, professional experiance and certification sections.\r\n" +
+        //"in the mentioned sections above, create at least 50 sentences all togthere, with bullet points at the start of each sentence, where all of the skills, tools, framework, technology, experiance level, demonstation, and capabilities are used.\r\n" +
+        //"In each sentence, do not include any stars or bullet points or the symbol '*'\r\n at any point of time. Do not include tabs or other escape characters." +
+        //"From that resume remove everything that is not relevant to what an ATS scanner would look for.\r\n" +
+        //"Make the resume education, experiance, and knowledge look real, do not add things in parantheses, or say in related field or related technology or the like.\r\n" +
+        //"When creating bullet points, use only the '*' character.\r\n" +
+        //"\r\n" +
+        //"The Job Descripion:";
+
+        public static readonly string AI_ATS_Question_Claude1 = @"You are a professional resume writer. I will provide you with a job description, and you will generate tailored resume sections for me.
+
+Use ONLY the asterisk (*) symbol for ALL bullet points throughout your response.
+
+Generate the following four sections based on the job description below:
+
+## Professional Summary
+Write 3-4 sentences summarizing my fit for this role. Focus on years of experience, core competencies, and value I bring.
+
+## Technical Skills
+List relevant technical skills as bullet points using ""*"", grouped by category (e.g., Languages, Tools, Platforms).
+
+## Professional Experience
+Create 2-3 sample job entries. For each, include:
+* Job Title | Company Name | Date Range
+* 4-5 achievement-oriented bullet points using the ""*"" symbol
+* Use strong action verbs and include measurable outcomes where possible
+
+## Certifications
+List relevant certifications as bullet points using ""*"", including certification name, issuing body, and year.
+
+---
+JOB DESCRIPTION:
+[";
+
+public static readonly string AI_ATS_Question_Claude2 = @"]
+---
+
+Format rules:
+* Use ""*"" for every bullet point — no dashes, no numbers
+* Keep bullet points concise (1-2 lines each)
+* Tailor all content directly to the job description provided
+* Use industry-relevant keywords from the job description";
+
 
         public static readonly string TimeOutErrorMsg = "The request timed out.\r\nClick on Process JD button again.";
         public static readonly string Http503 = "503 Server Error, happens when they run out of RAM.\r\nClick on Process JD button again.";

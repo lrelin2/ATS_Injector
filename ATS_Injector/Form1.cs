@@ -265,22 +265,15 @@ public partial class Form1 : Form
                     case API_AI_ID.ChatGPT:
                         break;
                     case API_AI_ID.Gemini:
-
-                        //When this function is called, it shall do one of two things
-                        //1 - Process the Job Description and send it to AI
                         if (GetAPI_Token(API_AI_ID.Gemini, out Token, out errorMsg))
                         {
-                            //at least we know token is written, pass it to the API thing now
                             GeminiAPI API = new GeminiAPI(Token);
-                            string promptTry1 = Helper.AI_ATS_Question;
+                            string promptTry1 = Helper.AI_ATS_Question_Gemini;
                             Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Gemini} AI to generate ATS friendly keywords and phrases.\r\n");
 
                             string prompt = $"{promptTry1}\r\n{Helper.FeedBackHelper.GetTextManualJDPaste()}";
 
-                            // This runs the task on a ThreadPool thread and waits for the result
-                            result = Task.Run(async () => await API.SendPrompt(prompt))
-                                                .GetAwaiter()
-                                                .GetResult();
+                            result = Task.Run(async () => await API.SendPrompt(prompt)).GetAwaiter().GetResult();
                         }
                         else if (string.IsNullOrEmpty(errorMsg) == false)
                         {
@@ -293,19 +286,17 @@ public partial class Form1 : Form
                         if (GetAPI_Token(API_AI_ID.Claude, out Token, out errorMsg))
                         {
                             OpenRouter_Calude API = new OpenRouter_Calude(Token);
-                            //ProcessJD_btn.Enabled = false;
-                            //string prompt = "Explain DO-178C compliance levels.";
-                            string promptTry1 = Helper.AI_ATS_Question;
+                            string str1 = Helper.AI_ATS_Question_Claude1;
+                            string str2 = Helper.AI_ATS_Question_Claude2;
                             Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Claude} AI to generate ATS friendly keywords and phrases.\r\n");
 
-                            string prompt = $"{promptTry1}\r\n{Helper.FeedBackHelper.GetTextManualJDPaste()}";
+                            string prompt = $"{str1}{Helper.FeedBackHelper.GetTextManualJDPaste()}{str2}";
 
-                            // This runs the task on a ThreadPool thread and waits for the result
                             result = Task.Run(async () => await API.SendPrompt(prompt)).GetAwaiter().GetResult();
                         }
-                        else
+                        else if (string.IsNullOrEmpty(errorMsg) == false)
                         {
-
+                            FeedbackArea_txt.Text = $"An error occured retrieving your {API_AI_ID.Claude} API token. Error stack:[{errorMsg}]";
                         }
                         break;
                     case API_AI_ID.NO_TOKEN:
@@ -321,11 +312,11 @@ public partial class Form1 : Form
                 }
                 else if (result.Equals(Helper.Http503))
                 {
-
+                    //Service down
                 }
                 else if (result.Equals(Helper.Http429))
                 {
-
+                    //No more free tolkens
                 }
                 else
                 {
@@ -333,8 +324,6 @@ public partial class Form1 : Form
                     Helper.FeedBackHelper.SetFeedback($"Does the ATS injection look Acceptable at the bottom?");
                     ProgressBar(ProgressBarStat.AI_START);
                 }
-
-            
         });
 
             ProgressBar(ProgressBarStat.JD_START);
