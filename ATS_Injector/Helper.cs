@@ -25,6 +25,10 @@ namespace ATS_Injector
             "\r\n" +
             "The Job Descripion:";
 
+        public static readonly string TimeOutErrorMsg = "The request timed out.\r\nClick on Process JD button again.";
+        public static readonly string Http503 = "503 Server Error, happens when they run out of RAM.\r\nClick on Process JD button again.";
+        
+
         public sealed class MyHttpClient
         {
             // The backing field
