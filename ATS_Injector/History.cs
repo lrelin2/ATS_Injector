@@ -170,7 +170,7 @@ namespace ATS_Injector
 
     public class ArrayMatcher
     {
-        public static List<(string[] Candidate, TMR Match)> FindMatchesWithTolerance(string[] input, List<string[]> candidates, double tolerance = 0.05)
+        public static List<(string[] Candidate, TMR Match)> FindMatchesWithTolerance(string[] input, List<string[]> candidates, double tolerance = 0.5)
         {
             List<(string[], TMR)> results = new List<(string[], TMR)>();
 

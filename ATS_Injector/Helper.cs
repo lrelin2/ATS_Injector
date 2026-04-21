@@ -38,22 +38,21 @@ namespace ATS_Injector
         //"The Job Descripion:";
 
         public static readonly string AI_ATS_Question_Claude1 = @"You are a professional resume writer. I will provide you with a job description, and you will generate tailored resume sections for me.
-
 Use ONLY the asterisk (*) symbol for ALL bullet points throughout your response.
-
 Generate the following four sections based on the job description below:
 
 ## Professional Summary
 Write 3-4 sentences summarizing my fit for this role. Focus on years of experience, core competencies, and value I bring.
 
 ## Technical Skills
-List relevant technical skills as bullet points using ""*"", grouped by category (e.g., Languages, Tools, Platforms).
+List all of the need and optional skills as bullet points using ""*"", grouped by category (e.g., Languages, Tools, Platforms).
 
 ## Professional Experience
 Create 2-3 sample job entries. For each, include:
 * Job Title | Company Name | Date Range
-* 4-5 achievement-oriented bullet points using the ""*"" symbol
+* 5-15 achievement-oriented bullet points using the ""*"" symbol
 * Use strong action verbs and include measurable outcomes where possible
+* Include all the needed soft skills, tools, frameworks, workflow, programming languages and development enviroments that would or could be used.
 
 ## Certifications
 List relevant certifications as bullet points using ""*"", including certification name, issuing body, and year.
@@ -67,7 +66,7 @@ public static readonly string AI_ATS_Question_Claude2 = @"]
 
 Format rules:
 * Use ""*"" for every bullet point — no dashes, no numbers
-* Keep bullet points concise (1-2 lines each)
+* Keep bullet points concise (30-50 lines all together)
 * Tailor all content directly to the job description provided
 * Use industry-relevant keywords from the job description";
 

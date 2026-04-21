@@ -269,7 +269,7 @@ public partial class Form1 : Form
                         {
                             GeminiAPI API = new GeminiAPI(Token);
                             string promptTry1 = Helper.AI_ATS_Question_Gemini;
-                            Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Gemini} AI to generate ATS friendly keywords and phrases.\r\n");
+                            Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Gemini} AI to generate ATS friendly keywords and phrases.");
 
                             string prompt = $"{promptTry1}\r\n{Helper.FeedBackHelper.GetTextManualJDPaste()}";
 
@@ -288,7 +288,7 @@ public partial class Form1 : Form
                             OpenRouter_Calude API = new OpenRouter_Calude(Token);
                             string str1 = Helper.AI_ATS_Question_Claude1;
                             string str2 = Helper.AI_ATS_Question_Claude2;
-                            Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Claude} AI to generate ATS friendly keywords and phrases.\r\n");
+                            Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Claude} AI to generate ATS friendly keywords and phrases.");
 
                             string prompt = $"{str1}{Helper.FeedBackHelper.GetTextManualJDPaste()}{str2}";
 
