@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static ATS_Injector.Helper;
@@ -47,6 +48,7 @@ namespace ATS_Injector
                         {
                             var result = await response.Content.ReadFromJsonAsync<OpenRouterResponse>();
                             returnStr = result?.choices.FirstOrDefault()?.message.content ?? "No response.";
+                            returnStr = StupidClaude(returnStr);
                         }
                         else
                         {
@@ -77,6 +79,29 @@ namespace ATS_Injector
             if (returnStr.Contains(Error503))
                 returnStr = Helper.Http503;
             return returnStr;
+        }
+
+        private string StupidClaude(string srcString)
+        {
+            //Claude that stupid tool decided add more * everywhere
+            string[] InitialPass = srcString.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            StringBuilder sb = new StringBuilder();
+
+            foreach(string str in InitialPass)
+            {
+                string tempStr = str.Trim();
+                if(string.IsNullOrEmpty(tempStr) == false)
+                {
+                    string startStr = tempStr.StartsWith("*") ? "*" : "";
+
+                    // Remove all '*' from the rest of the string and join
+                    string result = startStr + tempStr.Replace("*", "");
+                    if (result.Length > 1)
+                        sb.AppendLine(result);
+                }
+            }
+
+            return sb.ToString();
         }
     }
 
