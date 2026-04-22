@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static ATS_Injector.Helper;
@@ -12,18 +13,22 @@ namespace ATS_Injector
     internal class OpenRouter_Calude
     {
         private string ApiKey;
-        private readonly HttpClient _httpClient;
+        private static HttpClient _httpClient = null;
         private static readonly string Error503 = "\"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",";
 
         public OpenRouter_Calude(string ApiKey)
         {
             this.ApiKey = ApiKey;
-            _httpClient = MyHttpClient.Instance;
-            _httpClient.BaseAddress = new Uri("https://openrouter.ai/api/v1/");
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
-            // OpenRouter likes these for rankings
-            _httpClient.DefaultRequestHeaders.Add("HTTP-Referer", "https://your-project-url.com");
-            _httpClient.DefaultRequestHeaders.Add("X-Title", "ATS_Injector");
+            if(_httpClient == null)
+            {
+                _httpClient = new HttpClient { BaseAddress = new Uri("https://openrouter.ai/api/v1/") };
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
+                // OpenRouter likes these for rankings
+                //_httpClient.DefaultRequestHeaders.Add("HTTP-Referer", "https://your-project-url.com");
+                _httpClient.DefaultRequestHeaders.Add("X-Title", "ATS_Injector");
+                _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36");
+                _httpClient.Timeout = TimeSpan.FromSeconds(30);
+            }
         }
 
         public async Task<string> SendPrompt(string userPrompt)
@@ -43,6 +48,7 @@ namespace ATS_Injector
                         {
                             var result = await response.Content.ReadFromJsonAsync<OpenRouterResponse>();
                             returnStr = result?.choices.FirstOrDefault()?.message.content ?? "No response.";
+                            returnStr = StupidClaude(returnStr);
                         }
                         else
                         {
@@ -73,6 +79,29 @@ namespace ATS_Injector
             if (returnStr.Contains(Error503))
                 returnStr = Helper.Http503;
             return returnStr;
+        }
+
+        private string StupidClaude(string srcString)
+        {
+            //Claude that stupid tool decided add more * everywhere
+            string[] InitialPass = srcString.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            StringBuilder sb = new StringBuilder();
+
+            foreach(string str in InitialPass)
+            {
+                string tempStr = str.Trim();
+                if(string.IsNullOrEmpty(tempStr) == false)
+                {
+                    string startStr = tempStr.StartsWith("*") ? "*" : "";
+
+                    // Remove all '*' from the rest of the string and join
+                    string result = startStr + tempStr.Replace("*", "");
+                    if (result.Length > 1)
+                        sb.AppendLine(result);
+                }
+            }
+
+            return sb.ToString();
         }
     }
 

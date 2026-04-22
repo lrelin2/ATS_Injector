@@ -7,7 +7,18 @@
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>false</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <ApplicationIcon>Resources\Designer.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Designer.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Designer.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="PdfPig" Version="0.1.14" />
@@ -17,7 +28,7 @@
   </ItemGroup>
   
 <Target Name="MergeWithILRepack" AfterTargets="Publish">
-  <Exec Command="&quot;$(USERPROFILE)\.dotnet\tools\ilrepack.exe&quot; /log:$(PublishDir)ilrepack_log.txt /out:$(PublishDir)$(AssemblyName)_merged.exe $(PublishDir)$(AssemblyName).exe $(PublishDir)ICSharpCode.SharpZipLib.dll $(PublishDir)PdfSharpCore.dll $(PublishDir)SixLabors.Fonts.dll $(PublishDir)SixLabors.ImageSharp.dll" WorkingDirectory="$(PublishDir)" IgnoreExitCode="true" />
+  <Exec Command="&quot;$(USERPROFILE)\.dotnet\tools\ilrepack.exe&quot; /log:$(PublishDir)ilrepack_log.txt /out:$(PublishDir)$(AssemblyName)_merged.exe $(PublishDir)$(AssemblyName).exe $(PublishDir)ICSharpCode.SharpZipLib.dll $(PublishDir)PdfSharpCore.dll $(PublishDir)SixLabors.Fonts.dll $(PublishDir)SixLabors.ImageSharp.dll $(PublishDir)UglyToad.PdfPig.Core.dll $(PublishDir)UglyToad.PdfPig.dll $(PublishDir)UglyToad.PdfPig.DocumentLayoutAnalysis.dll $(PublishDir)UglyToad.PdfPig.Fonts.dll $(PublishDir)UglyToad.PdfPig.Package.dll $(PublishDir)UglyToad.PdfPig.Tokenization.dll $(PublishDir)UglyToad.PdfPig.Tokens.dll" WorkingDirectory="$(PublishDir)" IgnoreExitCode="true" />
   <Delete Files="$(PublishDir)ICSharpCode.SharpZipLib.dll;$(PublishDir)PdfSharpCore.dll;$(PublishDir)SixLabors.Fonts.dll;$(PublishDir)SixLabors.ImageSharp.dll" />
   <Move SourceFiles="$(PublishDir)$(AssemblyName).exe" DestinationFiles="$(PublishDir)$(AssemblyName).exe" />
 </Target>
