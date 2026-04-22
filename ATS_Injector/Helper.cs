@@ -13,7 +13,7 @@ namespace ATS_Injector
 {
     internal class Helper
     {
-        public static readonly string AI_ATS_Question =
+        public static readonly string AI_ATS_Question_Gemini =
             "Using the Job description below, create a resume that has all the needed experiance, knowledge, and understanding.\r\n" +
             "Add needed soft skill, and hard skill that are used for the tools, technology, and required experience.\r\n" +
             "Create only the Professional Summary, techninical skills, professional experiance and certification sections.\r\n" +
@@ -25,29 +25,77 @@ namespace ATS_Injector
             "\r\n" +
             "The Job Descripion:";
 
+        //    public static readonly string AI_ATS_Question_Claude =
+        //"Using the Job description below, create a resume that has all the needed experiance, knowledge, and understanding.\r\n" +
+        //"Add needed soft skill, and hard skill that are used for the tools, technology, and required experience.\r\n" +
+        //"Create only the Professional Summary, techninical skills, professional experiance and certification sections.\r\n" +
+        //"in the mentioned sections above, create at least 50 sentences all togthere, with bullet points at the start of each sentence, where all of the skills, tools, framework, technology, experiance level, demonstation, and capabilities are used.\r\n" +
+        //"In each sentence, do not include any stars or bullet points or the symbol '*'\r\n at any point of time. Do not include tabs or other escape characters." +
+        //"From that resume remove everything that is not relevant to what an ATS scanner would look for.\r\n" +
+        //"Make the resume education, experiance, and knowledge look real, do not add things in parantheses, or say in related field or related technology or the like.\r\n" +
+        //"When creating bullet points, use only the '*' character.\r\n" +
+        //"\r\n" +
+        //"The Job Descripion:";
+
+        public static readonly string AI_ATS_Question_Claude1 = @"You are a professional resume writer. I will provide you with a job description, and you will generate tailored resume sections for me.
+Use ONLY the asterisk (*) symbol for ALL bullet points throughout your response.
+Generate the following four sections based on the job description below:
+
+## Professional Summary
+Write 3-4 sentences summarizing my fit for this role. Focus on years of experience, core competencies, and value I bring.
+
+## Technical Skills
+List all of the need and optional skills as bullet points using ""*"", grouped by category (e.g., Languages, Tools, Platforms).
+
+## Professional Experience
+Create 2-3 sample job entries. For each, include:
+* Job Title | Company Name | Date Range
+* 5-15 achievement-oriented bullet points using the ""*"" symbol
+* Use strong action verbs and include measurable outcomes where possible
+* Include all the needed soft skills, tools, frameworks, workflow, programming languages and development enviroments that would or could be used.
+
+## Certifications
+List relevant certifications as bullet points using ""*"", including certification name, issuing body, and year.
+
+---
+JOB DESCRIPTION:
+[";
+
+public static readonly string AI_ATS_Question_Claude2 = @"]
+---
+
+Format rules:
+* Use ""*"" for every bullet point — no dashes, no numbers
+* Keep bullet points concise (30-50 lines all together)
+* Tailor all content directly to the job description provided
+* Use industry-relevant keywords from the job description";
+
+
         public static readonly string TimeOutErrorMsg = "The request timed out.\r\nClick on Process JD button again.";
         public static readonly string Http503 = "503 Server Error, happens when they run out of RAM.\r\nClick on Process JD button again.";
-        
+        public static readonly string Http429 = "429 Server Error - You have used all the free tokens.\r\nSwitch to different AI service, then click on Process JD button again.";
+        //Http429
 
-        public sealed class MyHttpClient
-        {
-            // The backing field
-            private static readonly HttpClient _instance;
 
-            // The static constructor runs exactly once, the first time the class is accessed
-            static MyHttpClient()
-            {
-                _instance = new HttpClient();
-                _instance.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36");
-                _instance.Timeout = TimeSpan.FromSeconds(30);
-            }
+        //public sealed class MyHttpClient
+        //{
+        //    // The backing field
+        //    private static readonly HttpClient _instance;
 
-            // Public property to access the client
-            public static HttpClient Instance => _instance;
+        //    // The static constructor runs exactly once, the first time the class is accessed
+        //    static MyHttpClient()
+        //    {
+        //        _instance = new HttpClient();
+        //        _instance.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36");
+        //        _instance.Timeout = TimeSpan.FromSeconds(30);
+        //    }
 
-            // Private constructor to prevent "new MyHttpClient()"
-            private MyHttpClient() { }
-        }
+        //    // Public property to access the client
+        //    public static HttpClient Instance => _instance;
+
+        //    // Private constructor to prevent "new MyHttpClient()"
+        //    private MyHttpClient() { }
+        //}
 
         public class FeedBackHelper
         {
@@ -122,96 +170,96 @@ namespace ATS_Injector
         }
 
 
-        public static async Task<bool> CheckWebsiteAsync(string url)
-        {
-            bool retunringBool = false;
-            if (IsValidUrl(url))
-            {
+        //public static async Task<bool> CheckWebsiteAsync(string url)
+        //{
+        //    bool retunringBool = false;
+        //    if (IsValidUrl(url))
+        //    {
 
-                // Create a cancellation token that fires after your dynamic duration
-                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-                try
-                {
-                    // Pass the token into the GetAsync method
-                    HttpResponseMessage response = await MyHttpClient.Instance.GetAsync(url, cts.Token);
-                    retunringBool = response.IsSuccessStatusCode;
-                }
-                catch (HttpRequestException)
-                {
-                    // Catches DNS issues, connection timeouts, or unreachable servers
-                    retunringBool = false;
-                }
-                catch (Exception)
-                {
-                    // Catches other potential errors (e.g., malformed URI)
-                    retunringBool = false;
-                }
-            }
-            return retunringBool;
-        }
+        //        // Create a cancellation token that fires after your dynamic duration
+        //        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        //        try
+        //        {
+        //            // Pass the token into the GetAsync method
+        //            HttpResponseMessage response = await MyHttpClient.Instance.GetAsync(url, cts.Token);
+        //            retunringBool = response.IsSuccessStatusCode;
+        //        }
+        //        catch (HttpRequestException)
+        //        {
+        //            // Catches DNS issues, connection timeouts, or unreachable servers
+        //            retunringBool = false;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            // Catches other potential errors (e.g., malformed URI)
+        //            retunringBool = false;
+        //        }
+        //    }
+        //    return retunringBool;
+        //}
 
 
-        private static bool IsValidUrl(string url)
-        {
-            // Check if the string is null or empty first
-            if (string.IsNullOrWhiteSpace(url)) return false;
+        //private static bool IsValidUrl(string url)
+        //{
+        //    // Check if the string is null or empty first
+        //    if (string.IsNullOrWhiteSpace(url)) return false;
 
-            // TryCreate attempts to parse the string into a Uri object.
-            // UriKind.Absolute ensures it has a scheme (like http:// or https://).
-            return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult)
-                   && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-        }
+        //    // TryCreate attempts to parse the string into a Uri object.
+        //    // UriKind.Absolute ensures it has a scheme (like http:// or https://).
+        //    return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult)
+        //           && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        //}
 
-        internal static bool RemoveLoginJunk(string url, out string newurl, out string complainMessage)
-        {
-            newurl = url;
-            complainMessage = string.Empty;
-            bool retrungingBool = false;
-            //AI has a hard time figureing stuff out
-            //Need a one liner to convert things from
-            //https://www.linkedin.com/jobs/collections/recommended/?currentJobId=4359058081
-            //into
-            //https://www.linkedin.com/jobs/view/4359058081
-            //as well as others
+        //internal static bool RemoveLoginJunk(string url, out string newurl, out string complainMessage)
+        //{
+        //    newurl = url;
+        //    complainMessage = string.Empty;
+        //    bool retrungingBool = false;
+        //    //AI has a hard time figureing stuff out
+        //    //Need a one liner to convert things from
+        //    //https://www.linkedin.com/jobs/collections/recommended/?currentJobId=4359058081
+        //    //into
+        //    //https://www.linkedin.com/jobs/view/4359058081
+        //    //as well as others
 
-            if(string.IsNullOrEmpty(url) == false)
-            {
-                try
-                {
+        //    if(string.IsNullOrEmpty(url) == false)
+        //    {
+        //        try
+        //        {
 
-                    // Uri.TryCreate handles malformed URLs gracefully
-                    if (Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult))
-                    {
-                        // Normalize the host to lowercase to handle case-insensitivity
-                        string host = uriResult.Host.ToLowerInvariant();
+        //            // Uri.TryCreate handles malformed URLs gracefully
+        //            if (Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult))
+        //            {
+        //                // Normalize the host to lowercase to handle case-insensitivity
+        //                string host = uriResult.Host.ToLowerInvariant();
 
-                        if(host.Contains("linkedin.com"))
-                        {
-                            if (url.ToLower().Contains(@"collections/recommended/"))
-                            {
+        //                if(host.Contains("linkedin.com"))
+        //                {
+        //                    if (url.ToLower().Contains(@"collections/recommended/"))
+        //                    {
                                 
-                                // Parse the query string (e.g., ?currentJobId=4359058081)
-                                var queryParams = HttpUtility.ParseQueryString(uriResult.Query);
-                                string jobId = queryParams["currentJobId"];
+        //                        // Parse the query string (e.g., ?currentJobId=4359058081)
+        //                        var queryParams = HttpUtility.ParseQueryString(uriResult.Query);
+        //                        string jobId = queryParams["currentJobId"];
 
-                                if (!string.IsNullOrEmpty(jobId))
-                                {
-                                    // Reconstruct the "view" URL
-                                    newurl = $"https://www.linkedin.com/jobs/view/{jobId}";
-                                    retrungingBool = true;
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (UriFormatException)
-                {
-                    // URL format is invalid
-                }
-            }
+        //                        if (!string.IsNullOrEmpty(jobId))
+        //                        {
+        //                            // Reconstruct the "view" URL
+        //                            newurl = $"https://www.linkedin.com/jobs/view/{jobId}";
+        //                            retrungingBool = true;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (UriFormatException)
+        //        {
+        //            // URL format is invalid
+        //        }
+        //    }
 
-            return retrungingBool;
-        }
+        //    return retrungingBool;
+        //}
 
         internal static void _debug_RichTextArea(RichTextBox textArea)
         {

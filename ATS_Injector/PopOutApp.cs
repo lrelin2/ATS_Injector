@@ -26,8 +26,10 @@ namespace ATS_Injector
                                   string prompt,
                                   API_AI_ID AIModel,
                                   string initialText = "",
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
                                   Icon? windowIcon = null,
                                   Image? promptIcon = null
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
                                   )
         {
             // --- Form ---

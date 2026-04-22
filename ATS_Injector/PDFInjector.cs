@@ -87,8 +87,7 @@ namespace ATS_Injector
 
         private string[] AISplit(string RawData)
         {
-            return RawData
-            .Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+            return RawData.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
             .Where(line => line.TrimStart().StartsWith("*"))
             .Select(line => line.TrimStart().TrimStart('*').Trim())
             .Where(line => !string.IsNullOrEmpty(line))
