@@ -64,7 +64,7 @@ partial class Form1
         ATS_Injection_txt = new RichTextBox();
         OutputFileName_txt = new TextBox();
         OutputFolderPath_txt = new TextBox();
-        ProcessCreateAction_btn = new Button();
+        ProcessJD_btn = new Button();
         label4 = new Label();
         label3 = new Label();
         tabControl1 = new TabControl();
@@ -255,7 +255,7 @@ partial class Form1
         tabPage1.Controls.Add(ATS_Injection_txt);
         tabPage1.Controls.Add(OutputFileName_txt);
         tabPage1.Controls.Add(OutputFolderPath_txt);
-        tabPage1.Controls.Add(ProcessCreateAction_btn);
+        tabPage1.Controls.Add(ProcessJD_btn);
         tabPage1.Controls.Add(label4);
         tabPage1.Controls.Add(label3);
         tabPage1.Location = new Point(4, 24);
@@ -403,14 +403,14 @@ partial class Form1
         // 
         // ProcessCreateAction_btn
         // 
-        ProcessCreateAction_btn.Enabled = false;
-        ProcessCreateAction_btn.Location = new Point(18, 480);
-        ProcessCreateAction_btn.Name = "ProcessCreateAction_btn";
-        ProcessCreateAction_btn.Size = new Size(123, 24);
-        ProcessCreateAction_btn.TabIndex = 11;
-        ProcessCreateAction_btn.Text = "Process JD";
-        ProcessCreateAction_btn.UseVisualStyleBackColor = true;
-        ProcessCreateAction_btn.Click += ProcessCreateAction_btn_Click;
+        ProcessJD_btn.Enabled = false;
+        ProcessJD_btn.Location = new Point(18, 480);
+        ProcessJD_btn.Name = "ProcessCreateAction_btn";
+        ProcessJD_btn.Size = new Size(123, 24);
+        ProcessJD_btn.TabIndex = 11;
+        ProcessJD_btn.Text = "Process JD";
+        ProcessJD_btn.UseVisualStyleBackColor = true;
+        ProcessJD_btn.Click += ProcessJD_btn_Click;
         // 
         // label4
         // 
@@ -499,7 +499,7 @@ partial class Form1
     private RichTextBox ATS_Injection_txt;
     private TextBox OutputFileName_txt;
     private TextBox OutputFolderPath_txt;
-    private Button ProcessCreateAction_btn;
+    private Button ProcessJD_btn;
     private Label label4;
     private Label label3;
     private TabControl tabControl1;

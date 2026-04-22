@@ -58,7 +58,6 @@ namespace ATS_Injector
 
         internal static void SaveData(string srcData)
         {
-            
             try
             {
                 if(string.IsNullOrEmpty(srcData) == false)
@@ -198,18 +197,24 @@ namespace ATS_Injector
             {
                 for (int j = 0; j < b.Length; j++)
                 {
+                    // 1. Determine the maximum potential length for this specific starting point
+                    int maxPossibleLength = Math.Min(a.Length - i, b.Length - j);
+
+                    // 2. Calculate the fixed "Error Budget" outside the while loop
+                    // This is based on the total potential sequence length
+                    int allowedGaps = (int)Math.Ceiling(maxPossibleLength * tolerance) + 1;
+
                     int ai = i;
                     int bj = j;
-
                     int matches = 0;
                     int gaps = 0;
-                    int length = 0;
+                    int currentLength = 0;
 
                     var tempMatch = new List<string>();
 
                     while (ai < a.Length && bj < b.Length)
                     {
-                        length++;
+                        currentLength++;
 
                         if (string.Equals(a[ai], b[bj], StringComparison.OrdinalIgnoreCase))
                         {
@@ -221,8 +226,7 @@ namespace ATS_Injector
                             gaps++;
                         }
 
-                        int allowedGaps = (int)Math.Ceiling(length * tolerance);
-
+                        // 3. Simple exit: If we've already failed more than the total budget
                         if (gaps > allowedGaps)
                             break;
 
@@ -234,7 +238,7 @@ namespace ATS_Injector
                     {
                         best = new TMR
                         {
-                            Length = length,
+                            Length = currentLength,
                             Matches = matches,
                             Gaps = gaps,
                             InputStartIndex = i,

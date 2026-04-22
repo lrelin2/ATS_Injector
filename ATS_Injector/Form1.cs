@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ATS_Injector.Helper;
 using static ATS_Injector.PopOutApp;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ATS_Injector;
 
@@ -43,11 +42,8 @@ public partial class Form1 : Form
 
         ////Temp debug -- adding the Rich text format Job descriptoin
         //Helper._debug_RichTextArea(ManualJDPaste_txt);
-        //have this only because of the debug, and debug only.
+
         Update_ProcessCreateAction_btn();
-        //Add code that will check if
-        //ManualJDPaste_txt
-        //has text or not
 
         bool degugPDF = false;
 
@@ -125,13 +121,13 @@ public partial class Form1 : Form
 
     private void Update_ProcessCreateAction_btn()
     {
-        if (ProcessCreateAction_btn.InvokeRequired)
+        if (ProcessJD_btn.InvokeRequired)
         {
             int txtLengthJD = ManualJDPaste_txt.Invoke<int>(() => ManualJDPaste_txt.Text.Length);
             if (txtLengthJD >= 5)
-                ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = true));
+                ProcessJD_btn.Invoke(new Action(() => ProcessJD_btn.Enabled = true));
             else
-                ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = false));
+                ProcessJD_btn.Invoke(new Action(() => ProcessJD_btn.Enabled = false));
 
             int txtLengthATS = ATS_Injection_txt.Invoke<int>(() => ATS_Injection_txt.Text.Length);
             if (txtLengthJD >= 5)
@@ -142,9 +138,9 @@ public partial class Form1 : Form
         else
         {
             if (ManualJDPaste_txt.Text.Length >= 5)
-                ProcessCreateAction_btn.Enabled = true;
+                ProcessJD_btn.Enabled = true;
             else
-                ProcessCreateAction_btn.Enabled = false;
+                ProcessJD_btn.Enabled = false;
 
             if (ATS_Injection_txt.Text.Length >= 5)
                 ATS_Injection_btn.Enabled = true;
@@ -224,14 +220,18 @@ public partial class Form1 : Form
         return atLeastOneEnabled;
     }
 
-    private void ProcessCreateAction_btn_Click(object sender, EventArgs e)
+    private void ProcessJD_btn_Click(object sender, EventArgs e)
     {
         //prevent double tap....
-        ProcessCreateAction_btn.Enabled = false;
+        ProcessJD_btn.Enabled = false;
         ATS_Injection_txt.Text = string.Empty;
+
+        //you click the Process Job Description, before we burn up API tokens, check if you ever came accross the same job posting before.
+        //If there is a 50% text overlap, let the user decide if it's the same gig, and not to waste with these ghost jobs.
         bool continueOp = true;
         if (History.NearMatchJDFound(ManualJDPaste_txt.Text))
         {
+            //Dang it, seems we found a near match, have a window pop up showing the current JD, and any previous JD, let the cat decide if it's bogus or not.
             continueOp = false;
             using (DuplicateMatchForm popup = new Helper.DuplicateMatchForm(History.GetNearestMatch(ManualJDPaste_txt.Text), History.cleanDirtyData(ManualJDPaste_txt.Text)))
             {
@@ -239,13 +239,10 @@ public partial class Form1 : Form
 
                 if (result == DialogResult.OK)
                 {
-                    // User clicked OK - Proceed with logic using commonEntries
                     continueOp = true;
-                    //History.SaveData(ManualJDPaste_txt.Text);
                 }
                 else if (result == DialogResult.Cancel)
                 {
-                    // User clicked Cancel or closed the window
                     Console.WriteLine("User cancelled the operation. No changes made.");
                     Helper.FeedBackHelper.AppendFeedback($"Injection Canceled, duplicate JD was found! \r\n");
                 }
@@ -304,7 +301,7 @@ public partial class Form1 : Form
                 }
 
                 Helper.FeedBackHelper.SetATS_Injection(result);
-                ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = true));
+                ProcessJD_btn.Invoke(new Action(() => ProcessJD_btn.Enabled = true));
                 if (result.Equals(Helper.TimeOutErrorMsg))
                 {
                     //TODO
@@ -324,14 +321,14 @@ public partial class Form1 : Form
                     Helper.FeedBackHelper.SetFeedback($"Does the ATS injection look Acceptable at the bottom?");
                     ProgressBar(ProgressBarStat.AI_START);
                 }
-        });
+            });
 
             ProgressBar(ProgressBarStat.JD_START);
         }
         else
         {
             //JD was a dup, probably...
-            ProcessCreateAction_btn.Invoke(new Action(() => ProcessCreateAction_btn.Enabled = true));
+            ProcessJD_btn.Invoke(new Action(() => ProcessJD_btn.Enabled = true));
         }
     }
 
@@ -452,6 +449,11 @@ public partial class Form1 : Form
 
     private void ATS_Injection_btn_Click(object sender, EventArgs e)
     {
+        //High level overview
+        //Do QC checks about where the data is getting injected. Check for edge cases like user opened the pdf file, so now you can't make the injections.
+        //Check that output is valid (aka ends with pdf, add it for them if that's the case)
+        //If PDF injection is successful, then and only then save the current JD into the local database.
+
         //before starting anything, check that the input file exists, and the output folder exists
         //Do dumb user checking to make sure they are NOT overwritting existsing input PDF
         //If all is well, go ahead and save settings
@@ -466,7 +468,8 @@ public partial class Form1 : Form
         //File appending needs to happen first, before doing QC check stuff
         if (outFile.ToLower().EndsWith(".pdf") == false)
         {
-            outFile += ".PDF";
+            //Dang one job did NOT like uppercase PDF, that was a new thing.
+            outFile += ".pdf";
             Helper.FeedBackHelper.AppendFeedback($"Output file didn't end with PDF, appending it for you.");
         }
 
@@ -523,7 +526,7 @@ public partial class Form1 : Form
     private void ManualJDPaste_txt_TextChanged(object sender, EventArgs e)
     {
         //if text changed here, you can now enable the inject button
-        ProcessCreateAction_btn.Enabled = true;
+        ProcessJD_btn.Enabled = true;
     }
 
     enum ProgressBarStat
