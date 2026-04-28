@@ -6,25 +6,22 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static ATS_Injector.Helper;
 
-namespace ATS_Injector
+namespace ATS_Injector.API
 {
-    internal class OpenRouter_Calude
+    internal class API_OpenRouter_Calude
     {
         private string ApiKey;
         private static HttpClient _httpClient = null;
         private static readonly string Error503 = "\"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",";
 
-        public OpenRouter_Calude(string ApiKey)
+        public API_OpenRouter_Calude(string ApiKey)
         {
             this.ApiKey = ApiKey;
             if(_httpClient == null)
             {
                 _httpClient = new HttpClient { BaseAddress = new Uri("https://openrouter.ai/api/v1/") };
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
-                // OpenRouter likes these for rankings
-                //_httpClient.DefaultRequestHeaders.Add("HTTP-Referer", "https://your-project-url.com");
                 _httpClient.DefaultRequestHeaders.Add("X-Title", "ATS_Injector");
                 _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36");
                 _httpClient.Timeout = TimeSpan.FromSeconds(30);

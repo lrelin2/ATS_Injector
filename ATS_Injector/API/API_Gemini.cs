@@ -5,11 +5,10 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using static ATS_Injector.Helper;
 
-namespace ATS_Injector
+namespace ATS_Injector.API
 {
-    internal class GeminiAPI
+    internal class API_Gemini
     {
         private string ApiKey;
         private const string ModelId = "gemini-3-flash-preview";
@@ -17,20 +16,10 @@ namespace ATS_Injector
         private static readonly string Error503 = "\"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",";
         private static readonly string Error429 = "\"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to:";
 
-        //
-        public GeminiAPI(string ApiKey)
+        public API_Gemini(string ApiKey)
         {
             this.ApiKey = ApiKey;
-            //if (_httpClient == null)
-            //{
-            //    _httpClient = new HttpClient { BaseAddress = new Uri("https://openrouter.ai/api/v1/") };
-            //    _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
-            //    // OpenRouter likes these for rankings
-            //    _httpClient.DefaultRequestHeaders.Add("HTTP-Referer", "https://your-project-url.com");
-            //    _httpClient.DefaultRequestHeaders.Add("X-Title", "ATS_Injector");
-            //    //_httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36");
-            //    _httpClient.Timeout = TimeSpan.FromSeconds(30);
-            //}
+
             if(_httpClient == null)
             {
                 _httpClient = new HttpClient();
@@ -43,7 +32,7 @@ namespace ATS_Injector
         {
             string Url = $"https://generativelanguage.googleapis.com/v1beta/models/{ModelId}:generateContent?key={ApiKey}";
             int timeOut = 30;
-            // using var client = Helper.MyHttpClient.Instance;
+
             string returnStr = string.Empty;
             var payload = new
             {
@@ -116,14 +105,14 @@ namespace ATS_Injector
         public int RateLimit { get; set; }
         public int RateLimitDaily { get; set; }
 
-        static ModelGemini()
-        {
-            Models = new List<ModelGemini>
-            {
-                new ModelGemini { ID = 1, ModelName = "Gemini 2.5 Pro", RateLimit = 5, RateLimitDaily = 100 },
-                new ModelGemini { ID = 2, ModelName = "Gemini 2.5 Flash", RateLimit = 10, RateLimitDaily = 250 },
-                new ModelGemini { ID = 3, ModelName = "Gemini 2.5 Flash-Lite", RateLimit = 15, RateLimitDaily = 1000 }
-            };
-        }
+        //static ModelGemini()
+        //{
+        //    Models = new List<ModelGemini>
+        //    {
+        //        new ModelGemini { ID = 1, ModelName = "Gemini 2.5 Pro", RateLimit = 5, RateLimitDaily = 100 },
+        //        new ModelGemini { ID = 2, ModelName = "Gemini 2.5 Flash", RateLimit = 10, RateLimitDaily = 250 },
+        //        new ModelGemini { ID = 3, ModelName = "Gemini 2.5 Flash-Lite", RateLimit = 15, RateLimitDaily = 1000 }
+        //    };
+        //}
     }
 }
