@@ -1,3 +1,4 @@
+using ATS_Injector.API;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace ATS_Injector;
 
 public partial class Form1 : Form
 {
-    private string JD_Results = string.Empty;
+    //private string JD_Results = string.Empty;
 
     public Form1()
     {
@@ -36,9 +37,6 @@ public partial class Form1 : Form
 
         //Check if user has entered valid path for thier resume
         CheckUserSettings();
-
-        //Check if Token has been entered at least once
-
 
         ////Temp debug -- adding the Rich text format Job descriptoin
         //Helper._debug_RichTextArea(ManualJDPaste_txt);
@@ -260,11 +258,26 @@ public partial class Form1 : Form
                 switch (choice)
                 {
                     case API_AI_ID.ChatGPT:
+                        if (GetAPI_Token(API_AI_ID.ChatGPT, out Token, out errorMsg))
+                        {
+                            API_ChatGPT API = new API_ChatGPT(Token);
+                            string promptTry1 = Helper.AI_ATS_Question_Gemini;
+                            Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.ChatGPT} AI to generate ATS friendly keywords and phrases.");
+
+                            string prompt = $"{promptTry1}\r\n{Helper.FeedBackHelper.GetTextManualJDPaste()}";
+
+                            result = Task.Run(async () => await API.SendPrompt(prompt)).GetAwaiter().GetResult();
+                        }
+                        else if (string.IsNullOrEmpty(errorMsg) == false)
+                        {
+                            FeedbackArea_txt.Text = $"An error occured retrieving your {API_AI_ID.ChatGPT} API token. Error stack:[{errorMsg}]";
+                        }
+
                         break;
                     case API_AI_ID.Gemini:
                         if (GetAPI_Token(API_AI_ID.Gemini, out Token, out errorMsg))
                         {
-                            GeminiAPI API = new GeminiAPI(Token);
+                            API_Gemini API = new API_Gemini(Token);
                             string promptTry1 = Helper.AI_ATS_Question_Gemini;
                             Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Gemini} AI to generate ATS friendly keywords and phrases.");
 
@@ -282,7 +295,7 @@ public partial class Form1 : Form
 
                         if (GetAPI_Token(API_AI_ID.Claude, out Token, out errorMsg))
                         {
-                            OpenRouter_Calude API = new OpenRouter_Calude(Token);
+                            API_OpenRouter_Calude API = new API_OpenRouter_Calude(Token);
                             string str1 = Helper.AI_ATS_Question_Claude1;
                             string str2 = Helper.AI_ATS_Question_Claude2;
                             Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Claude} AI to generate ATS friendly keywords and phrases.");
