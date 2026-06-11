@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 
-namespace ATS_Injector
+namespace ATSInjector
 {
     internal class PersistanceSettings
     {
@@ -62,9 +59,9 @@ namespace ATS_Injector
 
     public class UserSettings
     {
-        public required string ResumePath { get; set; }
-        public required string OutputFolderPath { get; set; }
-        public required string OutputFileName { get; set; }
+        public string ResumePath { get; set; }
+        public string OutputFolderPath { get; set; }
+        public string OutputFileName { get; set; }
         public bool WarnOverWriteOutputFile { get; set; }
         public API_AI_ID PreviousToken { get; set; }
 

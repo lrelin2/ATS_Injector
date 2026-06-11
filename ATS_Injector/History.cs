@@ -4,9 +4,8 @@ using System.IO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
-namespace ATS_Injector
+namespace ATSInjector
 {
     public class History
     {
@@ -85,14 +84,15 @@ namespace ATS_Injector
                     continue;
 
                 // Split on newline variations
-                string[] lines = entry.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.TrimEntries);
+                string[] lines = entry.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string line in lines)
                 {
                     if (string.IsNullOrEmpty(line))
                         continue;
                     // Remove unwanted characters
-                    string cleaned = Regex.Replace(line, @"[^a-zA-Z0-9,\.\$\%\-\+\=\(\)\[\] ]", "");
+                    //string cleaned = line.Trim();
+                    string cleaned = Regex.Replace(line.Trim(), @"[^a-zA-Z0-9,\.\$\%\-\+\=\(\)\[\] ]", "");
 
                     // Only keep non-empty results
                     if (!string.IsNullOrEmpty(cleaned))

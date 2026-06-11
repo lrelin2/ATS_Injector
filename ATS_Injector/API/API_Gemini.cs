@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ATS_Injector.API
+namespace ATSInjector.API
 {
     internal class API_Gemini
     {
@@ -43,24 +43,27 @@ namespace ATS_Injector.API
 
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeOut)))
             {
+                HttpResponseMessage response = null;
                 using (var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json"))
                 {
                     try
                     {
-                        using (var response = await _httpClient.PostAsync(Url, content, cts.Token))
+                        using (response = await _httpClient.PostAsync(Url, content, cts.Token))
                         {
-                            string responseBody = await response.Content.ReadAsStringAsync(cts.Token);
+                            string responseBody = await response.Content.ReadAsStringAsync();
                             if (response.IsSuccessStatusCode)
                             {
-                                using var doc = JsonDocument.Parse(responseBody);
-                                var root = doc.RootElement;
-                                if (root.TryGetProperty("candidates", out var candidates) && candidates.GetArrayLength() > 0)
+                                using (var doc = JsonDocument.Parse(responseBody))
                                 {
-                                    returnStr = candidates[0]
-                                        .GetProperty("content")
-                                        .GetProperty("parts")[0]
-                                        .GetProperty("text")
-                                        .GetString() ?? "No text found in response.";
+                                    var root = doc.RootElement;
+                                    if (root.TryGetProperty("candidates", out var candidates) && candidates.GetArrayLength() > 0)
+                                    {
+                                        returnStr = candidates[0]
+                                            .GetProperty("content")
+                                            .GetProperty("parts")[0]
+                                            .GetProperty("text")
+                                            .GetString() ?? "No text found in response.";
+                                    }
                                 }
                             }
                             else
@@ -78,13 +81,15 @@ namespace ATS_Injector.API
                     {
                         //Check for 503, pretty common service is down error message...
                         Console.WriteLine($"Request exception: {e.Message}");
-                        if (e.StatusCode.Value.Equals(503))
+                        returnStr = e.Message;
+                        if (response != null)
                         {
-                            returnStr = Helper.Http503;
-                        }
-                        else
-                        {
-                            returnStr = e.Message;
+                            int code = (int)response.StatusCode;
+                            Console.WriteLine($"Caught error with status: {code}");
+                            if (code.Equals(503))
+                            {
+                                returnStr = Helper.Http503;
+                            }
                         }
                     }
                 }
@@ -101,18 +106,8 @@ namespace ATS_Injector.API
     {
         public static List<ModelGemini> Models { get; }
         public int ID { get; set; }
-        public required string ModelName { get; set; }
+        public string ModelName { get; set; }
         public int RateLimit { get; set; }
         public int RateLimitDaily { get; set; }
-
-        //static ModelGemini()
-        //{
-        //    Models = new List<ModelGemini>
-        //    {
-        //        new ModelGemini { ID = 1, ModelName = "Gemini 2.5 Pro", RateLimit = 5, RateLimitDaily = 100 },
-        //        new ModelGemini { ID = 2, ModelName = "Gemini 2.5 Flash", RateLimit = 10, RateLimitDaily = 250 },
-        //        new ModelGemini { ID = 3, ModelName = "Gemini 2.5 Flash-Lite", RateLimit = 15, RateLimitDaily = 1000 }
-        //    };
-        //}
     }
 }

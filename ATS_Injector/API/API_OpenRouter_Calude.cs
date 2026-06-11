@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ATS_Injector.API
+namespace ATSInjector.API
 {
     internal class API_OpenRouter_Calude
     {
@@ -37,9 +37,10 @@ namespace ATS_Injector.API
 
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeOut)))
             {
+                HttpResponseMessage response = null;
                 try
                 {
-                    using (var response = await _httpClient.PostAsJsonAsync("chat/completions", request, cts.Token))
+                    using (response = await _httpClient.PostAsJsonAsync("chat/completions", request, cts.Token))
                     {
                         if (response.IsSuccessStatusCode)
                         {
@@ -49,7 +50,7 @@ namespace ATS_Injector.API
                         }
                         else
                         {
-                            string responseBody = await response.Content.ReadAsStringAsync(cts.Token);
+                            string responseBody = await response.Content.ReadAsStringAsync();
                             returnStr = $"Error ({response.StatusCode}): {responseBody}";
                         }
                     }
@@ -63,13 +64,15 @@ namespace ATS_Injector.API
                 {
                     //Check for 503, pretty common service is down error message...
                     Console.WriteLine($"Request exception: {e.Message}");
-                    if (e.StatusCode.Value.Equals(503))
+                    returnStr = e.Message;
+                    if (response != null)
                     {
-                        returnStr = Helper.Http503;
-                    }
-                    else
-                    {
-                        returnStr = e.Message;
+                        int code = (int)response.StatusCode;
+                        Console.WriteLine($"Caught error with status: {code}");
+                        if (code.Equals(503))
+                        {
+                            returnStr = Helper.Http503;
+                        }
                     }
                 }
             }
@@ -105,7 +108,7 @@ namespace ATS_Injector.API
     public class OpenRouterRequest
     {
         public string model { get; set; } = "openrouter/free";
-        public List<Message> messages { get; set; } = new();
+        public List<Message> messages { get; set; }// = new();
         public double temperature { get; set; } = 0.7;
     }
 
@@ -117,11 +120,11 @@ namespace ATS_Injector.API
 
     public class OpenRouterResponse
     {
-        public List<Choice> choices { get; set; } = new();
+        public List<Choice> choices { get; set; }// = new();
     }
 
     public class Choice
     {
-        public Message message { get; set; } = new();
+        public Message message { get; set; }// = new();
     }
 }

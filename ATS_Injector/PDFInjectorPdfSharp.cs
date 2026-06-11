@@ -9,7 +9,7 @@ using PdfSharpCore.Pdf.Content;
 using PdfSharpCore.Pdf.Content.Objects;
 using PdfSharpCore.Pdf.IO;
 
-namespace ATS_Injector
+namespace ATSInjector
 {
     internal class PDFInjectorPdfSharp
     {

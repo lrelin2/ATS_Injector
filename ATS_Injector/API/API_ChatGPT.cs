@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ATS_Injector.API
+namespace ATSInjector.API
 {
     internal class API_ChatGPT
     {
@@ -50,9 +50,10 @@ namespace ATS_Injector.API
 
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeOut)))
             {
+                HttpResponseMessage response = null;
                 try
                 {
-
+                    
                     using (var request = new HttpRequestMessage(HttpMethod.Post, url))
                     {
                         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.ApiKey);
@@ -60,11 +61,11 @@ namespace ATS_Injector.API
 
                         request.Content = JsonContent.Create(payload);
 
-                        var response = await _httpClient.SendAsync(request, cts.Token);
+                        response = await _httpClient.SendAsync(request, cts.Token);
 
                         if (response.IsSuccessStatusCode)
                         {
-                            string responseBody = await response.Content.ReadAsStringAsync(cts.Token);
+                            string responseBody = await response.Content.ReadAsStringAsync();
                             using (var doc = JsonDocument.Parse(responseBody))
                             {
                                 var root = doc.RootElement;
@@ -91,7 +92,7 @@ namespace ATS_Injector.API
                         else
                         {
                             Console.WriteLine($"Error: {response.StatusCode}");
-                            var errorBody = await response.Content.ReadAsStringAsync(cts.Token);
+                            var errorBody = await response.Content.ReadAsStringAsync();
                             Console.WriteLine(errorBody);
                             returnStr = errorBody.ToString();
                         }
@@ -107,13 +108,15 @@ namespace ATS_Injector.API
                 {
                     //Check for 503, pretty common service is down error message...
                     Console.WriteLine($"Request exception: {e.Message}");
-                    if (e.StatusCode.Value.Equals(503))
+                    returnStr = e.Message;
+                    if (response != null)
                     {
-                        returnStr = Helper.Http503;
-                    }
-                    else
-                    {
-                        returnStr = e.Message;
+                        int code = (int)response.StatusCode;
+                        Console.WriteLine($"Caught error with status: {code}");
+                        if (code.Equals(503))
+                        {
+                            returnStr = Helper.Http503;
+                        }
                     }
                 }
             }
@@ -129,7 +132,7 @@ namespace ATS_Injector.API
     public class OpenAIRequest
     {
         public string model { get; set; } = "gpt-5.4-mini";
-        public List<MessageOpenAI> messages { get; set; } = new();
+        public List<MessageOpenAI> messages { get; set; }// = new();
 
         public bool store { get; set; }
     }
