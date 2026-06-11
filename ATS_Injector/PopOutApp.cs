@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace ATS_Injector
+namespace ATSInjector
 {
     public class PopOutApp
     {
@@ -27,8 +23,8 @@ namespace ATS_Injector
                                   API_AI_ID AIModel,
                                   string initialText = "",
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-                                  Icon? windowIcon = null,
-                                  Image? promptIcon = null
+                                  Icon windowIcon = null,
+                                  Image promptIcon = null
 #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
                                   )
         {

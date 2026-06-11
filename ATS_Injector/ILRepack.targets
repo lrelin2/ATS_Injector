@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+        <ItemGroup>
+            <!-- The primary EXE -->
+            <InputAssemblies Include="$(TargetDir)$(TargetName)$(TargetExt)" />
+            
+            <!-- This finds all DLLs in the output folder and skips the ILRepack task itself -->
+            <InputAssemblies Include="$(TargetDir)*.dll" Exclude="$(TargetDir)ILRepack.Lib.MSBuild.Task.dll" />
+        </ItemGroup>
+
+        <ILRepack
+            Parallel="true"
+            InputAssemblies="@(InputAssemblies)"
+            TargetKind="WinExe"
+            OutputFile="$(TargetDir)$(TargetName)_Standalone.exe"
+            LibraryPath="$(TargetDir)"
+            Internalize="true"
+        />
+        
+        <Message Importance="high" Text="SUCCESS: Created Standalone EXE at $(TargetDir)$(TargetName)_Standalone.exe" />
+    </Target>
+</Project>

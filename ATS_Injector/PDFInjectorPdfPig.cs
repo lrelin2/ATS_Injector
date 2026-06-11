@@ -4,12 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UglyToad.PdfPig.Core;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using PdfRectangle = UglyToad.PdfPig.Core.PdfRectangle;
-using XPoint = PdfSharpCore.Drawing.XPoint;
-using XGraphics = PdfSharpCore.Drawing.XGraphics;
 using XFont = PdfSharpCore.Drawing.XFont;
+using XGraphics = PdfSharpCore.Drawing.XGraphics;
+using XPoint = PdfSharpCore.Drawing.XPoint;
 
-namespace ATS_Injector
+namespace ATSInjector
 {
     internal class PDFInjectorPdfPig
     {
@@ -177,7 +178,11 @@ namespace ATS_Injector
             if(compileList.Count < BulletPoints.Length)
             {
                 //if here, we took SOME, but not ALL of the bullet points out of the stirng array....
-                BulletPoints = BulletPoints[compileList.Count..];
+                //BulletPoints = new string[] { };
+                //BulletPoints. = BulletPoints[compileList.Count];
+                //Array.Copy(compileList, BulletPoints, compileList.Count);
+                //string[] BulletPoints;
+                BulletPoints = compileList.ToArray();
                 listToPrint = compileList.ToArray();
             }
             else

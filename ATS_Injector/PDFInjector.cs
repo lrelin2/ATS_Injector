@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace ATS_Injector
+namespace ATSInjector
 {
     internal class PDFInjector
     {
