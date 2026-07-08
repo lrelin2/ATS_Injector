@@ -32,449 +32,479 @@ namespace ATSInjector
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            tabPage2 = new TabPage();
-            AI_IntTimeout_txt = new TextBox();
-            SettingsResumePath_txt = new TextBox();
-            label7 = new Label();
-            WarnOverWriteOutputFile_chkbx = new CheckBox();
-            label1 = new Label();
-            groupBox1 = new GroupBox();
-            Claude_rdbtn = new RadioButton();
-            Gemini_rdbtn = new RadioButton();
-            ChatGPT_rdbtn = new RadioButton();
-            button5 = new Button();
-            AddClaudeToken_btn = new Button();
-            button3 = new Button();
-            AddGeminiToken_btn = new Button();
-            button2 = new Button();
-            AddChatGPTToken_btn = new Button();
-            tabPage1 = new TabPage();
-            ATS_Injection_btn = new Button();
-            label6 = new Label();
-            tabControl2 = new TabControl();
-            tabPage4 = new TabPage();
-            ManualJDPaste_txt = new RichTextBox();
-            tabPage5 = new TabPage();
-            textBox5 = new TextBox();
-            label5 = new Label();
-            textBox2 = new TextBox();
-            progressBar1 = new ProgressBar();
-            label2 = new Label();
-            FeedbackArea_txt = new RichTextBox();
-            ATS_Injection_txt = new RichTextBox();
-            OutputFileName_txt = new TextBox();
-            OutputFolderPath_txt = new TextBox();
-            ProcessJD_btn = new Button();
-            label4 = new Label();
-            label3 = new Label();
-            tabControl1 = new TabControl();
-            label8 = new Label();
-            tabPage2.SuspendLayout();
-            groupBox1.SuspendLayout();
-            tabPage1.SuspendLayout();
-            tabControl2.SuspendLayout();
-            tabPage4.SuspendLayout();
-            tabPage5.SuspendLayout();
-            tabControl1.SuspendLayout();
-            SuspendLayout();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.AI_IntTimeout_txt = new System.Windows.Forms.TextBox();
+            this.SettingsResumePath_txt = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.WarnOverWriteOutputFile_chkbx = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Twitter_rdbtn = new System.Windows.Forms.RadioButton();
+            this.button1 = new System.Windows.Forms.Button();
+            this.AddTwitterToken_btn = new System.Windows.Forms.Button();
+            this.Claude_rdbtn = new System.Windows.Forms.RadioButton();
+            this.Gemini_rdbtn = new System.Windows.Forms.RadioButton();
+            this.ChatGPT_rdbtn = new System.Windows.Forms.RadioButton();
+            this.button5 = new System.Windows.Forms.Button();
+            this.AddClaudeToken_btn = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.AddGeminiToken_btn = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.AddChatGPTToken_btn = new System.Windows.Forms.Button();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ATS_Injection_btn = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.ManualJDPaste_txt = new System.Windows.Forms.RichTextBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label2 = new System.Windows.Forms.Label();
+            this.FeedbackArea_txt = new System.Windows.Forms.RichTextBox();
+            this.ATS_Injection_txt = new System.Windows.Forms.RichTextBox();
+            this.OutputFileName_txt = new System.Windows.Forms.TextBox();
+            this.OutputFolderPath_txt = new System.Windows.Forms.TextBox();
+            this.ProcessJD_btn = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.SuspendLayout();
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(label8);
-            tabPage2.Controls.Add(AI_IntTimeout_txt);
-            tabPage2.Controls.Add(SettingsResumePath_txt);
-            tabPage2.Controls.Add(label7);
-            tabPage2.Controls.Add(WarnOverWriteOutputFile_chkbx);
-            tabPage2.Controls.Add(label1);
-            tabPage2.Controls.Add(groupBox1);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(792, 582);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "Settings";
-            tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Controls.Add(this.AI_IntTimeout_txt);
+            this.tabPage2.Controls.Add(this.SettingsResumePath_txt);
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.WarnOverWriteOutputFile_chkbx);
+            this.tabPage2.Controls.Add(this.label1);
+            this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(678, 503);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Settings";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // AI_IntTimeout_txt
             // 
-            AI_IntTimeout_txt.Location = new Point(166, 219);
-            AI_IntTimeout_txt.Name = "AI_IntTimeout_txt";
-            AI_IntTimeout_txt.Size = new Size(75, 23);
-            AI_IntTimeout_txt.TabIndex = 6;
-            AI_IntTimeout_txt.Text = "30";
+            this.AI_IntTimeout_txt.Location = new System.Drawing.Point(141, 217);
+            this.AI_IntTimeout_txt.Name = "AI_IntTimeout_txt";
+            this.AI_IntTimeout_txt.Size = new System.Drawing.Size(65, 20);
+            this.AI_IntTimeout_txt.TabIndex = 6;
+            this.AI_IntTimeout_txt.Text = "30";
             // 
             // SettingsResumePath_txt
             // 
-            SettingsResumePath_txt.Location = new Point(130, 14);
-            SettingsResumePath_txt.Name = "SettingsResumePath_txt";
-            SettingsResumePath_txt.Size = new Size(586, 23);
-            SettingsResumePath_txt.TabIndex = 3;
+            this.SettingsResumePath_txt.Location = new System.Drawing.Point(111, 12);
+            this.SettingsResumePath_txt.Name = "SettingsResumePath_txt";
+            this.SettingsResumePath_txt.Size = new System.Drawing.Size(503, 20);
+            this.SettingsResumePath_txt.TabIndex = 3;
             // 
             // label7
             // 
-            label7.AutoSize = true;
-            label7.Location = new Point(11, 222);
-            label7.Name = "label7";
-            label7.Size = new Size(148, 15);
-            label7.TabIndex = 5;
-            label7.Text = "Timeout For AI processing:";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(8, 219);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(133, 13);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Timeout For AI processing:";
             // 
             // WarnOverWriteOutputFile_chkbx
             // 
-            WarnOverWriteOutputFile_chkbx.AutoSize = true;
-            WarnOverWriteOutputFile_chkbx.Location = new Point(14, 192);
-            WarnOverWriteOutputFile_chkbx.Name = "WarnOverWriteOutputFile_chkbx";
-            WarnOverWriteOutputFile_chkbx.Size = new Size(155, 19);
-            WarnOverWriteOutputFile_chkbx.TabIndex = 4;
-            WarnOverWriteOutputFile_chkbx.Text = "Warn when outfile exists";
-            WarnOverWriteOutputFile_chkbx.UseVisualStyleBackColor = true;
+            this.WarnOverWriteOutputFile_chkbx.AutoSize = true;
+            this.WarnOverWriteOutputFile_chkbx.Location = new System.Drawing.Point(11, 193);
+            this.WarnOverWriteOutputFile_chkbx.Name = "WarnOverWriteOutputFile_chkbx";
+            this.WarnOverWriteOutputFile_chkbx.Size = new System.Drawing.Size(141, 17);
+            this.WarnOverWriteOutputFile_chkbx.TabIndex = 4;
+            this.WarnOverWriteOutputFile_chkbx.Text = "Warn when outfile exists";
+            this.WarnOverWriteOutputFile_chkbx.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(8, 17);
-            label1.Name = "label1";
-            label1.Size = new Size(106, 15);
-            label1.TabIndex = 2;
-            label1.Text = "Your Resume Path:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(99, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Your Resume Path:";
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(Claude_rdbtn);
-            groupBox1.Controls.Add(Gemini_rdbtn);
-            groupBox1.Controls.Add(ChatGPT_rdbtn);
-            groupBox1.Controls.Add(button5);
-            groupBox1.Controls.Add(AddClaudeToken_btn);
-            groupBox1.Controls.Add(button3);
-            groupBox1.Controls.Add(AddGeminiToken_btn);
-            groupBox1.Controls.Add(button2);
-            groupBox1.Controls.Add(AddChatGPTToken_btn);
-            groupBox1.Location = new Point(11, 43);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(390, 142);
-            groupBox1.TabIndex = 0;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "AI Models";
+            this.groupBox1.Controls.Add(this.Twitter_rdbtn);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.AddTwitterToken_btn);
+            this.groupBox1.Controls.Add(this.Claude_rdbtn);
+            this.groupBox1.Controls.Add(this.Gemini_rdbtn);
+            this.groupBox1.Controls.Add(this.ChatGPT_rdbtn);
+            this.groupBox1.Controls.Add(this.button5);
+            this.groupBox1.Controls.Add(this.AddClaudeToken_btn);
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.AddGeminiToken_btn);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.AddChatGPTToken_btn);
+            this.groupBox1.Location = new System.Drawing.Point(9, 37);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(380, 135);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "AI Models";
+            // 
+            // Twitter_rdbtn
+            // 
+            this.Twitter_rdbtn.AutoSize = true;
+            this.Twitter_rdbtn.Location = new System.Drawing.Point(14, 94);
+            this.Twitter_rdbtn.Name = "Twitter_rdbtn";
+            this.Twitter_rdbtn.Size = new System.Drawing.Size(89, 17);
+            this.Twitter_rdbtn.TabIndex = 16;
+            this.Twitter_rdbtn.TabStop = true;
+            this.Twitter_rdbtn.Text = "Grok (Twitter)";
+            this.Twitter_rdbtn.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(281, 94);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(89, 21);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Help";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.HelpTwitter_Click);
+            // 
+            // AddTwitterToken_btn
+            // 
+            this.AddTwitterToken_btn.Location = new System.Drawing.Point(175, 94);
+            this.AddTwitterToken_btn.Name = "AddTwitterToken_btn";
+            this.AddTwitterToken_btn.Size = new System.Drawing.Size(89, 21);
+            this.AddTwitterToken_btn.TabIndex = 14;
+            this.AddTwitterToken_btn.Text = "Add API Key";
+            this.AddTwitterToken_btn.UseVisualStyleBackColor = true;
+            this.AddTwitterToken_btn.Click += new System.EventHandler(this.AddTwitterToken_btn_Click);
             // 
             // Claude_rdbtn
             // 
-            Claude_rdbtn.AutoSize = true;
-            Claude_rdbtn.Location = new Point(16, 82);
-            Claude_rdbtn.Name = "Claude_rdbtn";
-            Claude_rdbtn.Size = new Size(137, 19);
-            Claude_rdbtn.TabIndex = 13;
-            Claude_rdbtn.TabStop = true;
-            Claude_rdbtn.Text = "OpenRouter (Claude)";
-            Claude_rdbtn.UseVisualStyleBackColor = true;
+            this.Claude_rdbtn.AutoSize = true;
+            this.Claude_rdbtn.Location = new System.Drawing.Point(14, 71);
+            this.Claude_rdbtn.Name = "Claude_rdbtn";
+            this.Claude_rdbtn.Size = new System.Drawing.Size(125, 17);
+            this.Claude_rdbtn.TabIndex = 13;
+            this.Claude_rdbtn.TabStop = true;
+            this.Claude_rdbtn.Text = "OpenRouter (Claude)";
+            this.Claude_rdbtn.UseVisualStyleBackColor = true;
             // 
             // Gemini_rdbtn
             // 
-            Gemini_rdbtn.AutoSize = true;
-            Gemini_rdbtn.Location = new Point(16, 52);
-            Gemini_rdbtn.Name = "Gemini_rdbtn";
-            Gemini_rdbtn.Size = new Size(63, 19);
-            Gemini_rdbtn.TabIndex = 12;
-            Gemini_rdbtn.TabStop = true;
-            Gemini_rdbtn.Text = "Gemini";
-            Gemini_rdbtn.UseVisualStyleBackColor = true;
+            this.Gemini_rdbtn.AutoSize = true;
+            this.Gemini_rdbtn.Location = new System.Drawing.Point(14, 45);
+            this.Gemini_rdbtn.Name = "Gemini_rdbtn";
+            this.Gemini_rdbtn.Size = new System.Drawing.Size(57, 17);
+            this.Gemini_rdbtn.TabIndex = 12;
+            this.Gemini_rdbtn.TabStop = true;
+            this.Gemini_rdbtn.Text = "Gemini";
+            this.Gemini_rdbtn.UseVisualStyleBackColor = true;
             // 
             // ChatGPT_rdbtn
             // 
-            ChatGPT_rdbtn.AutoSize = true;
-            ChatGPT_rdbtn.Location = new Point(16, 22);
-            ChatGPT_rdbtn.Name = "ChatGPT_rdbtn";
-            ChatGPT_rdbtn.Size = new Size(71, 19);
-            ChatGPT_rdbtn.TabIndex = 11;
-            ChatGPT_rdbtn.TabStop = true;
-            ChatGPT_rdbtn.Text = "ChatGPT";
-            ChatGPT_rdbtn.UseVisualStyleBackColor = true;
+            this.ChatGPT_rdbtn.AutoSize = true;
+            this.ChatGPT_rdbtn.Location = new System.Drawing.Point(14, 19);
+            this.ChatGPT_rdbtn.Name = "ChatGPT_rdbtn";
+            this.ChatGPT_rdbtn.Size = new System.Drawing.Size(69, 17);
+            this.ChatGPT_rdbtn.TabIndex = 11;
+            this.ChatGPT_rdbtn.TabStop = true;
+            this.ChatGPT_rdbtn.Text = "ChatGPT";
+            this.ChatGPT_rdbtn.UseVisualStyleBackColor = true;
             // 
             // button5
             // 
-            button5.Location = new Point(271, 82);
-            button5.Name = "button5";
-            button5.Size = new Size(104, 24);
-            button5.TabIndex = 10;
-            button5.Text = "Help";
-            button5.UseVisualStyleBackColor = true;
+            this.button5.Location = new System.Drawing.Point(281, 71);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(89, 21);
+            this.button5.TabIndex = 10;
+            this.button5.Text = "Help";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.HelpClaude_Click);
             // 
             // AddClaudeToken_btn
             // 
-            AddClaudeToken_btn.Location = new Point(147, 82);
-            AddClaudeToken_btn.Name = "AddClaudeToken_btn";
-            AddClaudeToken_btn.Size = new Size(104, 24);
-            AddClaudeToken_btn.TabIndex = 9;
-            AddClaudeToken_btn.Text = "Add API Key";
-            AddClaudeToken_btn.UseVisualStyleBackColor = true;
-            AddClaudeToken_btn.Click += AddClaudeToken_btn_Click;
+            this.AddClaudeToken_btn.Location = new System.Drawing.Point(175, 71);
+            this.AddClaudeToken_btn.Name = "AddClaudeToken_btn";
+            this.AddClaudeToken_btn.Size = new System.Drawing.Size(89, 21);
+            this.AddClaudeToken_btn.TabIndex = 9;
+            this.AddClaudeToken_btn.Text = "Add API Key";
+            this.AddClaudeToken_btn.UseVisualStyleBackColor = true;
+            this.AddClaudeToken_btn.Click += new System.EventHandler(this.AddClaudeToken_btn_Click);
             // 
             // button3
             // 
-            button3.Location = new Point(271, 52);
-            button3.Name = "button3";
-            button3.Size = new Size(104, 24);
-            button3.TabIndex = 7;
-            button3.Text = "Help";
-            button3.UseVisualStyleBackColor = true;
+            this.button3.Location = new System.Drawing.Point(281, 45);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(89, 21);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "Help";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.HelpGemini_Click);
             // 
             // AddGeminiToken_btn
             // 
-            AddGeminiToken_btn.Location = new Point(147, 52);
-            AddGeminiToken_btn.Name = "AddGeminiToken_btn";
-            AddGeminiToken_btn.Size = new Size(104, 24);
-            AddGeminiToken_btn.TabIndex = 6;
-            AddGeminiToken_btn.Text = "Add API Key";
-            AddGeminiToken_btn.UseVisualStyleBackColor = true;
-            AddGeminiToken_btn.Click += AddGeminiToken_btn_Click;
+            this.AddGeminiToken_btn.Location = new System.Drawing.Point(175, 45);
+            this.AddGeminiToken_btn.Name = "AddGeminiToken_btn";
+            this.AddGeminiToken_btn.Size = new System.Drawing.Size(89, 21);
+            this.AddGeminiToken_btn.TabIndex = 6;
+            this.AddGeminiToken_btn.Text = "Add API Key";
+            this.AddGeminiToken_btn.UseVisualStyleBackColor = true;
+            this.AddGeminiToken_btn.Click += new System.EventHandler(this.AddGeminiToken_btn_Click);
             // 
             // button2
             // 
-            button2.Location = new Point(271, 22);
-            button2.Name = "button2";
-            button2.Size = new Size(104, 24);
-            button2.TabIndex = 4;
-            button2.Text = "Help";
-            button2.UseVisualStyleBackColor = true;
+            this.button2.Location = new System.Drawing.Point(281, 19);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(89, 21);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Help";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.HelpChatGPT_Click);
             // 
             // AddChatGPTToken_btn
             // 
-            AddChatGPTToken_btn.Location = new Point(147, 22);
-            AddChatGPTToken_btn.Name = "AddChatGPTToken_btn";
-            AddChatGPTToken_btn.Size = new Size(104, 24);
-            AddChatGPTToken_btn.TabIndex = 3;
-            AddChatGPTToken_btn.Text = "Add API Key";
-            AddChatGPTToken_btn.UseVisualStyleBackColor = true;
-            AddChatGPTToken_btn.Click += AddChatGPTToken_btn_Click;
+            this.AddChatGPTToken_btn.Location = new System.Drawing.Point(175, 19);
+            this.AddChatGPTToken_btn.Name = "AddChatGPTToken_btn";
+            this.AddChatGPTToken_btn.Size = new System.Drawing.Size(89, 21);
+            this.AddChatGPTToken_btn.TabIndex = 3;
+            this.AddChatGPTToken_btn.Text = "Add API Key";
+            this.AddChatGPTToken_btn.UseVisualStyleBackColor = true;
+            this.AddChatGPTToken_btn.Click += new System.EventHandler(this.AddChatGPTToken_btn_Click);
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(ATS_Injection_btn);
-            tabPage1.Controls.Add(label6);
-            tabPage1.Controls.Add(tabControl2);
-            tabPage1.Controls.Add(progressBar1);
-            tabPage1.Controls.Add(label2);
-            tabPage1.Controls.Add(FeedbackArea_txt);
-            tabPage1.Controls.Add(ATS_Injection_txt);
-            tabPage1.Controls.Add(OutputFileName_txt);
-            tabPage1.Controls.Add(OutputFolderPath_txt);
-            tabPage1.Controls.Add(ProcessJD_btn);
-            tabPage1.Controls.Add(label4);
-            tabPage1.Controls.Add(label3);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(792, 582);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "ATS Injector Main";
-            tabPage1.UseVisualStyleBackColor = true;
+            this.tabPage1.Controls.Add(this.ATS_Injection_btn);
+            this.tabPage1.Controls.Add(this.label6);
+            this.tabPage1.Controls.Add(this.tabControl2);
+            this.tabPage1.Controls.Add(this.progressBar1);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.FeedbackArea_txt);
+            this.tabPage1.Controls.Add(this.ATS_Injection_txt);
+            this.tabPage1.Controls.Add(this.OutputFileName_txt);
+            this.tabPage1.Controls.Add(this.OutputFolderPath_txt);
+            this.tabPage1.Controls.Add(this.ProcessJD_btn);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(678, 503);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "ATS Injector Main";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // ATS_Injection_btn
             // 
-            ATS_Injection_btn.Enabled = false;
-            ATS_Injection_btn.Location = new Point(19, 509);
-            ATS_Injection_btn.Name = "ATS_Injection_btn";
-            ATS_Injection_btn.Size = new Size(123, 24);
-            ATS_Injection_btn.TabIndex = 17;
-            ATS_Injection_btn.Text = "Inject ATS";
-            ATS_Injection_btn.UseVisualStyleBackColor = true;
-            ATS_Injection_btn.Click += ATS_Injection_btn_Click;
+            this.ATS_Injection_btn.Enabled = false;
+            this.ATS_Injection_btn.Location = new System.Drawing.Point(16, 441);
+            this.ATS_Injection_btn.Name = "ATS_Injection_btn";
+            this.ATS_Injection_btn.Size = new System.Drawing.Size(105, 21);
+            this.ATS_Injection_btn.TabIndex = 17;
+            this.ATS_Injection_btn.Text = "Inject ATS";
+            this.ATS_Injection_btn.UseVisualStyleBackColor = true;
+            this.ATS_Injection_btn.Click += new System.EventHandler(this.ATS_Injection_btn_Click);
             // 
             // label6
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(24, 299);
-            label6.Name = "label6";
-            label6.Size = new Size(96, 15);
-            label6.TabIndex = 16;
-            label6.Text = "Material to Inject";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(21, 259);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(85, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Material to Inject";
             // 
             // tabControl2
             // 
-            tabControl2.Controls.Add(tabPage4);
-            tabControl2.Controls.Add(tabPage5);
-            tabControl2.Location = new Point(13, 95);
-            tabControl2.Name = "tabControl2";
-            tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new Size(715, 198);
-            tabControl2.TabIndex = 15;
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Controls.Add(this.tabPage5);
+            this.tabControl2.Location = new System.Drawing.Point(11, 82);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(613, 172);
+            this.tabControl2.TabIndex = 15;
             // 
             // tabPage4
             // 
-            tabPage4.Controls.Add(ManualJDPaste_txt);
-            tabPage4.Location = new Point(4, 24);
-            tabPage4.Name = "tabPage4";
-            tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(707, 170);
-            tabPage4.TabIndex = 0;
-            tabPage4.Text = "Paste JD Here";
-            tabPage4.UseVisualStyleBackColor = true;
+            this.tabPage4.Controls.Add(this.ManualJDPaste_txt);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(605, 146);
+            this.tabPage4.TabIndex = 0;
+            this.tabPage4.Text = "Paste JD Here";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // ManualJDPaste_txt
             // 
-            ManualJDPaste_txt.Dock = DockStyle.Fill;
-            ManualJDPaste_txt.Location = new Point(3, 3);
-            ManualJDPaste_txt.Name = "ManualJDPaste_txt";
-            ManualJDPaste_txt.Size = new Size(701, 164);
-            ManualJDPaste_txt.TabIndex = 0;
-            ManualJDPaste_txt.Text = "";
-            ManualJDPaste_txt.TextChanged += ManualJDPaste_txt_TextChanged;
+            this.ManualJDPaste_txt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ManualJDPaste_txt.Location = new System.Drawing.Point(3, 3);
+            this.ManualJDPaste_txt.Name = "ManualJDPaste_txt";
+            this.ManualJDPaste_txt.Size = new System.Drawing.Size(599, 140);
+            this.ManualJDPaste_txt.TabIndex = 0;
+            this.ManualJDPaste_txt.Text = "";
+            this.ManualJDPaste_txt.TextChanged += new System.EventHandler(this.ManualJDPaste_txt_TextChanged);
             // 
             // tabPage5
             // 
-            tabPage5.Controls.Add(textBox5);
-            tabPage5.Controls.Add(label5);
-            tabPage5.Controls.Add(textBox2);
-            tabPage5.Location = new Point(4, 24);
-            tabPage5.Name = "tabPage5";
-            tabPage5.Padding = new Padding(3);
-            tabPage5.Size = new Size(707, 170);
-            tabPage5.TabIndex = 1;
-            tabPage5.Text = "(Experimental ) JD URL";
-            tabPage5.UseVisualStyleBackColor = true;
+            this.tabPage5.Controls.Add(this.textBox5);
+            this.tabPage5.Controls.Add(this.label5);
+            this.tabPage5.Controls.Add(this.textBox2);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(605, 146);
+            this.tabPage5.TabIndex = 1;
+            this.tabPage5.Text = "(Experimental ) JD URL";
+            this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(6, 35);
-            textBox5.Multiline = true;
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(677, 129);
-            textBox5.TabIndex = 2;
-            textBox5.Text = "Parsed JD will go here";
+            this.textBox5.Location = new System.Drawing.Point(5, 30);
+            this.textBox5.Multiline = true;
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(581, 112);
+            this.textBox5.TabIndex = 2;
+            this.textBox5.Text = "Parsed JD will go here";
             // 
             // label5
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(7, 13);
-            label5.Name = "label5";
-            label5.Size = new Size(46, 15);
-            label5.TabIndex = 1;
-            label5.Text = "JD URL:";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 11);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(48, 13);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "JD URL:";
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(51, 10);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(634, 23);
-            textBox2.TabIndex = 0;
+            this.textBox2.Location = new System.Drawing.Point(44, 9);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(544, 20);
+            this.textBox2.TabIndex = 0;
             // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(18, 540);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(710, 23);
-            progressBar1.TabIndex = 14;
+            this.progressBar1.Location = new System.Drawing.Point(15, 468);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(609, 20);
+            this.progressBar1.TabIndex = 14;
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(18, 9);
-            label2.Name = "label2";
-            label2.Size = new Size(60, 15);
-            label2.TabIndex = 13;
-            label2.Text = "Feedback:";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(15, 8);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Feedback:";
             // 
             // FeedbackArea_txt
             // 
-            FeedbackArea_txt.Location = new Point(13, 24);
-            FeedbackArea_txt.Name = "FeedbackArea_txt";
-            FeedbackArea_txt.Size = new Size(715, 65);
-            FeedbackArea_txt.TabIndex = 12;
-            FeedbackArea_txt.Text = "";
+            this.FeedbackArea_txt.Location = new System.Drawing.Point(11, 21);
+            this.FeedbackArea_txt.Name = "FeedbackArea_txt";
+            this.FeedbackArea_txt.Size = new System.Drawing.Size(613, 57);
+            this.FeedbackArea_txt.TabIndex = 12;
+            this.FeedbackArea_txt.Text = "";
             // 
             // ATS_Injection_txt
             // 
-            ATS_Injection_txt.Location = new Point(17, 317);
-            ATS_Injection_txt.Name = "ATS_Injection_txt";
-            ATS_Injection_txt.Size = new Size(710, 157);
-            ATS_Injection_txt.TabIndex = 10;
-            ATS_Injection_txt.Text = "";
+            this.ATS_Injection_txt.Location = new System.Drawing.Point(15, 275);
+            this.ATS_Injection_txt.Name = "ATS_Injection_txt";
+            this.ATS_Injection_txt.Size = new System.Drawing.Size(609, 137);
+            this.ATS_Injection_txt.TabIndex = 10;
+            this.ATS_Injection_txt.Text = "";
             // 
             // OutputFileName_txt
             // 
-            OutputFileName_txt.Location = new Point(266, 511);
-            OutputFileName_txt.Name = "OutputFileName_txt";
-            OutputFileName_txt.Size = new Size(458, 23);
-            OutputFileName_txt.TabIndex = 8;
+            this.OutputFileName_txt.Location = new System.Drawing.Point(228, 443);
+            this.OutputFileName_txt.Name = "OutputFileName_txt";
+            this.OutputFileName_txt.Size = new System.Drawing.Size(393, 20);
+            this.OutputFileName_txt.TabIndex = 8;
             // 
             // OutputFolderPath_txt
             // 
-            OutputFolderPath_txt.Location = new Point(266, 482);
-            OutputFolderPath_txt.Name = "OutputFolderPath_txt";
-            OutputFolderPath_txt.Size = new Size(458, 23);
-            OutputFolderPath_txt.TabIndex = 6;
+            this.OutputFolderPath_txt.Location = new System.Drawing.Point(228, 418);
+            this.OutputFolderPath_txt.Name = "OutputFolderPath_txt";
+            this.OutputFolderPath_txt.Size = new System.Drawing.Size(393, 20);
+            this.OutputFolderPath_txt.TabIndex = 6;
             // 
             // ProcessJD_btn
             // 
-            ProcessJD_btn.Enabled = false;
-            ProcessJD_btn.Location = new Point(18, 480);
-            ProcessJD_btn.Name = "ProcessJD_btn";
-            ProcessJD_btn.Size = new Size(123, 24);
-            ProcessJD_btn.TabIndex = 11;
-            ProcessJD_btn.Text = "Process JD";
-            ProcessJD_btn.UseVisualStyleBackColor = true;
-            ProcessJD_btn.Click += ProcessJD_btn_Click;
+            this.ProcessJD_btn.Enabled = false;
+            this.ProcessJD_btn.Location = new System.Drawing.Point(15, 416);
+            this.ProcessJD_btn.Name = "ProcessJD_btn";
+            this.ProcessJD_btn.Size = new System.Drawing.Size(105, 21);
+            this.ProcessJD_btn.TabIndex = 11;
+            this.ProcessJD_btn.Text = "Process JD";
+            this.ProcessJD_btn.UseVisualStyleBackColor = true;
+            this.ProcessJD_btn.Click += new System.EventHandler(this.ProcessJD_btn_Click);
             // 
             // label4
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(177, 514);
-            label4.Name = "label4";
-            label4.Size = new Size(83, 15);
-            label4.TabIndex = 7;
-            label4.Text = "Output Name:";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(152, 445);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(73, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Output Name:";
             // 
             // label3
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(176, 485);
-            label3.Name = "label3";
-            label3.Size = new Size(84, 15);
-            label3.TabIndex = 5;
-            label3.Text = "Output Folder:";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(151, 420);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Output Folder:";
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(800, 610);
-            tabControl1.TabIndex = 0;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(416, 57);
-            label8.Name = "label8";
-            label8.Size = new Size(38, 15);
-            label8.TabIndex = 7;
-            label8.Text = "label8";
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(686, 529);
+            this.tabControl1.TabIndex = 0;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 610);
-            Controls.Add(tabControl1);
-            Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "Form1";
-            Text = "Job Description into ATS injection";
-            FormClosing += Form1_FormClosing;
-            Shown += Form1_Shown;
-            tabPage2.ResumeLayout(false);
-            tabPage2.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            tabPage1.ResumeLayout(false);
-            tabPage1.PerformLayout();
-            tabControl2.ResumeLayout(false);
-            tabPage4.ResumeLayout(false);
-            tabPage5.ResumeLayout(false);
-            tabPage5.PerformLayout();
-            tabControl1.ResumeLayout(false);
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(686, 529);
+            this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Form1";
+            this.Text = "Job Description into ATS injection";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Shown);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -514,7 +544,9 @@ namespace ATSInjector
         private Label label4;
         private Label label3;
         private TabControl tabControl1;
-        private Label label8;
+        private RadioButton Twitter_rdbtn;
+        private Button button1;
+        private Button AddTwitterToken_btn;
     }
 
 }

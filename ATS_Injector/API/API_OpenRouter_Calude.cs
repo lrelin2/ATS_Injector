@@ -33,7 +33,7 @@ namespace ATSInjector.API
             int timeOut = 30;
             var request = new OpenRouterRequest();
             string returnStr = string.Empty;
-            request.messages.Add(new Message { role = "user", content = userPrompt });
+            request.messages.Add(new ClaudeMessage { role = "user", content = userPrompt });
 
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeOut)))
             {
@@ -108,11 +108,11 @@ namespace ATSInjector.API
     public class OpenRouterRequest
     {
         public string model { get; set; } = "openrouter/free";
-        public List<Message> messages { get; set; }// = new();
+        public List<ClaudeMessage> messages { get; set; }// = new();
         public double temperature { get; set; } = 0.7;
     }
 
-    public class Message
+    public class ClaudeMessage
     {
         public string role { get; set; } // "user" or "assistant"
         public string content { get; set; }
@@ -120,11 +120,11 @@ namespace ATSInjector.API
 
     public class OpenRouterResponse
     {
-        public List<Choice> choices { get; set; }// = new();
+        public List<ClaudeChoice> choices { get; set; }// = new();
     }
 
-    public class Choice
+    public class ClaudeChoice
     {
-        public Message message { get; set; }// = new();
+        public ClaudeMessage message { get; set; }// = new();
     }
 }

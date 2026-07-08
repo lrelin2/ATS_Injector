@@ -301,6 +301,7 @@ namespace ATSInjector
         ChatGPT,
         Gemini,
         Claude,
+        Twitter,
         NO_TOKEN
     }
 }
