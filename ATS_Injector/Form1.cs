@@ -91,21 +91,31 @@ namespace ATSInjector
                     ChatGPT_rdbtn.Checked = true;
                     Gemini_rdbtn.Checked = false;
                     Claude_rdbtn.Checked = false;
+                    Twitter_rdbtn.Checked = false;
                     break;
                 case API_AI_ID.Gemini:
                     ChatGPT_rdbtn.Checked = false;
                     Gemini_rdbtn.Checked = true;
                     Claude_rdbtn.Checked = false;
+                    Twitter_rdbtn.Checked = false;
                     break;
                 case API_AI_ID.Claude:
                     ChatGPT_rdbtn.Checked = false;
                     Gemini_rdbtn.Checked = false;
                     Claude_rdbtn.Checked = true;
+                    Twitter_rdbtn.Checked = false;
+                    break;
+                case API_AI_ID.Twitter:
+                    ChatGPT_rdbtn.Checked = false;
+                    Gemini_rdbtn.Checked = false;
+                    Claude_rdbtn.Checked = true;
+                    Twitter_rdbtn.Checked = false;
                     break;
                 case API_AI_ID.NO_TOKEN:
                     ChatGPT_rdbtn.Checked = false;
                     Gemini_rdbtn.Checked = false;
                     Claude_rdbtn.Checked = false;
+                    Twitter_rdbtn.Checked = false;
                     break;
             }
 
@@ -151,7 +161,8 @@ namespace ATSInjector
         private void AddChatGPTToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.ChatGPT); }
         private void AddGeminiToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.Gemini); }
         private void AddClaudeToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.Claude); }
-
+        private void AddTwitterToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.Twitter); }
+        
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             //delete this when done deubgging
@@ -198,23 +209,22 @@ namespace ATSInjector
             ChatGPT_rdbtn.Enabled = false;
             Gemini_rdbtn.Enabled = false;
             Claude_rdbtn.Enabled = false;
+            Twitter_rdbtn.Enabled = false;
+
             if (API_Token_Written(API_AI_ID.ChatGPT))
-            {
                 ChatGPT_rdbtn.Enabled = true;
-                atLeastOneEnabled = true;
-            }
 
             if (API_Token_Written(API_AI_ID.Gemini))
-            {
                 Gemini_rdbtn.Enabled = true;
-                atLeastOneEnabled = true;
-            }
 
             if (API_Token_Written(API_AI_ID.Claude))
-            {
                 Claude_rdbtn.Enabled = true;
+
+            if (API_Token_Written(API_AI_ID.Twitter))
+                Twitter_rdbtn.Enabled = true;
+
+            if (ChatGPT_rdbtn.Enabled || Gemini_rdbtn.Enabled || Claude_rdbtn.Enabled || Twitter_rdbtn.Enabled)
                 atLeastOneEnabled = true;
-            }
 
             return atLeastOneEnabled;
         }
@@ -308,6 +318,24 @@ namespace ATSInjector
                             else if (string.IsNullOrEmpty(errorMsg) == false)
                             {
                                 FeedbackArea_txt.Text = $"An error occured retrieving your {API_AI_ID.Claude} API token. Error stack:[{errorMsg}]";
+                            }
+                            break;
+                        case API_AI_ID.Twitter:
+
+                            if (GetAPI_Token(API_AI_ID.Twitter, out Token, out errorMsg))
+                            {
+                                API_Twitter API = new API_Twitter(Token);
+                                string str1 = Helper.AI_ATS_Question_Claude1;
+                                string str2 = Helper.AI_ATS_Question_Claude2;
+                                Helper.FeedBackHelper.AppendFeedback($"Using {API_AI_ID.Twitter} AI to generate ATS friendly keywords and phrases.");
+
+                                string prompt = $"{str1}{Helper.FeedBackHelper.GetTextManualJDPaste()}{str2}";
+
+                                result = Task.Run(async () => await API.SendPrompt(prompt)).GetAwaiter().GetResult();
+                            }
+                            else if (string.IsNullOrEmpty(errorMsg) == false)
+                            {
+                                FeedbackArea_txt.Text = $"An error occured retrieving your {API_AI_ID.Twitter} API token. Error stack:[{errorMsg}]";
                             }
                             break;
                         case API_AI_ID.NO_TOKEN:
@@ -549,6 +577,26 @@ namespace ATSInjector
             JD_START,
             AI_START,
             END
+        }
+
+        private void HelpChatGPT_Click(object sender, EventArgs e)
+        {
+            Helper.OpenHelpMe("https://platform.openai.com/api-keys");
+        }
+
+        private void HelpGemini_Click(object sender, EventArgs e)
+        {
+            Helper.OpenHelpMe("https://ai.google.dev/gemini-api/docs/api-key");
+        }
+
+        private void HelpClaude_Click(object sender, EventArgs e)
+        {
+            Helper.OpenHelpMe("https://openrouter.ai/docs/api/reference/authentication");
+        }
+
+        private void HelpTwitter_Click(object sender, EventArgs e)
+        {
+            Helper.OpenHelpMe("https://openrouter.ai/docs/api/reference/authentication");
         }
     }
 }

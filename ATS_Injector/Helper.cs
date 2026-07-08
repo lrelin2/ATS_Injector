@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Windows.Forms;
 
@@ -301,5 +303,20 @@ Format rules:
             }
         }
 
+
+        public static void OpenHelpMe(string url)
+        {
+            if(string.IsNullOrEmpty(url) == false)
+            {
+                if (!Uri.TryCreate(url, UriKind.Absolute, out _))
+                    throw new ArgumentException("Invalid URL.", nameof(url));
+
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+        }
     }
 }
