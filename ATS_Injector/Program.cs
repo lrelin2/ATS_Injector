@@ -13,6 +13,8 @@ namespace ATSInjector
         {
             // Remeber to get the single .exe run this command in the terminal
             //msbuild /t:Publish /p:Configuration=Release
+            //now use this command instead
+            //msbuild ATS_Injector.slnx /restore /p:Configuration=Release
             //Then go to [[current dir]]\bin\Release\net10.0-windows\win-x64\publish
             //and you will have the .exe file!
             Application.EnableVisualStyles();
