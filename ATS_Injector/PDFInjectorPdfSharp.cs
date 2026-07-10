@@ -1,11 +1,9 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using PdfSharpCore.Pdf.Content;
 using PdfSharpCore.Pdf.Content.Objects;
 using PdfSharpCore.Pdf.IO;
 
@@ -40,7 +38,6 @@ namespace ATSInjector
             }); ;
         }
 
-
         /// <summary>
         /// Injects an array of strings into a PDF at off-screen coordinates.
         /// </summary>
@@ -74,8 +71,6 @@ namespace ATSInjector
                 document.Save(outputPath);
             }
         }
-
-
 
         #region TINYFONT
 

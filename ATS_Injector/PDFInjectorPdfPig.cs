@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UglyToad.PdfPig.Core;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using PdfRectangle = UglyToad.PdfPig.Core.PdfRectangle;
 using XFont = PdfSharpCore.Drawing.XFont;
 using XGraphics = PdfSharpCore.Drawing.XGraphics;
@@ -70,6 +69,7 @@ namespace ATSInjector
 
         public void AddTextWithPdfSharp(List<List<PdfPoint>> PdfPointlocations, List<string[]> texts)
         {
+            bool debugText = false;
             File.Copy(inputPath, outputPath, true);
 
             List<List<XPoint>> locations = ConvertPDFData(PdfPointlocations);
@@ -77,6 +77,8 @@ namespace ATSInjector
             using (PdfSharpCore.Pdf.PdfDocument document = PdfSharpCore.Pdf.IO.PdfReader.Open(outputPath, PdfSharpCore.Pdf.IO.PdfDocumentOpenMode.Modify))
             {
                 XFont font = new XFont("Helvetica", 0.1, PdfSharpCore.Drawing.XFontStyle.Regular);
+                if(debugText)
+                    font = new XFont("Helvetica", 4, PdfSharpCore.Drawing.XFontStyle.Regular);
 
                 for (int i = 0; i < document.PageCount; i++)
                 {
@@ -91,7 +93,10 @@ namespace ATSInjector
                     {
                         for (int j = 0; j < txtToPrint.Length; j++)
                         {
-                            gfx.DrawString(txtToPrint[j], font, PdfSharpCore.Drawing.XBrushes.Transparent, locToPrint[j]);
+                            if (debugText)
+                                gfx.DrawString(txtToPrint[j], font, PdfSharpCore.Drawing.XBrushes.Black, locToPrint[j]);
+                            else
+                                gfx.DrawString(txtToPrint[j], font, PdfSharpCore.Drawing.XBrushes.Transparent, locToPrint[j]);
                         }
                     }
                 }
