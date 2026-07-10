@@ -1,4 +1,5 @@
-﻿using ATSInjector.API;
+﻿using ATS_Injector.API;
+using ATSInjector.API;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -83,6 +84,7 @@ namespace ATSInjector
 
         private void LoadInUserSettings(UserSettings userSettings)
         {
+            //This function shall load in all of the user settings that was created / cached from previous session and such
             SettingsResumePath_txt.Text = userSettings.ResumePath;
 
             switch (userSettings.PreviousToken)
@@ -124,6 +126,13 @@ namespace ATSInjector
 
             WarnOverWriteOutputFile_chkbx.Checked = userSettings.WarnOverWriteOutputFile;
 
+            meta_Title.Text = userSettings.meta_Title;
+            meta_Subject.Text = userSettings.meta_Subject;
+            meta_Creator.Text = userSettings.meta_Creator;
+            meta_Author.Text = userSettings.meta_Author;
+            meta_Producer.Text = userSettings.meta_Producer;
+            meta_Keywords.Text = userSettings.meta_Keywords;
+
         }
 
         private void Update_ProcessCreateAction_btn()
@@ -162,16 +171,18 @@ namespace ATSInjector
         private void AddGeminiToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.Gemini); }
         private void AddClaudeToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.Claude); }
         private void AddTwitterToken_btn_Click(object sender, EventArgs e) { PopOutBox_automated(API_AI_ID.Twitter); }
-        
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private UserSettings GenerateUserSettings()
         {
-            //delete this when done deubgging
-            // Helper._debug_RichTextArea(ManualJDPaste_txt);
-
-            //When program is closed, save your settings
             string Input_ResumePath = SettingsResumePath_txt.Text;
             string Input_OutputFolderPath = OutputFolderPath_txt.Text;
             string Input_OutputFileName = OutputFileName_txt.Text;
+
+            string Input_meta_Title = meta_Title.Text;
+            string Input_meta_Subject = meta_Subject.Text;
+            string Input_meta_Creator = meta_Creator.Text;
+            string Input_meta_Author = meta_Author.Text;
+            string Input_meta_Producer = meta_Producer.Text;
+            string Input_meta_Keywords = meta_Keywords.Text;
 
             API_AI_ID Input_PreviousToken = GetSelectedAPI();
             bool Input_WarnOverWriteOutputFile = WarnOverWriteOutputFile_chkbx.Checked;
@@ -182,8 +193,24 @@ namespace ATSInjector
                 PreviousToken = Input_PreviousToken,
                 OutputFolderPath = Input_OutputFolderPath,
                 OutputFileName = Input_OutputFileName,
-                WarnOverWriteOutputFile = Input_WarnOverWriteOutputFile
+                WarnOverWriteOutputFile = Input_WarnOverWriteOutputFile,
+                meta_Title = Input_meta_Title,
+                meta_Subject = Input_meta_Subject,
+                meta_Creator = Input_meta_Creator,
+                meta_Author = Input_meta_Author,
+                meta_Producer = Input_meta_Producer,
+                meta_Keywords = Input_meta_Keywords,
             };
+
+            return currentSettings;
+        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //delete this when done deubgging
+            // Helper._debug_RichTextArea(ManualJDPaste_txt);
+
+            //When program is closed, save your settings
+            UserSettings currentSettings = GenerateUserSettings();
 
             PersistanceSettings settings = new PersistanceSettings(out string errorMsg);
 
@@ -538,21 +565,49 @@ namespace ATSInjector
                 }
             }
 
+            //After all of the intial Quality control has passed, you can now do the work of the injection
+            //Kick off a new thread to do the work, this lets the GUI stay responsive.
+            //Probably overkill, the entire thing should take 0.2 seconds, but who knows, maybe you have a 10 page PDF or something...
+            
             if (QC_Passed)
             {
                 Task task = new Task(() =>
                 {
-                    PDFInjector Action = new PDFInjector(PDFInjector.InjectionMethod.TINYFONT, infile, outFile, bulletPoints);
-                    bool result = Action.StartProcess().GetAwaiter().GetResult();
-                    if (result)
+                    try
                     {
-                        ProgressBar(ProgressBarStat.END);
-                        History.SaveData(JDDescription);
+                        PDFInjector Action = new PDFInjector(PDFInjector.InjectionMethod.TINYFONT, infile, outFile, bulletPoints);
+                        bool result = Action.StartProcess().GetAwaiter().GetResult();
+                        if (result)
+                        {
+                            //If success, fix the output PDF, make it profesional looking, and strip any PDF meta junk
+                            //Helper.StripMetaDataAndJunk(outFile, GenerateUserSettings());
+                            Task myTask = Task.Run(() =>
+                            {
+                                MetaDataStrikeout MetaDeletion = new MetaDataStrikeout(outFile, GenerateUserSettings());
+                                MetaDeletion.run();
+                            });
+                            
+
+                            ProgressBar(ProgressBarStat.END);
+                            if (DebugDontSaveHistory_chkbox.Checked == false)
+                                History.SaveData(JDDescription);
+                        }
+                        else
+                        {
+                            ProgressBar(ProgressBarStat.ZERO);
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        ProgressBar(ProgressBarStat.ZERO);
+                        // Printing the exception message and the full stack trace
+                        string msg1 = $"An error occurred: {ex.Message}";
+                        string msg2 = "--- Stack Trace ---";
+                        string msg3 = ex.StackTrace;
+                        Console.WriteLine($"{msg1}\n{msg2}\n{msg3}");
+                        Helper.FeedBackHelper.AppendFeedback($"{msg1}\n{msg2}\n{msg3}");
                     }
+
+
                 });
 
                 task.Start();
