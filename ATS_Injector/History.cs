@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -23,9 +24,13 @@ namespace ATSInjector
             bool returningBool = false;
             List<string[]> PreviousEntries = GetPreviousEntries();
             string[] srcData = cleanDirtyData(dirtyData);
-            List <(string[] Candidate, TMR Match)> DupFinder = ArrayMatcher.FindMatchesWithTolerance(srcData, PreviousEntries);
-            if (DupFinder.Count >= 1)
-                returningBool = true;
+            if(IsValidStringArray(srcData))
+            {
+                List<(string[] Candidate, TMR Match)> DupFinder = ArrayMatcher.FindMatchesWithTolerance(srcData, PreviousEntries);
+                if (DupFinder.Count >= 1)
+                    returningBool = true;
+            }
+            
             return returningBool;
         }
 
@@ -35,13 +40,17 @@ namespace ATSInjector
             int currentHighestMatchValue = -1;
             List<string[]> PreviousEntries = GetPreviousEntries();
             string[] srcData = cleanDirtyData(dirtyData);
-            List<(string[] Candidate, TMR Match)> DupFinder = ArrayMatcher.FindMatchesWithTolerance(srcData, PreviousEntries);
-
-            foreach (var CurrentMatch in DupFinder )
+            if (IsValidStringArray(srcData))
             {
-                if (CurrentMatch.Match.MatchedValues.Length > currentHighestMatchValue)
-                    returningData = CurrentMatch.Candidate;
+                List<(string[] Candidate, TMR Match)> DupFinder = ArrayMatcher.FindMatchesWithTolerance(srcData, PreviousEntries);
+
+                foreach (var CurrentMatch in DupFinder)
+                {
+                    if (CurrentMatch.Match.MatchedValues.Length > currentHighestMatchValue)
+                        returningData = CurrentMatch.Candidate;
+                }
             }
+                
             return returningData;
         }
 
@@ -142,6 +151,13 @@ namespace ATSInjector
 
             return retData;
         }
+
+        private static bool IsValidStringArray(string[] array)
+        {
+            // 1. Check if array is null or has 0 length
+            // 2. Check if at least one element is NOT null and NOT empty
+            return array != null && array.Any(s => !string.IsNullOrEmpty(s));
+        }
     }
 
     public class LogEntry
@@ -175,6 +191,9 @@ namespace ATSInjector
 
             foreach (string[] candidate in candidates)
             {
+                if (candidate == null)
+                    //I don't know how this happened, but it did.....
+                    continue;
                 TMR match = FindBestTolerantMatch(input, candidate, tolerance);
 
                 double inputPercent = (double)match.Matches / input.Length;

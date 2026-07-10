@@ -64,6 +64,12 @@ namespace ATSInjector
         public string OutputFileName { get; set; }
         public bool WarnOverWriteOutputFile { get; set; }
         public API_AI_ID PreviousToken { get; set; }
+        public string meta_Title { get; set; }
+        public string meta_Subject { get; set; }
+        public string meta_Creator { get; set; }
+        public string meta_Author { get; set; }
+        public string meta_Producer { get; set; }
+        public string meta_Keywords { get; set; }
 
         public static UserSettings CreateDefault()
         {
@@ -79,7 +85,13 @@ namespace ATSInjector
                 PreviousToken = API_AI_ID.NO_TOKEN,
                 OutputFolderPath = outputFolderPath,
                 WarnOverWriteOutputFile = warnOverWriteOutputFile,
-                OutputFileName = outputFileName
+                OutputFileName = outputFileName,
+                meta_Title = string.Empty,
+                meta_Subject = string.Empty,
+                meta_Creator = string.Empty,
+                meta_Author = string.Empty,
+                meta_Producer = string.Empty,
+                meta_Keywords = string.Empty,
             };
         }
     }
