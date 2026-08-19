@@ -62,10 +62,10 @@ namespace ATSInjector
                     bool retValue = false;
                     switch (PDFAction)
                     {
-                        case InjectionMethod.OFFSCREEN:
-                            PDFInjectorPdfSharp pSharp = new PDFInjectorPdfSharp(inputPath, outputPath, BulletPoints);
-                            retValue = pSharp.StartProcess().GetAwaiter().GetResult();
-                            break;
+                        //case InjectionMethod.OFFSCREEN:
+                        //    PDFInjectorPdfSharp pSharp = new PDFInjectorPdfSharp(inputPath, outputPath, BulletPoints);
+                        //    retValue = pSharp.StartProcess().GetAwaiter().GetResult();
+                        //    break;
                         case InjectionMethod.TINYFONT:
                             PDFInjectorPdfPig pPig = new PDFInjectorPdfPig(inputPath, outputPath, BulletPoints);
                             retValue = pPig.StartProcess().GetAwaiter().GetResult();
