@@ -63,6 +63,7 @@ namespace ATSInjector
         public string OutputFolderPath { get; set; }
         public string OutputFileName { get; set; }
         public bool WarnOverWriteOutputFile { get; set; }
+        public bool MasterAIInjection { get; set; }
         public API_AI_ID PreviousToken { get; set; }
         public string meta_Title { get; set; }
         public string meta_Subject { get; set; }
@@ -85,6 +86,7 @@ namespace ATSInjector
                 PreviousToken = API_AI_ID.NO_TOKEN,
                 OutputFolderPath = outputFolderPath,
                 WarnOverWriteOutputFile = warnOverWriteOutputFile,
+                MasterAIInjection = true,
                 OutputFileName = outputFileName,
                 meta_Title = string.Empty,
                 meta_Subject = string.Empty,

@@ -18,8 +18,8 @@ namespace ATSInjector
         private string[] BulletPoints;
         private static string errorMsg = string.Empty;
 
-        private const double FontSize = 0.1;
-        private const double BufferPoints = 2.0;
+        private const double gl_FontSize = 0.05;
+        private const double gl_BufferPoints = 2.0;
 
         /// <summary>
         /// Injection constructor
@@ -76,7 +76,7 @@ namespace ATSInjector
 
             using (PdfSharpCore.Pdf.PdfDocument document = PdfSharpCore.Pdf.IO.PdfReader.Open(outputPath, PdfSharpCore.Pdf.IO.PdfDocumentOpenMode.Modify))
             {
-                XFont font = new XFont("Helvetica", 0.1, PdfSharpCore.Drawing.XFontStyle.Regular);
+                XFont font = new XFont("Helvetica", gl_FontSize, PdfSharpCore.Drawing.XFontStyle.Regular);
                 if(debugText)
                     font = new XFont("Helvetica", 4, PdfSharpCore.Drawing.XFontStyle.Regular);
 
@@ -155,7 +155,7 @@ namespace ATSInjector
             int gridHeight = grid.GetLength(1);
 
             // Required height includes the 0.1 font plus the 2-unit buffer on top and bottom
-            int requiredHeight = (int)Math.Ceiling(FontSize + (BufferPoints * 2));
+            int requiredHeight = (int)Math.Ceiling(gl_FontSize + (gl_BufferPoints * 2));
 
             foreach (string text in BulletPoints)
             {
@@ -169,7 +169,7 @@ namespace ATSInjector
                         if (IsVerticalSpanEmpty(grid, y, requiredHeight))
                         {
                             // Place at x=5 (small indent) or wherever you prefer
-                            returningData.Add(new PdfPoint(5, y + BufferPoints));
+                            returningData.Add(new PdfPoint(5, y + gl_BufferPoints));
                             compileList.Add(text);
 
                             // Mark the rows we just used so the next string doesn't overlap

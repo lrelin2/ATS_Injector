@@ -33,6 +33,20 @@ namespace ATSInjector
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.meta_Keywords = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.meta_Producer = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.meta_Author = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.meta_Creator = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.meta_Subject = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.meta_Title = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.DebugDontSaveHistory_chkbox = new System.Windows.Forms.CheckBox();
             this.AI_IntTimeout_txt = new System.Windows.Forms.TextBox();
             this.SettingsResumePath_txt = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -71,32 +85,20 @@ namespace ATSInjector
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.DebugDontSaveHistory_chkbox = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.meta_Title = new System.Windows.Forms.TextBox();
-            this.meta_Subject = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.meta_Creator = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.meta_Author = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.meta_Producer = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.meta_Keywords = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
+            this.MasterAIInjection_chkbox = new System.Windows.Forms.CheckBox();
             this.tabPage2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.MasterAIInjection_chkbox);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.DebugDontSaveHistory_chkbox);
             this.tabPage2.Controls.Add(this.AI_IntTimeout_txt);
@@ -112,6 +114,133 @@ namespace ATSInjector
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.meta_Keywords);
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.meta_Producer);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.meta_Author);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.meta_Creator);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.meta_Subject);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.meta_Title);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Location = new System.Drawing.Point(16, 253);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(372, 180);
+            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Edit Meta Data (leave empty to clone original)";
+            // 
+            // meta_Keywords
+            // 
+            this.meta_Keywords.Location = new System.Drawing.Point(61, 154);
+            this.meta_Keywords.Name = "meta_Keywords";
+            this.meta_Keywords.Size = new System.Drawing.Size(292, 20);
+            this.meta_Keywords.TabIndex = 11;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 157);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(56, 13);
+            this.label13.TabIndex = 10;
+            this.label13.Text = "Keywords:";
+            // 
+            // meta_Producer
+            // 
+            this.meta_Producer.Location = new System.Drawing.Point(61, 129);
+            this.meta_Producer.Name = "meta_Producer";
+            this.meta_Producer.Size = new System.Drawing.Size(292, 20);
+            this.meta_Producer.TabIndex = 9;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 132);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 13);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "Producer:";
+            // 
+            // meta_Author
+            // 
+            this.meta_Author.Location = new System.Drawing.Point(61, 103);
+            this.meta_Author.Name = "meta_Author";
+            this.meta_Author.Size = new System.Drawing.Size(292, 20);
+            this.meta_Author.TabIndex = 7;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(18, 106);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 13);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Author:";
+            // 
+            // meta_Creator
+            // 
+            this.meta_Creator.Location = new System.Drawing.Point(61, 77);
+            this.meta_Creator.Name = "meta_Creator";
+            this.meta_Creator.Size = new System.Drawing.Size(292, 20);
+            this.meta_Creator.TabIndex = 5;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(14, 80);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(44, 13);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "Creator:";
+            // 
+            // meta_Subject
+            // 
+            this.meta_Subject.Location = new System.Drawing.Point(61, 51);
+            this.meta_Subject.Name = "meta_Subject";
+            this.meta_Subject.Size = new System.Drawing.Size(292, 20);
+            this.meta_Subject.TabIndex = 3;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(12, 54);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(46, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Subject:";
+            // 
+            // meta_Title
+            // 
+            this.meta_Title.Location = new System.Drawing.Point(61, 25);
+            this.meta_Title.Name = "meta_Title";
+            this.meta_Title.Size = new System.Drawing.Size(292, 20);
+            this.meta_Title.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(25, 28);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(30, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Title:";
+            // 
+            // DebugDontSaveHistory_chkbox
+            // 
+            this.DebugDontSaveHistory_chkbox.AutoSize = true;
+            this.DebugDontSaveHistory_chkbox.Location = new System.Drawing.Point(212, 219);
+            this.DebugDontSaveHistory_chkbox.Name = "DebugDontSaveHistory_chkbox";
+            this.DebugDontSaveHistory_chkbox.Size = new System.Drawing.Size(149, 17);
+            this.DebugDontSaveHistory_chkbox.TabIndex = 7;
+            this.DebugDontSaveHistory_chkbox.Text = "Debug Don\'t Save History";
+            this.DebugDontSaveHistory_chkbox.UseVisualStyleBackColor = true;
             // 
             // AI_IntTimeout_txt
             // 
@@ -498,132 +627,17 @@ namespace ATSInjector
             this.tabControl1.Size = new System.Drawing.Size(686, 529);
             this.tabControl1.TabIndex = 0;
             // 
-            // DebugDontSaveHistory_chkbox
+            // MasterAIInjection_chkbox
             // 
-            this.DebugDontSaveHistory_chkbox.AutoSize = true;
-            this.DebugDontSaveHistory_chkbox.Location = new System.Drawing.Point(158, 194);
-            this.DebugDontSaveHistory_chkbox.Name = "DebugDontSaveHistory_chkbox";
-            this.DebugDontSaveHistory_chkbox.Size = new System.Drawing.Size(149, 17);
-            this.DebugDontSaveHistory_chkbox.TabIndex = 7;
-            this.DebugDontSaveHistory_chkbox.Text = "Debug Don\'t Save History";
-            this.DebugDontSaveHistory_chkbox.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.meta_Keywords);
-            this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Controls.Add(this.meta_Producer);
-            this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.meta_Author);
-            this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.meta_Creator);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.meta_Subject);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.meta_Title);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(16, 253);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(372, 180);
-            this.groupBox2.TabIndex = 8;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Edit Meta Data (leave empty to clone original)";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(25, 28);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(30, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Title:";
-            // 
-            // meta_Title
-            // 
-            this.meta_Title.Location = new System.Drawing.Point(61, 25);
-            this.meta_Title.Name = "meta_Title";
-            this.meta_Title.Size = new System.Drawing.Size(292, 20);
-            this.meta_Title.TabIndex = 1;
-            // 
-            // meta_Subject
-            // 
-            this.meta_Subject.Location = new System.Drawing.Point(61, 51);
-            this.meta_Subject.Name = "meta_Subject";
-            this.meta_Subject.Size = new System.Drawing.Size(292, 20);
-            this.meta_Subject.TabIndex = 3;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 54);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(46, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "Subject:";
-            // 
-            // meta_Creator
-            // 
-            this.meta_Creator.Location = new System.Drawing.Point(61, 77);
-            this.meta_Creator.Name = "meta_Creator";
-            this.meta_Creator.Size = new System.Drawing.Size(292, 20);
-            this.meta_Creator.TabIndex = 5;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(14, 80);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(44, 13);
-            this.label10.TabIndex = 4;
-            this.label10.Text = "Creator:";
-            // 
-            // meta_Author
-            // 
-            this.meta_Author.Location = new System.Drawing.Point(61, 103);
-            this.meta_Author.Name = "meta_Author";
-            this.meta_Author.Size = new System.Drawing.Size(292, 20);
-            this.meta_Author.TabIndex = 7;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(18, 106);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 13);
-            this.label11.TabIndex = 6;
-            this.label11.Text = "Author:";
-            // 
-            // meta_Producer
-            // 
-            this.meta_Producer.Location = new System.Drawing.Point(61, 129);
-            this.meta_Producer.Name = "meta_Producer";
-            this.meta_Producer.Size = new System.Drawing.Size(292, 20);
-            this.meta_Producer.TabIndex = 9;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 132);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(53, 13);
-            this.label12.TabIndex = 8;
-            this.label12.Text = "Producer:";
-            // 
-            // meta_Keywords
-            // 
-            this.meta_Keywords.Location = new System.Drawing.Point(61, 154);
-            this.meta_Keywords.Name = "meta_Keywords";
-            this.meta_Keywords.Size = new System.Drawing.Size(292, 20);
-            this.meta_Keywords.TabIndex = 11;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 157);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(56, 13);
-            this.label13.TabIndex = 10;
-            this.label13.Text = "Keywords:";
+            this.MasterAIInjection_chkbox.AutoSize = true;
+            this.MasterAIInjection_chkbox.Checked = true;
+            this.MasterAIInjection_chkbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.MasterAIInjection_chkbox.Location = new System.Drawing.Point(158, 194);
+            this.MasterAIInjection_chkbox.Name = "MasterAIInjection_chkbox";
+            this.MasterAIInjection_chkbox.Size = new System.Drawing.Size(163, 17);
+            this.MasterAIInjection_chkbox.TabIndex = 9;
+            this.MasterAIInjection_chkbox.Text = "Master AI Injection statement";
+            this.MasterAIInjection_chkbox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -638,6 +652,8 @@ namespace ATSInjector
             this.Load += new System.EventHandler(this.Form1_Shown);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage1.ResumeLayout(false);
@@ -647,8 +663,6 @@ namespace ATSInjector
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -707,6 +721,7 @@ namespace ATSInjector
         private Label label9;
         private TextBox meta_Title;
         private Label label8;
+        private CheckBox MasterAIInjection_chkbox;
     }
 
 }
